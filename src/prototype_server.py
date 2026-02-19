@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 import json
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -7,7 +8,6 @@ from typing import Any, Callable, Dict, Optional
 from urllib.parse import parse_qs, urlparse
 
 from src.prototype_search import InMemorySearchService
-
 
 INDEX_HTML = """<!doctype html>
 <html lang=\"ja\">
@@ -24,6 +24,7 @@ INDEX_HTML = """<!doctype html>
     .marker { background: yellow; font-weight: bold; }
     button { margin-right: 8px; }
     code { background: #f7f7f7; padding: 1px 4px; }
+
   </style>
 </head>
 <body>
@@ -32,6 +33,7 @@ INDEX_HTML = """<!doctype html>
     <input id=\"q\" placeholder=\"検索語 (例: AAA)\" size=\"32\" />
     <button onclick=\"doSearch()\">検索</button>
     <label><input id=\"admin\" type=\"checkbox\" /> 管理者</label>
+
   </div>
   <div class=\"row\">
     <button onclick=\"seed()\">サンプル投入</button>
@@ -115,6 +117,7 @@ INDEX_HTML = """<!doctype html>
 
 
 def create_handler(service: InMemorySearchService) -> type[BaseHTTPRequestHandler]:
+
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
@@ -136,11 +139,11 @@ def create_handler(service: InMemorySearchService) -> type[BaseHTTPRequestHandle
                     return
                 self._send_json(rows)
                 return
-
             self._send_json({"error": "not found"}, status=HTTPStatus.NOT_FOUND)
 
         def do_POST(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
+
             body = self._read_json_body()
 
             if parsed.path == "/api/documents":

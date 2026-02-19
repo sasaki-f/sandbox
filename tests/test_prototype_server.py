@@ -1,4 +1,5 @@
 import json
+
 import threading
 import time
 import unittest
@@ -23,13 +24,16 @@ class PrototypeServerTest(unittest.TestCase):
         cls.server.shutdown()
         cls.thread.join(timeout=1)
 
+
     def _post(self, path: str, payload: dict, headers: dict | None = None):
         data = json.dumps(payload).encode("utf-8")
         req = Request(self.base_url + path, data=data, method="POST")
         req.add_header("Content-Type", "application/json")
         for k, v in (headers or {}).items():
             req.add_header(k, v)
+
         return urlopen(req)
+
 
     def _get_json(self, path: str, headers: dict | None = None):
         req = Request(self.base_url + path)
@@ -53,7 +57,6 @@ class PrototypeServerTest(unittest.TestCase):
 
         rows, _ = self._get_json("/api/search?q=AAA")
         self.assertTrue(any(r["doc_id"] == "doc-api-1" for r in rows))
-
         self._post(
             "/api/documents/doc-api-1/exclude",
             {},
@@ -61,7 +64,6 @@ class PrototypeServerTest(unittest.TestCase):
         )
         rows_after_exclude, _ = self._get_json("/api/search?q=AAA")
         self.assertFalse(any(r["doc_id"] == "doc-api-1" for r in rows_after_exclude))
-
         self._post(
             "/api/documents/doc-api-1/include",
             {},
