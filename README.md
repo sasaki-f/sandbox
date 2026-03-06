@@ -39,3 +39,8 @@ python -m src.prototype_server
 python -m unittest discover -s tests -p 'test_*.py' -v
 
 ```
+
+## Workplace風タイムラインHTML
+- `src/workplace_timeline.html` に Meta社 Workplace の**モバイル表示専用**タイムラインを意識した静的モックを追加しました。
+- ブラウザで直接開くと、スマホ向けレイアウト（約30件の投稿モック、長文の「もっと見る」、投稿右上の三点メニュー通報、左に既読数・右にコメント件数/シェア件数、コメントタップで投稿単体＋コメント閲覧/入力ビュー（文字入力時に送信▶表示）、既読数タップで既読者一覧表示）を確認できます。
+
