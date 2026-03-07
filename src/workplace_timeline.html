@@ -62,8 +62,29 @@
     .attach-fallback { font-size: 11px; color: #5f6368; padding: 6px; text-align: center; line-height: 1.35; }
     .attach-remove { position: absolute; right: 4px; top: 4px; width: 18px; height: 18px; border: none; border-radius: 50%; background: rgba(0,0,0,.65); color: #fff; font-size: 11px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
     .feed-tabs { display: flex; gap: 6px; overflow-x: auto; margin: 2px 0 10px; padding-bottom: 2px; }
-    .feed-tab { border: 1px solid var(--border); background: #fff; color: #4b4f56; border-radius: 999px; font-size: 12px; padding: 7px 10px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+    .feed-tab { border: 1px solid var(--border); background: #fff; color: #4b4f56; border-radius: 999px; font-size: 12px; padding: 7px 10px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
     .feed-tab.active { border-color: #1c2c3f; color: #1c2c3f; background: #eff4ff; }
+    .feed-tab-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: inline-block;
+      flex-shrink: 0;
+      border: 1px solid rgba(0, 0, 0, .08);
+      background: #e6ebf3;
+    }
+    .inline-group-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: inline-block;
+      vertical-align: -2px;
+      margin-right: 4px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      background: #e6ebf3;
+    }
     .groups-view { display: none; margin-top: 2px; }
     .groups-view.show { display: block; }
     .group-search-wrap { margin-bottom: 8px; }
@@ -84,6 +105,7 @@
     .group-item.menu-open { position: relative; z-index: 12; }
     .group-item:last-child { border-bottom: none; }
     .group-item-main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .group-item-main[data-group-open-detail="true"] { cursor: pointer; }
     .group-item.sortable { touch-action: none; cursor: grab; }
     .group-item.sortable, .group-item.sortable * { user-select: none; -webkit-user-select: none; }
     .group-item.sortable.dragging { opacity: .55; background: #f5f8ff; }
@@ -397,6 +419,7 @@
     .invite-user-label.is-pending { opacity: .7; cursor: default; }
     .invite-user-name { flex: 1; min-width: 0; }
     .invite-user-pending { font-size: 11px; color: #6b7280; border: 1px solid #d1d5db; border-radius: 999px; padding: 2px 7px; background: #f3f4f6; }
+    .invite-user-joined { font-size: 11px; color: #3f5f8f; border: 1px solid #bfd1f4; border-radius: 999px; padding: 2px 7px; background: #eef4ff; }
     #group-request-modal { height: min(82svh, 700px); max-height: min(82svh, 700px); }
     #group-request-modal.open { display: flex; flex-direction: column; }
     .group-request-body { padding: 10px 12px 12px; overflow: auto; flex: 1; min-height: 0; }
@@ -424,7 +447,9 @@
     .manage-users-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
     .manage-users-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--border); }
     .manage-users-item:last-child { border-bottom: none; }
+    .manage-users-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; }
     .manage-users-name { flex: 1; min-width: 0; font-size: 13px; color: #1f2937; }
+    .manage-users-request-time { font-size: 11px; color: #6b7280; margin-top: 2px; }
     .manage-users-empty { font-size: 12px; color: #6b7280; padding: 10px 2px 2px; }
     .manage-users-item-btn { border: 1px solid #d7dbe3; background: #fff; color: #4b5563; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 4px 9px; }
     .manage-users-item-btn.admin-add { border-color: #b9d4f6; color: #2f5ea7; background: #eef4ff; }
@@ -434,6 +459,28 @@
     .manage-users-item-btn.remove { border-color: #e8c7c7; color: #a33f3f; background: #fff6f6; }
     .manage-users-self { font-size: 11px; color: #6b7280; border: 1px solid #d8dde6; border-radius: 999px; padding: 2px 8px; background: #f4f6f9; }
     .manage-users-admin-badge { font-size: 11px; color: #fff; background: #2f855a; border-radius: 999px; padding: 2px 8px; }
+    #group-detail-modal { height: min(78vh, 660px); max-height: min(78vh, 660px); }
+    #group-detail-modal.open { display: flex; flex-direction: column; }
+    .group-detail-body { padding: 10px 12px 12px; overflow: auto; flex: 1; min-height: 0; }
+    .group-detail-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .group-detail-icon-wrap { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid #d7dde8; background: #eef2f7; display: inline-flex; align-items: center; justify-content: center; }
+    .group-detail-icon-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .group-detail-title { font-size: 15px; font-weight: 700; color: #1f2937; line-height: 1.35; }
+    .group-detail-badges { display: inline-flex; gap: 6px; margin-left: 6px; vertical-align: middle; }
+    .group-detail-desc { font-size: 13px; color: #4b5563; line-height: 1.5; margin: 0 0 12px; white-space: pre-wrap; }
+    .group-detail-members-head { font-size: 13px; font-weight: 700; color: #334155; margin: 0 0 6px; }
+    .group-detail-members-meta { font-size: 12px; color: #6b7280; margin-left: 6px; font-weight: 500; }
+    .group-detail-members { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+    .group-detail-members .reader-item { padding: 9px 10px; margin: 0; }
+    .group-detail-members-more { font-size: 12px; color: #6b7280; margin-top: 8px; }
+    .group-detail-members-more-btn { border: none; background: transparent; color: #4b5e82; font-size: 12px; font-weight: 700; padding: 0; text-decoration: underline; cursor: pointer; }
+    .group-detail-member-name { flex: 1; min-width: 0; }
+    .group-detail-admin-badge { font-size: 10px; color: #fff; background: #2f855a; border-radius: 999px; padding: 2px 7px; font-weight: 700; }
+    .group-detail-admin-summary { font-size: 12px; color: #4b5563; margin: 0 0 10px; }
+    .group-detail-actions { margin: 0 0 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .group-detail-link-btn { border: 1px solid #bfd1f4; background: #eef4ff; color: #2f5ea7; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 12px; }
+    .group-detail-join-btn { border: 1px solid #cfd5de; background: #fff; color: #324a6a; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 12px; }
+    .group-detail-join-btn.requested { border-color: #d4d8de; background: #f3f4f6; color: #7a828e; }
 
     .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; }
     .comment-view.open { display: flex; }
@@ -665,25 +712,47 @@
           <button id="group-request-icon-btn" class="group-request-icon-btn" type="button">画像を選択</button>
           <input id="group-request-icon-input" type="file" hidden accept="image/*" />
         </div>
+        <div id="group-request-icon-error" class="group-request-error"></div>
       </div>
       <div class="group-request-field">
         <label class="group-request-label" for="group-request-name">グループ名</label>
         <input id="group-request-name" class="group-request-input" type="text" placeholder="グループ名を入力" />
+        <div id="group-request-name-error" class="group-request-error"></div>
       </div>
       <div class="group-request-field">
         <label class="group-request-label" for="group-request-description">グループの詳細説明</label>
         <textarea id="group-request-description" class="group-request-textarea" placeholder="目的・活動内容などを入力"></textarea>
+        <div id="group-request-description-error" class="group-request-error"></div>
       </div>
       <div class="group-request-field">
         <label class="group-request-label" for="group-request-member-search">メンバー選択</label>
         <input id="group-request-member-search" class="group-request-member-search" type="text" placeholder="メンバーを検索" />
       </div>
       <ul id="group-request-member-list" class="reader-list group-request-member-list"></ul>
-      <div id="group-request-error" class="group-request-error"></div>
+      <div id="group-request-member-error" class="group-request-error"></div>
     </div>
     <div class="group-request-actions">
       <button id="group-request-cancel" class="app-dialog-btn cancel" type="button">キャンセル</button>
       <button id="group-request-submit" class="app-dialog-btn ok" type="button">申請する</button>
+    </div>
+  </div>
+  <div id="group-detail-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+  <div id="group-detail-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="group-detail-title">
+    <div class="modal-header">
+      <div id="group-detail-title" class="modal-title">グループ詳細</div>
+      <button id="group-detail-close" class="modal-close popup-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="group-detail-body">
+      <div id="group-detail-head" class="group-detail-head"></div>
+      <p id="group-detail-description" class="group-detail-desc"></p>
+      <div id="group-detail-actions" class="group-detail-actions">
+        <button id="group-detail-open-timeline" class="group-detail-link-btn" type="button">このグループのタイムラインを開く</button>
+        <button id="group-detail-join-request" class="group-detail-join-btn" type="button">参加申請する</button>
+      </div>
+      <p id="group-detail-admin-summary" class="group-detail-admin-summary"></p>
+      <div class="group-detail-members-head">参加メンバー<span id="group-detail-members-meta" class="group-detail-members-meta"></span></div>
+      <ul id="group-detail-members" class="group-detail-members"></ul>
+      <div id="group-detail-members-more" class="group-detail-members-more"></div>
     </div>
   </div>
 
@@ -763,7 +832,7 @@
   <script>
     const PAGE_SIZE = 30;
     const CURRENT_USER = 'やまだ たろう';
-    const people = ['やまだ たろう', 'さとう はなこ', 'すずき いちろう', 'たかはし みさき', 'たなか けん', 'わたなべ あおい', 'いとう ゆう', 'こばやし ゆうな', 'かとう まこと', 'よしだ あおい'];
+    const people = ['やまだ たろう', 'さとう はなこ', 'すずき いちろう', 'たかはし みさき', 'たなか けん', 'わたなべ あおい', 'いとう ゆう', 'こばやし ゆうな', 'かとう まこと', 'よしだ あおい', 'あんどう りな', 'おおた しん', 'きむら なお', 'なかじま りく', 'ふじた みお', 'まつい しゅん', 'おかだ えり', 'みやざき けい', 'にしむら そら', 'はせがわ ゆい', 'こいずみ れん', 'しらいし めい', 'あらい だいき', 'いけだ みなみ', 'うちだ こうた', 'えんどう れな', 'おぎの そうた', 'かみや まな', 'くどう れお', 'さかもと りん', 'しみず かれん', 'たけうち けいと', 'つかもと えま', 'ながお ひろと', 'にった しおり', 'はやし たいち', 'ふくしま あや', 'ほり みく', 'まえだ ゆうと', 'みうら ひまり', 'むらかみ そう', 'もり さやか', 'やすだ りくと', 'ゆあさ みのり', 'よこやま はる', 'あさの けんた', 'いしかわ なな', 'うえだ りょう', 'おの りさ', 'かたおか ゆうじ', 'きしもと ひな', 'くぼ しゅん', 'ささき あかり', 'しばた れん', 'たにぐち まい', 'つじ こうすけ', 'なりた みさと', 'のぐち たくみ', 'はしもと えりか', 'ひらの こうせい', 'ふるかわ あおい', 'ほそだ みき', 'まるやま るか', 'みずの なおき', 'むらい ひかる', 'もとむら あん', 'やまぎし たくや', 'ゆかわ さき', 'よねだ しん', 'あおき るい', 'いしい さな', 'うめだ りく', 'おざき ひなの', 'かどわき しおん', 'きたむら ゆり', 'くわはら かい', 'さの つばさ', 'しのだ みほ', 'たなべ はるか', 'つるた りお', 'なかた こうき'];
     const ATTACHED_PORTRAITS = {
       p1: 'data:image/jpeg;base64,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',
       p2: 'data:image/jpeg;base64,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',
@@ -836,26 +905,47 @@
       { id: 'director-share', name: '部門責任者共有', official: false, secret: true }
     ];
     const GROUP_DIRECTORY = [
-      { id: 'grp-hr', name: '看護部', members: 68, joined: true, official: true },
+      { id: 'grp-hr', name: '看護部', members: 68, joined: true, official: true, admin: false, adminUsers: ['さとう はなこ'], membersList: ['さとう はなこ', 'すずき いちろう', 'たかはし みさき'] },
       { id: 'grp-product', name: 'ナレッジ共有ラボ', members: 34, joined: true, official: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'いとう ゆう', 'こばやし ゆうな'], joinRequests: ['たかはし みさき', 'よしだ あおい'] },
-      { id: 'grp-sales', name: '品質改善タスクフォース', members: 19, joined: true, official: false },
-      { id: 'grp-pr', name: '社内イベント運営', members: 22, joined: true, official: false },
+      { id: 'grp-sales', name: '品質改善タスクフォース', members: 19, joined: true, official: false, admin: false, adminUsers: ['すずき いちろう'], membersList: ['すずき いちろう', 'かとう まこと', 'さとう はなこ'] },
+      { id: 'grp-pr', name: '社内イベント運営', members: 22, joined: true, official: false, admin: false, adminUsers: ['たかはし みさき'], membersList: ['たかはし みさき', 'よしだ あおい', 'さとう はなこ'] },
       { id: 'grp-director-share', name: '部門責任者共有', members: 9, joined: true, official: false, secret: true, admin: true, adminUsers: ['やまだ たろう', 'たなか けん'], membersList: ['やまだ たろう', 'たなか けん'], joinRequests: ['すずき いちろう'] },
-      { id: 'grp-festival', name: '病院祭実行委員会', members: 28, joined: false, official: false, requested: false },
-      { id: 'grp-ops-improve', name: '業務改善プロジェクト', members: 26, joined: false, official: false, requested: false },
-      { id: 'grp-med-safety-up', name: '医療安全向向上チーム', members: 22, joined: false, official: false, requested: false },
-      { id: 'grp-ops-improve-2', name: '業務改善プロジェクト', members: 31, joined: false, official: false, requested: false },
-      { id: 'grp-dx-promo', name: '院内DX推進チーム', members: 24, joined: false, official: false, requested: false },
-      { id: 'grp-team-care', name: 'チーム医療推進会', members: 18, joined: false, official: false, requested: false },
-      { id: 'grp-infection-share', name: '感染対策情報共有', members: 33, joined: false, official: false, requested: false },
-      { id: 'grp-training-plan', name: '勉強会・研修企画', members: 20, joined: false, official: false, requested: false },
-      { id: 'grp-case-share', name: '症例共有コミュニティ', members: 27, joined: false, official: false, requested: false },
-      { id: 'grp-comm-activate', name: '院内コミュニケーション活性化', members: 23, joined: false, official: false, requested: false },
-      { id: 'grp-service-up', name: '医療サービス向上プロジェクト', members: 21, joined: false, official: false, requested: false },
-      { id: 'grp-workstyle-lab', name: '働き方改善ラボ', members: 25, joined: false, official: false, requested: false },
-      { id: 'grp-pr-team', name: '院内広報チーム', members: 19, joined: false, official: false, requested: false },
-      { id: 'grp-patient-sat', name: '患者満足度向上チーム', members: 30, joined: false, official: false, requested: false }
+      { id: 'grp-festival', name: '病院祭実行委員会', members: 28, joined: false, official: false, requested: false, adminUsers: ['あんどう りな'], membersList: ['あんどう りな', 'おおた しん', 'ふじた みお', 'すずき いちろう', 'こいずみ れん'] },
+      { id: 'grp-ops-improve', name: '業務改善プロジェクト', members: 26, joined: false, official: false, requested: false, adminUsers: ['きむら なお', 'なかじま りく'], membersList: ['きむら なお', 'なかじま りく', 'さとう はなこ', 'おかだ えり', 'いしい さな'] },
+      { id: 'grp-med-safety-up', name: '医療安全向向上チーム', members: 22, joined: false, official: false, requested: false, adminUsers: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい'], membersList: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい', 'たなか けん', 'あおき るい'] },
+      { id: 'grp-ops-improve-2', name: '業務改善プロジェクト', members: 31, joined: false, official: false, requested: false, adminUsers: ['まつい しゅん', 'にしむら そら', 'おおた しん', 'こばやし ゆうな'], membersList: ['まつい しゅん', 'にしむら そら', 'おおた しん', 'こばやし ゆうな', 'うめだ りく'] },
+      { id: 'grp-dx-promo', name: '院内DX推進チーム', members: 24, joined: false, official: false, requested: false, adminUsers: ['こいずみ れん', 'きむら なお', 'ふじた みお', 'いとう ゆう', 'みずの なおき'], membersList: ['こいずみ れん', 'きむら なお', 'ふじた みお', 'いとう ゆう', 'みずの なおき', 'おざき ひなの'] },
+      { id: 'grp-team-care', name: 'チーム医療推進会', members: 18, joined: false, official: false, requested: false, adminUsers: ['おかだ えり'], membersList: ['おかだ えり', 'よしだ あおい', 'なかじま りく', 'しらいし めい', 'たなべ はるか'] },
+      { id: 'grp-infection-share', name: '感染対策情報共有', members: 33, joined: false, official: false, requested: false, adminUsers: ['はせがわ ゆい', 'まつい しゅん'], membersList: ['はせがわ ゆい', 'まつい しゅん', 'すずき いちろう', 'みやざき けい', 'くぼ しゅん'] },
+      { id: 'grp-training-plan', name: '勉強会・研修企画', members: 20, joined: false, official: false, requested: false, adminUsers: ['しらいし めい', 'あんどう りな', 'おおた しん'], membersList: ['しらいし めい', 'あんどう りな', 'おおた しん', 'たかはし みさき', 'しばた れん'] },
+      { id: 'grp-case-share', name: '症例共有コミュニティ', members: 27, joined: false, official: false, requested: false, adminUsers: ['なかじま りく', 'こいずみ れん', 'にしむら そら', 'さとう はなこ'], membersList: ['なかじま りく', 'こいずみ れん', 'にしむら そら', 'さとう はなこ', 'ささき あかり'] },
+      { id: 'grp-comm-activate', name: '院内コミュニケーション活性化', members: 23, joined: false, official: false, requested: false, adminUsers: ['ふじた みお', 'きむら なお', 'おかだ えり', 'わたなべ あおい', 'まるやま るか'], membersList: ['ふじた みお', 'きむら なお', 'おかだ えり', 'わたなべ あおい', 'まるやま るか', 'よねだ しん'] },
+      { id: 'grp-service-up', name: '医療サービス向上プロジェクト', members: 21, joined: false, official: false, requested: false, adminUsers: ['にしむら そら'], membersList: ['にしむら そら', 'かとう まこと', 'はせがわ ゆい', 'みやざき けい', 'つるた りお'] },
+      { id: 'grp-workstyle-lab', name: '働き方改善ラボ', members: 25, joined: false, official: false, requested: false, adminUsers: ['おおた しん', 'まつい しゅん'], membersList: ['おおた しん', 'まつい しゅん', 'いとう ゆう', 'しらいし めい', 'やまぎし たくや'] },
+      { id: 'grp-pr-team', name: '院内広報チーム', members: 19, joined: false, official: false, requested: false, adminUsers: ['あんどう りな', 'ふじた みお', 'にしむら そら'], membersList: ['あんどう りな', 'ふじた みお', 'にしむら そら', 'よしだ あおい', 'つかもと えま'] },
+      { id: 'grp-patient-sat', name: '患者満足度向上チーム', members: 30, joined: false, official: false, requested: false, adminUsers: ['きむら なお', 'なかじま りく', 'おかだ えり', 'こばやし ゆうな'], membersList: ['きむら なお', 'なかじま りく', 'おかだ えり', 'こばやし ゆうな', 'もり さやか'] }
     ];
+    const GROUP_DETAIL_DESCRIPTION = {
+      'grp-hr': '看護部の業務連絡・院内通知を共有する公式グループです。病棟運営やケア品質に関する最新情報を掲載します。',
+      'grp-product': '業務ノウハウやFAQを整理し、再利用できる知見を蓄積するグループです。手順改善やテンプレート共有を行います。',
+      'grp-sales': '品質指標の改善施策を検討・実行するタスクフォースです。課題整理、対応方針、進捗を共有します。',
+      'grp-pr': '社内イベントの企画・運営を進めるグループです。スケジュール、役割分担、告知素材を管理します。',
+      'grp-director-share': '部門責任者向けのクローズド共有グループです。意思決定事項や重要課題を短時間で確認できます。',
+      'grp-festival': '病院祭の準備・運営に関する連絡を行う実行委員会グループです。',
+      'grp-ops-improve': '現場業務の効率化と標準化をテーマに改善案を持ち寄るプロジェクトグループです。',
+      'grp-med-safety-up': '医療安全の取り組みを継続的に強化するため、事例共有と対策検討を行うグループです。',
+      'grp-ops-improve-2': '業務改善施策の検証結果と次アクションを共有するグループです。',
+      'grp-dx-promo': '院内DX推進のための実証・導入計画を議論し、進捗を共有するグループです。',
+      'grp-team-care': '多職種連携によるチーム医療の質向上を目指し、実践例を共有するグループです。',
+      'grp-infection-share': '感染対策に関する最新情報や運用ルールを共有するグループです。',
+      'grp-training-plan': '院内勉強会・研修の企画運営、資料共有を行うグループです。',
+      'grp-case-share': '症例の学びを安全に共有し、臨床判断の質向上を目指すコミュニティです。',
+      'grp-comm-activate': '部署間コミュニケーションの活性化施策を試行するグループです。',
+      'grp-service-up': '患者体験・医療サービスの向上に向けた改善案を共有するプロジェクトです。',
+      'grp-workstyle-lab': '働き方改善に関する試行施策と結果を共有するラボです。',
+      'grp-pr-team': '院内広報コンテンツの企画・制作を進めるチームグループです。',
+      'grp-patient-sat': '患者満足度向上施策の企画と効果検証を行うグループです。',
+    };
 
     const FEED_TEMPLATES = {
       hr: [
@@ -1086,7 +1176,24 @@
     const groupRequestDescription = document.getElementById('group-request-description');
     const groupRequestMemberSearch = document.getElementById('group-request-member-search');
     const groupRequestMemberList = document.getElementById('group-request-member-list');
-    const groupRequestError = document.getElementById('group-request-error');
+    const groupRequestIconError = document.getElementById('group-request-icon-error');
+    const groupRequestNameError = document.getElementById('group-request-name-error');
+    const groupRequestDescriptionError = document.getElementById('group-request-description-error');
+    const groupRequestMemberError = document.getElementById('group-request-member-error');
+    const groupDetailBackdrop = document.getElementById('group-detail-backdrop');
+    const groupDetailModal = document.getElementById('group-detail-modal');
+    const groupDetailBody = groupDetailModal ? groupDetailModal.querySelector('.group-detail-body') : null;
+    const groupDetailTitle = document.getElementById('group-detail-title');
+    const groupDetailClose = document.getElementById('group-detail-close');
+    const groupDetailHead = document.getElementById('group-detail-head');
+    const groupDetailDescription = document.getElementById('group-detail-description');
+    const groupDetailAdminSummary = document.getElementById('group-detail-admin-summary');
+    const groupDetailActions = document.getElementById('group-detail-actions');
+    const groupDetailOpenTimeline = document.getElementById('group-detail-open-timeline');
+    const groupDetailJoinRequest = document.getElementById('group-detail-join-request');
+    const groupDetailMembersMeta = document.getElementById('group-detail-members-meta');
+    const groupDetailMembers = document.getElementById('group-detail-members');
+    const groupDetailMembersMore = document.getElementById('group-detail-members-more');
     const commentView = document.getElementById('comment-view');
     const commentBody = document.getElementById('comment-body');
     const commentBack = document.getElementById('comment-back');
@@ -1167,6 +1274,8 @@
     let groupRequestIconUrl = '';
     let groupRequestIconRevokeOnClose = false;
     let manageUsersModalGroup = null;
+    let groupDetailModalGroup = null;
+    let groupDetailExpanded = false;
     let mediaPreviewItems = [];
     let mediaPreviewIndex = 0;
 
@@ -1455,10 +1564,6 @@
 
     syncTopbarSearchVisibility();
 
-    function initialsOf(name) {
-      return name.split(' ').map((part) => part[0]).join('').slice(0, 2);
-    }
-
     function buildAvatarDataUri(meta) {
       const source = ATTACHED_PORTRAITS[meta.photo];
       if (!source) return null;
@@ -1469,6 +1574,7 @@
     const USER_AVATAR_SVG = Object.fromEntries(
       Object.entries(USER_AVATAR_META).map(([name, meta]) => [name, buildAvatarDataUri(meta)])
     );
+    const GENERIC_USER_AVATAR_SVG = `data:image/svg+xml;utf8,${encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#e9edf3'/><stop offset='1' stop-color='#d8dee8'/></linearGradient></defs><circle cx='32' cy='32' r='32' fill='url(#g)'/><circle cx='32' cy='24' r='10' fill='#8e99ab'/><path d='M14 52c2-9 10-14 18-14s16 5 18 14' fill='#8e99ab'/></svg>")}`;
 
     function photoDataUriFor(name) {
       return USER_AVATAR_SVG[name] || null;
@@ -1476,22 +1582,15 @@
 
     function avatarHtmlByName(name, cls = 'avatar') {
       const photo = photoDataUriFor(name);
-      const initials = initialsOf(name);
-      if (photo) {
-        return `<span class="${cls} has-photo"><img class="avatar-img" src="${photo}" alt="${escapeHtml(name)}" /></span>`;
-      }
-      return `<span class="${cls}">${escapeHtml(initials)}</span>`;
+      const avatar = photo || GENERIC_USER_AVATAR_SVG;
+      return `<span class="${cls} has-photo"><img class="avatar-img" src="${avatar}" alt="${escapeHtml(name)}" /></span>`;
     }
 
     function applyAvatarToElement(el, name) {
       const photo = photoDataUriFor(name);
-      if (photo) {
-        el.classList.add('has-photo');
-        el.innerHTML = `<img class="avatar-img" src="${photo}" alt="${escapeHtml(name)}" />`;
-      } else {
-        el.classList.remove('has-photo');
-        el.textContent = initialsOf(name);
-      }
+      const avatar = photo || GENERIC_USER_AVATAR_SVG;
+      el.classList.add('has-photo');
+      el.innerHTML = `<img class="avatar-img" src="${avatar}" alt="${escapeHtml(name)}" />`;
     }
 
     applyAvatarToElement(document.getElementById('composer-avatar'), CURRENT_USER);
@@ -1507,6 +1606,19 @@
       const feed = FEEDS.find((item) => item.id === feedId);
       if (!feed) return null;
       return GROUP_DIRECTORY.find((group) => group.name === feed.name) || null;
+    }
+
+    function feedIdByGroup(group) {
+      if (!group) return '';
+      const exact = FEEDS
+        .filter((feed) => feed.id !== 'all')
+        .find((feed) => {
+          const mapped = groupByFeedId(feed.id);
+          return mapped && mapped.id === group.id;
+        });
+      if (exact) return exact.id;
+      const fallback = FEEDS.find((feed) => feed.id !== 'all' && feed.name === group.name);
+      return fallback ? fallback.id : '';
     }
 
     function joinedFeedIds() {
@@ -1904,7 +2016,7 @@
       }
       feedTabs.innerHTML = visibleFeeds.map((feed) => `
         <button class="feed-tab ${feed.id === currentFeedId ? 'active' : ''}" type="button" data-feed-id="${feed.id}">
-          ${escapeHtml(feed.name)}${feed.official ? ' <span class="mini-badge">公式</span>' : ''}${(() => {
+          ${feedTabIconHtml(feed)}${escapeHtml(feed.name)}${feed.official ? ' <span class="mini-badge">公式</span>' : ''}${(() => {
             const group = groupByFeedId(feed.id);
             return group && isCurrentUserGroupAdmin(group) ? ' <span class="mini-admin-badge">管理者</span>' : '';
           })()}${feed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}
@@ -1919,9 +2031,60 @@
 
     const NURSING_GROUP_ICON = 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAyNCAxMDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0iIzM1NjdBRCIgb3BhY2l0eT0iMS4wMDAwMDAiIHN0cm9rZT0ibm9uZSIgCglkPSIKTTY4OC4wMDAwMDAsMTAyNS4wMDAwMDAgCglDNDU4LjY2NjY1NiwxMDI1LjAwMDAwMCAyMjkuODMzMzI4LDEwMjUuMDAwMDAwIDEuMDAwMDAwLDEwMjUuMDAwMDAwIAoJQzEuMDAwMDAwLDY4My42NjY2ODcgMS4wMDAwMDAsMzQyLjMzMzM0NCAxLjAwMDAwMCwxLjAwMDAwMCAKCUMzNDIuMzMzMzQ0LDEuMDAwMDAwIDY4My42NjY2ODcsMS4wMDAwMDAgMTAyNS4wMDAwMDAsMS4wMDAwMDAgCglDMTAyNS4wMDAwMDAsMzQyLjMzMzM0NCAxMDI1LjAwMDAwMCw2ODMuNjY2Njg3IDEwMjUuMDAwMDAwLDEwMjUuMDAwMDAwIAoJQzkxMi44MzMzMTMsMTAyNS4wMDAwMDAgODAwLjY2NjY4NywxMDI1LjAwMDAwMCA2ODguMDAwMDAwLDEwMjUuMDAwMDAwIApNMzY1LjczNjE3Niw4OTkuODE4Mjk4IAoJQzQzNy4xNzYxNzgsOTI2LjIxOTE3NyA1MTAuNDgyNTEzLDkzMy4xNjQxODUgNTg1LjQ4MDUzMCw5MjAuMDIyNzA1IAoJQzY2Ni4zMjExNjcsOTA1Ljg1NzQ4MyA3MzcuMDAwNzMyLDg3MC43NTIxOTcgNzk3LjUwMjk5MSw4MTUuMjcwMzI1IAoJQzg1Ny44ODM4NTAsNzU5Ljg5OTcxOSA4OTguNjI2NTg3LDY5Mi41MzUwOTUgOTE5Ljk1NDI4NSw2MTMuNTAxNzcwIAoJQzkzNC44ODE0NzAsNTU4LjE4NjgyOSA5MzcuMTgxNDU4LDUwMi4wNTM4NjQgOTI5LjAzOTU1MSw0NDUuNDkwODc1IAoJQzkyMC4wODk0NzgsMzgzLjMxMzQ3NyA4OTcuMzc3MjU4LDMyNi4zMzI4NTUgODYxLjk3NjgwNywyNzQuNTgyMzk3IAoJQzgxOS44ODE3NzUsMjEzLjA0NTY1NCA3NjQuOTkwODQ1LDE2Ni4xMDMyMTAgNjk3Ljg5Nzk0OSwxMzMuNTA4MzYyIAoJQzYyMi41ODI5NDcsOTYuOTE5MDgzIDU0My4yMzM3NjUsODQuMzE4NzQ4IDQ2MC4zMDY0MjcsOTQuNDA2Nzg0IAoJQzQxMi4zMjA4NjIsMTAwLjI0NDE4NiAzNjYuNjE4Mjg2LDExNC4wMzE2OTMgMzIzLjM2OTI2MywxMzUuODc2OTM4IAoJQzI3MC43MjY1MzIsMTYyLjQ2NzA0MSAyMjUuNDAyNTg4LDE5OC4yNTk0MzAgMTg3LjgxNjA4NiwyNDMuNjQzMzg3IAoJQzE0My44NzkzOTUsMjk2LjY5NDg1NSAxMTQuNzI2ODQ1LDM1Ni45NjMxNjUgMTAwLjg2ODU4NCw0MjQuNTU4Nzc3IAoJQzkwLjQ2OTQ0NCw0NzUuMjgyMDEzIDg5Ljc2MDAxNyw1MjYuMjY2NjAyIDk4LjUxMzQ1MSw1NzcuMTE1MzU2IAoJQzExMS44NDYyNzUsNjU0LjU2NTk3OSAxNDQuNjgzNTQ4LDcyMy4wNDI2NjQgMTk2LjUyNjE2OSw3ODIuMjQ3NDM3IAoJQzI0Mi45Njg2ODksODM1LjI4NTMzOSAyOTkuMjMyNTQ0LDg3NC4yNTE0MDQgMzY1LjczNjE3Niw4OTkuODE4Mjk4IAp6Ii8+CjxwYXRoIGZpbGw9IiNGRUZFRkUiIG9wYWNpdHk9IjEuMDAwMDAwIiBzdHJva2U9Im5vbmUiIAoJZD0iCk0zNjUuMzc2MTYwLDg5OS42Njk1NTYgCglDMjk5LjIzMjU0NCw4NzQuMjUxNDA0IDI0Mi45Njg2ODksODM1LjI4NTMzOSAxOTYuNTI2MTY5LDc4Mi4yNDc0MzcgCglDMTQ0LjY4MzU0OCw3MjMuMDQyNjY0IDExMS44NDYyNzUsNjU0LjU2NTk3OSA5OC41MTM0NTEsNTc3LjExNTM1NiAKCUM4OS43NjAwMTcsNTI2LjI2NjYwMiA5MC40Njk0NDQsNDc1LjI4MjAxMyAxMDAuODY4NTg0LDQyNC41NTg3NzcgCglDMTE0LjcyNjg0NSwzNTYuOTYzMTY1IDE0My44NzkzOTUsMjk2LjY5NDg1NSAxODcuODE2MDg2LDI0My42NDMzODcgCglDMjI1LjQwMjU4OCwxOTguMjU5NDMwIDI3MC43MjY1MzIsMTYyLjQ2NzA0MSAzMjMuMzY5MjYzLDEzNS44NzY5MzggCglDMzY2LjYxODI4NiwxMTQuMDMxNjkzIDQxMi4zMjA4NjIsMTAwLjI0NDE4NiA0NjAuMzA2NDI3LDk0LjQwNjc4NCAKCUM1NDMuMjMzNzY1LDg0LjMxODc0OCA2MjIuNTgyOTQ3LDk2LjkxOTA4MyA2OTcuODk3OTQ5LDEzMy41MDgzNjIgCglDNzY0Ljk5MDg0NSwxNjYuMTAzMjEwIDgxOS44ODE3NzUsMjEzLjA0NTY1NCA4NjEuOTc2ODA3LDI3NC41ODIzOTcgCglDODk3LjM3NzI1OCwzMjYuMzMyODU1IDkyMC4wODk0NzgsMzgzLjMxMzQ3NyA5MjkuMDM5NTUxLDQ0NS40OTA4NzUgCglDOTM3LjE4MTQ1OCw1MDIuMDUzODY0IDkzNC44ODE0NzAsNTU4LjE4NjgyOSA5MTkuOTU0Mjg1LDYxMy41MDE3NzAgCglDODk4LjYyNjU4Nyw2OTIuNTM1MDk1IDg1Ny44ODM4NTAsNzU5Ljg5OTcxOSA3OTcuNTAyOTkxLDgxNS4yNzAzMjUgCglDNzM3LjAwMDczMiw4NzAuNzUyMTk3IDY2Ni4zMjExNjcsOTA1Ljg1NzQ4MyA1ODUuNDgwNTMwLDkyMC4wMjI3MDUgCglDNTEwLjQ4MjUxMyw5MzMuMTY0MTg1IDQzNy4xNzYxNzgsOTI2LjIxOTE3NyAzNjUuMzc2MTYwLDg5OS42Njk1NTYgCk02ODkuODc4MzU3LDYxMy44NDEzNzAgCglDNjkzLjI5NTY1NCw2MTAuMzI2NTk5IDY5Ni43MTI5NTIsNjA2LjgxMTgyOSA3MDAuNzEzMTk2LDYwMy4wMjc3MTAgCglDNzAxLjg1Nzk3MSw2MDEuNzg5OTc4IDcwMy4wMDI4MDgsNjAwLjU1MjI0NiA3MDQuNzYxNjU4LDU5OS4wMTU5OTEgCglDNzEzLjU1NjU4MCw1OTAuMTQ3Mjc4IDcyMi4zNTE0NDAsNTgxLjI3ODUwMyA3MzEuNzU2NTkyLDU3Mi4wODk5MDUgCglDNzM3Ljg5NzU4Myw1NjUuOTAzODA5IDc0NC4wMzg2MzUsNTU5LjcxNzY1MSA3NTAuNzQ0NzUxLDU1My4xOTg5MTQgCglDNzUxLjI1MDE4Myw1NTIuNTAyMzgwIDc1MS43NTU2MTUsNTUxLjgwNTg0NyA3NTIuODM5OTA1LDU1MC43NDM1MzAgCglDNzUzLjQ5OTIwNyw1NDkuNzkwODMzIDc1NC4yMjc3MjIsNTQ4Ljg3ODIzNSA3NTQuODA3MTkwLDU0Ny44NzkxNTAgCglDNzYxLjA3MzY2OSw1MzcuMDc1MTk1IDc1OS4xNjkwNjcsNTI1LjUzNDQ4NSA3NTcuNjU1NjQwLDUxNC4wOTI3MTIgCglDNzU3LjExNjI3Miw1MTAuMDE0NzA5IDc1NS44ODQ1MjEsNTA2LjAyODM1MSA3NTUuMzAwNTk4LDUwMS4yMjYxMzUgCglDNzU0LjgxNDIwOSw0OTguODE2NjUwIDc1NC4zMjc3NTksNDk2LjQwNzE2NiA3NTMuOTA0NTQxLDQ5My4xOTI0NzQgCglDNzQ3LjU4OTkwNSw0NjEuMDM4MTQ3IDc0MS4zMTgxNzYsNDI4Ljg3NTMwNSA3MzQuOTM2NDAxLDM5Ni43MzQzMTQgCglDNzMyLjc5ODY0NSwzODUuOTY3NjUxIDczMC42NjYxOTksMzc1LjE4NDYzMSA3MjcuOTg1NjU3LDM2NC41NDY1NzAgCglDNzI2LjI4NDMwMiwzNTcuNzk0Njc4IDcyMS40NDY4MzgsMzUzLjgxNzU5NiA3MTQuMzA4OTYwLDM1My4yOTE0NDMgCglDNzA3LjM0NTg4NiwzNTIuNzc4MTk4IDcwMS41NzYwNTAsMzU1LjM5NjY2NyA2OTguNjc4NzcyLDM2MS43Njc3MzEgCglDNjk2Ljc0NjMzOCwzNjYuMDE3MzY1IDY5NS40NDcwODMsMzcwLjk1MDM3OCA2OTUuMzk0MjI2LDM3NS41OTUwMDEgCglDNjk1LjA1NjY0MSw0MDUuMjM5OTI5IDY5NS4yMjgyNzEsNDM0Ljg5MDM4MSA2OTQuOTkzNDA4LDQ2NC41MzcxMDkgCglDNjk0Ljk2MDc1NCw0NjguNjQ4ODY1IDY5NS45OTI0MzIsNDcxLjA1MDk2NCA2OTkuNzA4ODYyLDQ3My4xODQ4NDUgCglDNzE2LjQ5MzcxMyw0ODIuODIyNDc5IDcyMi42NTA1MTMsNTA0LjE0NjQyMyA3MTYuOTUwMDczLDUyMC4zODIzODUgCglDNzE0LjUyOTQxOSw1MjcuMjc2ODU1IDcwOS40MjExNDMsNTMxLjk4MjMwMCA3MDMuNjE2NjM4LDUzNi44ODc4MTcgCglDNzAwLjc4ODY5Niw1MzkuMjcyODI3IDY5Ny45NjA3NTQsNTQxLjY1NzgzNyA2OTQuNDg2MDg0LDU0NC4yNjE3MTkgCglDNjkxLjk5ODcxOCw1NDYuMzY0OTI5IDY4OS41MTEyOTIsNTQ4LjQ2ODE0MCA2ODYuNDUzMjQ3LDU1MC44MDkzODcgCglDNjgzLjg4OTcwOSw1NTIuODMyODg2IDY4MS4zMjYxMTEsNTU0Ljg1NjMyMyA2NzguMTEyOTE1LDU1Ny4wNTg1OTQgCglDNjY3LjM4Mzk3Miw1NjQuMzE4NTQyIDY1Ni42NTQ5NjgsNTcxLjU3ODU1MiA2NDUuMjc2NjcyLDU3OS4xMDk0MzYgCglDNjQzLjMwNDI2MCw1ODAuMDQ0MzczIDY0MS4zMzE5MDksNTgwLjk3OTMwOSA2MzkuMzU5NDk3LDU4MS45MTQyNDYgCglDNjM4Ljg5Nzc2Niw1ODEuNDczNTExIDYzOC40MzU5NzQsNTgxLjAzMjgzNyA2MzcuOTc0MTgyLDU4MC41OTIxNjMgCglDNjM5LjY1MzQ0Miw1NzcuNzU0NDU2IDY0MC45NTMxMjUsNTc0LjU4OTI5NCA2NDMuMDczMjQyLDU3Mi4xMzIwMTkgCglDNjU3LjMyMTI4OSw1NTUuNjE4MjI1IDY3MS42MTM2NDcsNTM5LjEzODQyOCA2ODYuMTYwNDYxLDUyMi44ODgzMDYgCglDNjk0LjI4NTc2Nyw1MTMuODExNTIzIDY5NC43MjU0MDMsNTAyLjYyMjg2NCA2ODYuNjM5MTYwLDQ5My42ODY4NTkgCglDNjc5LjQ3MjY1Niw0ODUuNzY3MjQyIDY2Ny4xODMyMjgsNDg0LjEzMjYyOSA2NTkuNjA4NTgyLDQ5MC43NjU1MzMgCglDNjM5LjU0OTU2MSw1MDguMzMwNTk3IDYxNi42Mzc0NTEsNTIxLjYxNjA4OSA1OTMuODg3NzU2LDUzNS4xMzYyOTIgCglDNTgyLjE2NTEwMCw1NDIuMTAzMDg4IDU2OS41NzAzMTIsNTQ3LjcxMzU2MiA1NTguMzIyMDIxLDU1NS4zNDE0MzEgCglDNTQxLjQ0MDg1Nyw1NjYuNzg5MTI0IDUyNy43ODQxODAsNTgxLjU4MjM5NyA1MjYuNzgwMjEyLDYwMy4xODIyNTEgCglDNTI2LjIyNDg1NCw2MTUuMTMwNDkzIDUyOC4zOTg2MjEsNjI3LjM3ODY2MiA1MzAuNjI5OTQ0LDYzOS4yNDk2MzQgCglDNTM2LjUwOTU4Myw2NzAuNTMwODg0IDU0Mi42Nzg3NzIsNzAxLjcyNTg5MSA1NDEuMjYyNzU2LDczMy44MTAxODEgCglDNTQxLjE5MTk1Niw3MzUuNDEyNzgxIDU0MS40MjkwMTYsNzM3LjAyODk5MiA1NDEuNTI2NDg5LDczOC43MDI4MjAgCglDNTc2LjQ0NjE2Nyw3MzguNzAyODIwIDYxMC44NTQ0OTIsNzM4LjcwMjgyMCA2NDUuODQ3NDczLDczOC43MDI4MjAgCglDNjQ1Ljg0NzQ3Myw3MzYuNTgwNzUwIDY0NS44NDc1MzQsNzM0Ljc5NDg2MSA2NDUuODQ3NTM0LDczMy4wMDkwMzMgCglDNjQ1Ljg0NzU5NSw3MTUuNjgxODI0IDY0Ni4wMjA5OTYsNjk4LjM1MjQxNyA2NDUuNzk0NDk1LDY4MS4wMjgxMzcgCglDNjQ1LjYwMzQ1NSw2NjYuNDE0NjczIDY1MC42MTEzODksNjU0LjAxMTk2MyA2NjAuNTMwODg0LDY0My40NjM5MjggCglDNjY0Ljc0NTcyOCw2MzguOTgyMDU2IDY2OS4wMzMxNDIsNjM0LjU2ODQyMCA2NzMuODkxNjYzLDYyOS44NzI3NDIgCglDNjc3LjI5Njg3NSw2MjYuMzQxOTE5IDY4MC43MDIwODcsNjIyLjgxMTE1NyA2ODQuNzEzOTg5LDYxOC45OTE1MTYgCglDNjg2LjIzNzU0OSw2MTcuMzY1MjM0IDY4Ny43NjEwNDcsNjE1LjczODk1MyA2ODkuODc4MzU3LDYxMy44NDEzNzAgCk01MzIuNTY0MzMxLDQ4MC4wODI4NTUgCglDNTYwLjQ2ODM4NCw0NjQuMDA4NzI4IDU4Ni4wNzMwNTksNDQ1LjA0MzAzMCA2MDcuMDM5OTc4LDQyMC4zNDY1MjcgCglDNjI0LjExMzU4Niw0MDAuMjM1OTMxIDYzNi40NjMxMzUsMzc4LjAzOTA5MyA2MzcuNTIwOTk2LDM1MC44MjI1NzEgCglDNjM5LjI3MjUyMiwzMDUuNzYxNDQ0IDYwNC4wNjk2NDEsMjcyLjc1NTA2NiA1NTkuNDIyNjA3LDI3Ny43NDU1NzUgCglDNTQzLjQ0NzAyMSwyNzkuNTMxMjgxIDUyOS4zNzgzNTcsMjg2LjEzMDE1NyA1MTYuMjc5ODQ2LDI5NS4wMTI0NTEgCglDNTEzLjU1MjQyOSwyOTYuODYxOTY5IDUxMS43NDA1NDAsMjk3LjA2NzUzNSA1MDguODM2NTc4LDI5NS4xOTI4MTAgCglDNTAyLjk3NzQxNywyOTEuNDEwMjE3IDQ5Ni45MTI0MTUsMjg3LjgxMTk1MSA0OTAuNTcwNDA0LDI4NC45MzU0ODYgCglDNDY1LjY1OTY2OCwyNzMuNjM2OTkzIDQ0MC43NjQxOTEsMjczLjU0NDAwNiA0MTcuNjM3MDU0LDI4OC44MDAwMTggCglDMzkxLjU0NzYwNywzMDYuMDEwMTMyIDM4NC43NTA0MjcsMzMyLjE2MDU1MyAzODguNjU3NzQ1LDM2MS41Mjk3MjQgCglDMzkxLjc0NDk2NSwzODQuNzM0NDY3IDQwMy43ODA2MDksNDAzLjk2NTU3NiA0MTguODM4MjU3LDQyMS4zNDg0ODAgCglDNDQyLjA3Njc4Miw0NDguMTc1NTA3IDQ3MC42NDMwOTcsNDY4LjAzOTg4NiA1MDEuNjIwMjcwLDQ4NC44OTQ4OTcgCglDNTA5LjYyMzk5Myw0ODkuMjQ5ODE3IDUxNi41MDI2ODYsNDkwLjMzNjgyMyA1MjQuMDIyODg4LDQ4NC43MTM5NTkgCglDNTI2LjM5NDE2NSw0ODIuOTQwOTE4IDUyOS4yNzU3NTcsNDgxLjg1MDI1MCA1MzIuNTY0MzMxLDQ4MC4wODI4NTUgCk0yOTcuNDIwMjU4LDM2NS4yMDkwNDUgCglDMjg4LjYxMTcyNSw0MDkuNDQwMzA4IDI3OS43MTA4MTUsNDUzLjY1MzUzNCAyNzEuMDY1NDkxLDQ5Ny45MTY2NTYgCglDMjY5LjEyNDU0Miw1MDcuODU0MDY1IDI2Ny42Nzk5OTMsNTE3LjkyODUyOCAyNjYuNzI4MzAyLDUyOC4wMDc5MzUgCglDMjY1Ljc0MzIyNSw1MzguNDQwMjQ3IDI2OS4wMTYzNTcsNTQ3LjM3OTcwMCAyNzYuODEwNjk5LDU1NS4wNDAzNDQgCglDMzA2LjI4MjgzNyw1ODQuMDA3MTQxIDMzNS40OTM2ODMsNjEzLjI0MDk2NyAzNjQuNjc3MzY4LDY0Mi40OTk0NTEgCglDMzc1LjI4OTA2Miw2NTMuMTM4MzY3IDM4MC40MTM1NzQsNjY2LjEwMjIzNCAzODAuMjI3OTA1LDY4MS4yNTUxODggCglDMzgwLjAxNzYzOSw2OTguNDE2OTMxIDM4MC4xNjk4MDAsNzE1LjU4MzEzMCAzODAuMTY0NTUxLDczMi43NDczNzUgCglDMzgwLjE2Mzk3MSw3MzQuNjgxNzYzIDM4MC4xNjQ0NTksNzM2LjYxNjE1MCAzODAuMTY0NDU5LDczOC41NjQ0NTMgCglDNDE1LjI2OTA3Myw3MzguNTY0NDUzIDQ0OS42MzgxODQsNzM4LjU2NDQ1MyA0ODQuNDEzMDI1LDczOC41NjQ0NTMgCglDNDg0LjQxMzAyNSw3MzQuNzY5Mjg3IDQ4NC4zMTM4NzMsNzMxLjQ0ODMwMyA0ODQuNDMxNzkzLDcyOC4xMzUxMzIgCglDNDg0Ljc3NTIzOCw3MTguNDg1NDc0IDQ4NC4zNzAzMDAsNzA4LjcxNjI0OCA0ODUuNzY2MjY2LDY5OS4yMTUzOTMgCglDNDg5LjI0ODUwNSw2NzUuNTE1OTMwIDQ5Mi43ODIxMzUsNjUxLjc3MzA3MSA0OTcuNzQ1NTQ0LDYyOC4zNTUwNDIgCglDNTAzLjg3OTcwMCw1OTkuNDEzMzMwIDQ5NS41MjQ0NzUsNTc2LjQwOTk3MyA0NzIuMzA5MDgyLDU1OC43NTQ1MTcgCglDNDY1LjA2NjgzMyw1NTMuMjQ2NzA0IDQ1Ny4wNjMxMTAsNTQ4LjYyNDIwNyA0NDkuMDM0OTQzLDU0NC4yODY4NjUgCglDNDIwLjQzMjU4Nyw1MjguODMzNzQwIDM5Mi4yNzExNzksNTEyLjc1NTMxMCAzNjcuNDM2MDA1LDQ5MS40ODg1MjUgCglDMzYxLjI3MTM5Myw0ODYuMjA5NjU2IDM1NC4yMjI1MDQsNDg1LjQxMjQ3NiAzNDYuODQ3Njg3LDQ4OC41MDY1MDAgCglDMzMyLjE0MzU4NSw0OTQuNjc1MzU0IDMyOS4zMzA4MTEsNTExLjUzNjgwNCAzNDAuMjkyNjk0LDUyMy41MjAxNDIgCglDMzU0Ljc5MTgwOSw1MzkuMzcwNDIyIDM2OC43OTg0OTIsNTU1LjY3NDYyMiAzODIuODQwNjM3LDU3MS45MzU3OTEgCglDMzg0Ljk1MzQzMCw1NzQuMzgyNDQ2IDM4Ni4xMDkyODMsNTc3LjY1NTQ1NyAzODcuNzA3Nzk0LDU4MC41NDYyMDQgCglDMzg3LjI2MDU1OSw1ODAuOTIzNTg0IDM4Ni44MTMyOTMsNTgxLjMwMDk2NCAzODYuMzY2MDU4LDU4MS42Nzg0MDYgCglDMzg0LjQ3NTQwMyw1ODAuODUzOTQzIDM4Mi40NzQ1MTgsNTgwLjIxNjQ5MiAzODAuNzEwNzU0LDU3OS4xNzY3NTggCglDMzU3LjgwODc3Nyw1NjUuNjc2MTQ3IDMzNi44MzA4NzIsNTQ5LjUyNDM1MyAzMTYuOTUwMjI2LDUzMS45NzUyODEgCglDMzEzLjM5MTgxNSw1MjguODM0MjI5IDMxMC41NDk4MzUsNTI0LjE2OTQ5NSAzMDguOTQ2OTMwLDUxOS42NTEzNjcgCglDMzAyLjc4NDk0Myw1MDIuMjgyMDEzIDMxMC4yMDY3NTcsNDgzLjIxNjEyNSAzMjYuNTE5NDQwLDQ3Mi45OTU0NTMgCglDMzI4Ljc4OTU1MSw0NzEuNTczMTIwIDMzMC44MTE4NTksNDcwLjUyODUwMyAzMzAuNzg3MTcwLDQ2Ny4wNjQ2MzYgCglDMzMwLjU2ODY2NSw0MzYuNDAzOTMxIDMzMC41OTE3MzYsNDA1Ljc0MTUxNiAzMzAuNDg1MzUyLDM3NS4wNzk4MDMgCglDMzMwLjQ3Njc0NiwzNzIuNTk0NjY2IDMzMC4yNzIyNDcsMzcwLjA2MDk3NCAzMjkuNzU1NjE1LDM2Ny42MzU3NDIgCglDMzI3Ljk3NzY5MiwzNTkuMjg5MzM3IDMyMi4yNzk3NTUsMzUzLjk5ODM4MyAzMTQuNTU4ODM4LDM1My4yNjQ4OTMgCglDMzA2LjY3MjQ4NSwzNTIuNTE1Njg2IDMwMS40NzkzMDksMzU1Ljk5NTQ1MyAyOTcuNDIwMjU4LDM2NS4yMDkwNDUgCnoiLz4KPHBhdGggZmlsbD0iIzM1NjdBRSIgb3BhY2l0eT0iMS4wMDAwMDAiIHN0cm9rZT0ibm9uZSIgCglkPSIKTTUzMi4yNDQwMTksNDgwLjI2NTA3NiAKCUM1MjkuMjc1NzU3LDQ4MS44NTAyNTAgNTI2LjM5NDE2NSw0ODIuOTQwOTE4IDUyNC4wMjI4ODgsNDg0LjcxMzk1OSAKCUM1MTYuNTAyNjg2LDQ5MC4zMzY4MjMgNTA5LjYyMzk5Myw0ODkuMjQ5ODE3IDUwMS42MjAyNzAsNDg0Ljg5NDg5NyAKCUM0NzAuNjQzMDk3LDQ2OC4wMzk4ODYgNDQyLjA3Njc4Miw0NDguMTc1NTA3IDQxOC44MzgyNTcsNDIxLjM0ODQ4MCAKCUM0MDMuNzgwNjA5LDQwMy45NjU1NzYgMzkxLjc0NDk2NSwzODQuNzM0NDY3IDM4OC42NTc3NDUsMzYxLjUyOTcyNCAKCUMzODQuNzUwNDI3LDMzMi4xNjA1NTMgMzkxLjU0NzYwNywzMDYuMDEwMTMyIDQxNy42MzcwNTQsMjg4LjgwMDAxOCAKCUM0NDAuNzY0MTkxLDI3My41NDQwMDYgNDY1LjY1OTY2OCwyNzMuNjM2OTkzIDQ5MC41NzA0MDQsMjg0LjkzNTQ4NiAKCUM0OTYuOTEyNDE1LDI4Ny44MTE5NTEgNTAyLjk3NzQxNywyOTEuNDEwMjE3IDUwOC44MzY1NzgsMjk1LjE5MjgxMCAKCUM1MTEuNzQwNTQwLDI5Ny4wNjc1MzUgNTEzLjU1MjQyOSwyOTYuODYxOTY5IDUxNi4yNzk4NDYsMjk1LjAxMjQ1MSAKCUM1MjkuMzc4MzU3LDI4Ni4xMzAxNTcgNTQzLjQ0NzAyMSwyNzkuNTMxMjgxIDU1OS40MjI2MDcsMjc3Ljc0NTU3NSAKCUM2MDQuMDY5NjQxLDI3Mi43NTUwNjYgNjM5LjI3MjUyMiwzMDUuNzYxNDQ0IDYzNy41MjA5OTYsMzUwLjgyMjU3MSAKCUM2MzYuNDYzMTM1LDM3OC4wMzkwOTMgNjI0LjExMzU4Niw0MDAuMjM1OTMxIDYwNy4wMzk5NzgsNDIwLjM0NjUyNyAKCUM1ODYuMDczMDU5LDQ0NS4wNDMwMzAgNTYwLjQ2ODM4NCw0NjQuMDA4NzI4IDUzMi4yNDQwMTksNDgwLjI2NTA3NiAKeiIvPgo8cGF0aCBmaWxsPSIjMzY2N0FEIiBvcGFjaXR5PSIxLjAwMDAwMCIgc3Ryb2tlPSJub25lIiAKCWQ9IgpNMjk3LjU5ODIzNiwzNjQuODU5NjE5IAoJQzMwMS40NzkzMDksMzU1Ljk5NTQ1MyAzMDYuNjcyNDg1LDM1Mi41MTU2ODYgMzE0LjU1ODgzOCwzNTMuMjY0ODkzIAoJQzMyMi4yNzk3NTUsMzUzLjk5ODM4MyAzMjcuOTc3NjkyLDM1OS4yODkzMzcgMzI5Ljc1NTYxNSwzNjcuNjM1NzQyIAoJQzMzMC4yNzIyNDcsMzcwLjA2MDk3NCAzMzAuNDc2NzQ2LDM3Mi41OTQ2NjYgMzMwLjQ4NTM1MiwzNzUuMDc5ODAzIAoJQzMzMC41OTE3MzYsNDA1Ljc0MTUxNiAzMzAuNTY4NjY1LDQzNi40MDM5MzEgMzMwLjc4NzE3MCw0NjcuMDY0NjM2IAoJQzMzMC44MTE4NTksNDcwLjUyODUwMyAzMjguNzg5NTUxLDQ3MS41NzMxMjAgMzI2LjUxOTQ0MCw0NzIuOTk1NDUzIAoJQzMxMC4yMDY3NTcsNDgzLjIxNjEyNSAzMDIuNzg0OTQzLDUwMi4yODIwMTMgMzA4Ljk0NjkzMCw1MTkuNjUxMzY3IAoJQzMxMC41NDk4MzUsNTI0LjE2OTQ5NSAzMTMuMzkxODE1LDUyOC44MzQyMjkgMzE2Ljk1MDIyNiw1MzEuOTc1MjgxIAoJQzMzNi44MzA4NzIsNTQ5LjUyNDM1MyAzNTcuODA4Nzc3LDU2NS42NzYxNDcgMzgwLjcxMDc1NCw1NzkuMTc2NzU4IAoJQzM4Mi40NzQ1MTgsNTgwLjIxNjQ5MiAzODQuNDc1NDAzLDU4MC44NTM5NDMgMzg2LjM2NjA1OCw1ODEuNjc4NDA2IAoJQzM4Ni44MTMyOTMsNTgxLjMwMDk2NCAzODcuMjYwNTU5LDU4MC45MjM1ODQgMzg3LjcwNzc5NCw1ODAuNTQ2MjA0IAoJQzM4Ni4xMDkyODMsNTc3LjY1NTQ1NyAzODQuOTUzNDMwLDU3NC4zODI0NDYgMzgyLjg0MDYzNyw1NzEuOTM1NzkxIAoJQzM2OC43OTg0OTIsNTU1LjY3NDYyMiAzNTQuNzkxODA5LDUzOS4zNzA0MjIgMzQwLjI5MjY5NCw1MjMuNTIwMTQyIAoJQzMyOS4zMzA4MTEsNTExLjUzNjgwNCAzMzIuMTQzNTg1LDQ5NC42NzUzNTQgMzQ2Ljg0NzY4Nyw0ODguNTA2NTAwIAoJQzM1NC4yMjI1MDQsNDg1LjQxMjQ3NiAzNjEuMjcxMzkzLDQ4Ni4yMDk2NTYgMzY3LjQzNjAwNSw0OTEuNDg4NTI1IAoJQzM5Mi4yNzExNzksNTEyLjc1NTMxMCA0MjAuNDMyNTg3LDUyOC44MzM3NDAgNDQ5LjAzNDk0Myw1NDQuMjg2ODY1IAoJQzQ1Ny4wNjMxMTAsNTQ4LjYyNDIwNyA0NjUuMDY2ODMzLDU1My4yNDY3MDQgNDcyLjMwOTA4Miw1NTguNzU0NTE3IAoJQzQ5NS41MjQ0NzUsNTc2LjQwOTk3MyA1MDMuODc5NzAwLDU5OS40MTMzMzAgNDk3Ljc0NTU0NCw2MjguMzU1MDQyIAoJQzQ5Mi43ODIxMzUsNjUxLjc3MzA3MSA0ODkuMjQ4NTA1LDY3NS41MTU5MzAgNDg1Ljc2NjI2Niw2OTkuMjE1MzkzIAoJQzQ4NC4zNzAzMDAsNzA4LjcxNjI0OCA0ODQuNzc1MjM4LDcxOC40ODU0NzQgNDg0LjQzMTc5Myw3MjguMTM1MTMyIAoJQzQ4NC4zMTM4NzMsNzMxLjQ0ODMwMyA0ODQuNDEzMDI1LDczNC43NjkyODcgNDg0LjQxMzAyNSw3MzguNTY0NDUzIAoJQzQ0OS42MzgxODQsNzM4LjU2NDQ1MyA0MTUuMjY5MDczLDczOC41NjQ0NTMgMzgwLjE2NDQ1OSw3MzguNTY0NDUzIAoJQzM4MC4xNjQ0NTksNzM2LjYxNjE1MCAzODAuMTYzOTcxLDczNC42ODE3NjMgMzgwLjE2NDU1MSw3MzIuNzQ3Mzc1IAoJQzM4MC4xNjk4MDAsNzE1LjU4MzEzMCAzODAuMDE3NjM5LDY5OC40MTY5MzEgMzgwLjIyNzkwNSw2ODEuMjU1MTg4IAoJQzM4MC40MTM1NzQsNjY2LjEwMjIzNCAzNzUuMjg5MDYyLDY1My4xMzgzNjcgMzY0LjY3NzM2OCw2NDIuNDk5NDUxIAoJQzMzNS40OTM2ODMsNjEzLjI0MDk2NyAzMDYuMjgyODM3LDU4NC4wMDcxNDEgMjc2LjgxMDY5OSw1NTUuMDQwMzQ0IAoJQzI2OS4wMTYzNTcsNTQ3LjM3OTcwMCAyNjUuNzQzMjI1LDUzOC40NDAyNDcgMjY2LjcyODMwMiw1MjguMDA3OTM1IAoJQzI2Ny42Nzk5OTMsNTE3LjkyODUyOCAyNjkuMTI0NTQyLDUwNy44NTQwNjUgMjcxLjA2NTQ5MSw0OTcuOTE2NjU2IAoJQzI3OS43MTA4MTUsNDUzLjY1MzUzNCAyODguNjExNzI1LDQwOS40NDAzMDggMjk3LjU5ODIzNiwzNjQuODU5NjE5IAp6Ii8+CjxwYXRoIGZpbGw9IiMzNTY3QUUiIG9wYWNpdHk9IjEuMDAwMDAwIiBzdHJva2U9Im5vbmUiIAoJZD0iCk02NzMuMjg3NTk4LDYzMC4xMjM4NDAgCglDNjY5LjAzMzE0Miw2MzQuNTY4NDIwIDY2NC43NDU3MjgsNjM4Ljk4MjA1NiA2NjAuNTMwODg0LDY0My40NjM5MjggCglDNjUwLjYxMTM4OSw2NTQuMDExOTYzIDY0NS42MDM0NTUsNjY2LjQxNDY3MyA2NDUuNzk0NDk1LDY4MS4wMjgxMzcgCglDNjQ2LjAyMDk5Niw2OTguMzUyNDE3IDY0NS44NDc1OTUsNzE1LjY4MTgyNCA2NDUuODQ3NTM0LDczMy4wMDkwMzMgCglDNjQ1Ljg0NzUzNCw3MzQuNzk0ODYxIDY0NS44NDc0NzMsNzM2LjU4MDc1MCA2NDUuODQ3NDczLDczOC43MDI4MjAgCglDNjEwLjg1NDQ5Miw3MzguNzAyODIwIDU3Ni40NDYxNjcsNzM4LjcwMjgyMCA1NDEuNTI2NDg5LDczOC43MDI4MjAgCglDNTQxLjQyOTAxNiw3MzcuMDI4OTkyIDU0MS4xOTE5NTYsNzM1LjQxMjc4MSA1NDEuMjYyNzU2LDczMy44MTAxODEgCglDNTQyLjY3ODc3Miw3MDEuNzI1ODkxIDUzNi41MDk1ODMsNjcwLjUzMDg4NCA1MzAuNjI5OTQ0LDYzOS4yNDk2MzQgCglDNTI4LjM5ODYyMSw2MjcuMzc4NjYyIDUyNi4yMjQ4NTQsNjE1LjEzMDQ5MyA1MjYuNzgwMjEyLDYwMy4xODIyNTEgCglDNTI3Ljc4NDE4MCw1ODEuNTgyMzk3IDU0MS40NDA4NTcsNTY2Ljc4OTEyNCA1NTguMzIyMDIxLDU1NS4zNDE0MzEgCglDNTY5LjU3MDMxMiw1NDcuNzEzNTYyIDU4Mi4xNjUxMDAsNTQyLjEwMzA4OCA1OTMuODg3NzU2LDUzNS4xMzYyOTIgCglDNjE2LjYzNzQ1MSw1MjEuNjE2MDg5IDYzOS41NDk1NjEsNTA4LjMzMDU5NyA2NTkuNjA4NTgyLDQ5MC43NjU1MzMgCglDNjY3LjE4MzIyOCw0ODQuMTMyNjI5IDY3OS40NzI2NTYsNDg1Ljc2NzI0MiA2ODYuNjM5MTYwLDQ5My42ODY4NTkgCglDNjk0LjcyNTQwMyw1MDIuNjIyODY0IDY5NC4yODU3NjcsNTEzLjgxMTUyMyA2ODYuMTYwNDYxLDUyMi44ODgzMDYgCglDNjcxLjYxMzY0Nyw1MzkuMTM4NDI4IDY1Ny4zMjEyODksNTU1LjYxODIyNSA2NDMuMDczMjQyLDU3Mi4xMzIwMTkgCglDNjQwLjk1MzEyNSw1NzQuNTg5Mjk0IDYzOS42NTM0NDIsNTc3Ljc1NDQ1NiA2MzcuOTc0MTgyLDU4MC41OTIxNjMgCglDNjM4LjQzNTk3NCw1ODEuMDMyODM3IDYzOC44OTc3NjYsNTgxLjQ3MzUxMSA2MzkuMzU5NDk3LDU4MS45MTQyNDYgCglDNjQxLjMzMTkwOSw1ODAuOTc5MzA5IDY0My4zMDQyNjAsNTgwLjA0NDM3MyA2NDUuNzIzMTQ1LDU3OS4zMDgwNDQgCglDNjQ2LjExNzc5OCw1ODAuODEwMjQyIDY0Ni4yNjMxODQsNTgyLjE1ODMyNSA2NDUuOTgxMjAxLDU4My40MTAwMzQgCglDNjQ0LjQ1MzkxOCw1OTAuMTg5NDUzIDY0OS43MTE2NzAsNjAxLjcyOTk4MCA2NTUuNDc3NzIyLDYwNS4yNzk0MTkgCglDNjU4LjkyODQwNiw2MDcuNDAzNjI1IDY2MS44NDM5MzMsNjEwLjM5NzE1NiA2NjUuMDUzNzExLDYxMy4zNTE5MjkgCglDNjY1Ljk0NjUzMyw2MTcuMDgwNjg4IDY2OC40NzUzNDIsNjE2LjM3ODA1MiA2NzAuOTk1NTQ0LDYxNi41MDY5NTggCglDNjcyLjcyNzY2MSw2MTYuNTk1NTIwIDY3NC4zOTQ4MzYsNjE3Ljk1NTMyMiA2NzYuMDkxMDY0LDYxOC43NDY5NDggCglDNjc1LjIzOTY4NSw2MTkuOTU0NTkwIDY3NC41NjkzMzYsNjIxLjM2MTQ1MCA2NzMuNTAxODkyLDYyMi4zMzEyOTkgCglDNjcwLjYzNTMxNSw2MjQuOTM1ODUyIDY3MC4wMDEwOTksNjI3LjQzMDg0NyA2NzMuMjg3NTk4LDYzMC4xMjM4NDAgCnoiLz4KPHBhdGggZmlsbD0iIzM1NjZBRCIgb3BhY2l0eT0iMS4wMDAwMDAiIHN0cm9rZT0ibm9uZSIgCglkPSIKTTY2NS4wMDAwMDAsNjEzLjAwMDAwMCAKCUM2NjEuODQzOTMzLDYxMC4zOTcxNTYgNjU4LjkyODQwNiw2MDcuNDAzNjI1IDY1NS40Nzc3MjIsNjA1LjI3OTQxOSAKCUM2NDkuNzExNjcwLDYwMS43Mjk5ODAgNjQ0LjQ1MzkxOCw1OTAuMTg5NDUzIDY0NS45ODEyMDEsNTgzLjQxMDAzNCAKCUM2NDYuMjYzMTg0LDU4Mi4xNTgzMjUgNjQ2LjExNzc5OCw1ODAuODEwMjQyIDY0Ni4wNDc4NTIsNTc5LjE3MjYwNyAKCUM2NTYuNjU0OTY4LDU3MS41Nzg1NTIgNjY3LjM4Mzk3Miw1NjQuMzE4NTQyIDY3OC43NTk4ODgsNTU3LjE2MjU5OCAKCUM2ODEuNzQ5MDg0LDU1Ny4zNTEzNzkgNjg0Ljg4MDczNyw1NTguMzcwNjA1IDY4Ni4yMDU2ODgsNTU3LjI1MTI4MiAKCUM2ODcuNDYyNTI0LDU1Ni4xODk0NTMgNjg2LjgyNzIwOSw1NTIuODg3OTM5IDY4Ny4wMjM5MjYsNTUwLjU3MTI4OSAKCUM2ODkuNTExMjkyLDU0OC40NjgxNDAgNjkxLjk5ODcxOCw1NDYuMzY0OTI5IDY5NS4yMzM4ODcsNTQ0LjE0NzQ2MSAKCUM2OTcuNzk4MDk2LDU0My45MzYxNTcgNjk5Ljc3ODEzNyw1NDQuMjY4MzExIDcwMS4zOTYwNTcsNTQzLjY1MTEyMyAKCUM3MDQuNTk5NjcwLDU0Mi40Mjg5NTUgNzA3LjEyMzE2OSw1NDAuNDk2MTU1IDcwNC4xOTE3NzIsNTM2LjYzMDE4OCAKCUM3MDkuNDIxMTQzLDUzMS45ODIzMDAgNzE0LjUyOTQxOSw1MjcuMjc2ODU1IDcxNi45NTAwNzMsNTIwLjM4MjM4NSAKCUM3MjIuNjUwNTEzLDUwNC4xNDY0MjMgNzE2LjQ5MzcxMyw0ODIuODIyNDc5IDY5OS43MDg4NjIsNDczLjE4NDg0NSAKCUM2OTUuOTkyNDMyLDQ3MS4wNTA5NjQgNjk0Ljk2MDc1NCw0NjguNjQ4ODY1IDY5NC45OTM0MDgsNDY0LjUzNzEwOSAKCUM2OTUuMjI4MjcxLDQzNC44OTAzODEgNjk1LjA1NjY0MSw0MDUuMjM5OTI5IDY5NS4zOTQyMjYsMzc1LjU5NTAwMSAKCUM2OTUuNDQ3MDgzLDM3MC45NTAzNzggNjk2Ljc0NjMzOCwzNjYuMDE3MzY1IDY5OC42Nzg3NzIsMzYxLjc2NzczMSAKCUM3MDEuNTc2MDUwLDM1NS4zOTY2NjcgNzA3LjM0NTg4NiwzNTIuNzc4MTk4IDcxNC4zMDg5NjAsMzUzLjI5MTQ0MyAKCUM3MjEuNDQ2ODM4LDM1My44MTc1OTYgNzI2LjI4NDMwMiwzNTcuNzk0Njc4IDcyNy45ODU2NTcsMzY0LjU0NjU3MCAKCUM3MzAuNjY2MTk5LDM3NS4xODQ2MzEgNzMyLjc5ODY0NSwzODUuOTY3NjUxIDczNC45MzY0MDEsMzk2LjczNDMxNCAKCUM3NDEuMzE4MTc2LDQyOC44NzUzMDUgNzQ3LjU4OTkwNSw0NjEuMDM4MTQ3IDc1My40OTYyMTYsNDkzLjU4MDQxNCAKCUM3NTEuNjg5MTQ4LDQ5My41MDk1NTIgNzUwLjIyNDM2NSw0OTMuMTkwNzM1IDc0OC45MDMwMTUsNDkyLjU2NzY4OCAKCUM3NDMuMjQwMzU2LDQ4OS44OTc1ODMgNzQwLjI5OTM3Nyw0OTAuODUxMTA1IDczNy45ODMyNzYsNDk2LjY3MTM4NyAKCUM3MzUuNjM4ODU1LDUwMi41NjI5NTggNzMyLjkzMDk2OSw1MDguNDUwNDA5IDczMS43MzgyMjAsNTE0LjYwMjUzOSAKCUM3MzEuMTA3MTE3LDUxNy44NTc1NDQgNzMyLjk5NjY0Myw1MjEuODM5MjMzIDczNC41MTcyNzMsNTI1LjEzODM2NyAKCUM3MzUuMDE4OTIxLDUyNi4yMjY2ODUgNzM4LjA4NDU5NSw1MjYuOTE4NzAxIDczOS43MTQxMTEsNTI2LjU2NzYyNyAKCUM3NDcuNDQ5MDM2LDUyNC45MDEwNjIgNzUwLjM5NTQ0Nyw1MjAuNTM0MDU4IDc1MS4xNzEzMjYsNTEyLjYzMTA0MiAKCUM3NTEuNTI4MDE1LDUwOC45OTgxMzggNzUzLjY0ODMxNSw1MDUuNTM4NDIyIDc1NC45Njg4NzIsNTAyLjAwMDE1MyAKCUM3NTUuODg0NTIxLDUwNi4wMjgzNTEgNzU3LjExNjI3Miw1MTAuMDE0NzA5IDc1Ny42NTU2NDAsNTE0LjA5MjcxMiAKCUM3NTkuMTY5MDY3LDUyNS41MzQ0ODUgNzYxLjA3MzY2OSw1MzcuMDc1MTk1IDc1NC44MDcxOTAsNTQ3Ljg3OTE1MCAKCUM3NTQuMjI3NzIyLDU0OC44NzgyMzUgNzUzLjQ5OTIwNyw1NDkuNzkwODMzIDc1Mi4yMzQwMDksNTUxLjA1MjQyOSAKCUM3NTEuMTQ1MjAzLDU1Mi4wODQ3MTcgNzUwLjY2MjQxNSw1NTIuODA4MTY3IDc1MC4xNzk2MjYsNTUzLjUzMTU1NSAKCUM3NDQuMDM4NjM1LDU1OS43MTc2NTEgNzM3Ljg5NzU4Myw1NjUuOTAzODA5IDczMS40NTA4MDYsNTcxLjg2ODIyNSAKCUM3MzIuMzYwNjU3LDU2OC4wMzg4MTggNzI5Ljk1NDcxMiw1NjYuNTI4ODA5IDcyNy41NzIzMjcsNTY0LjQ5MzEwMyAKCUM3MjAuMjQ1NTQ0LDU1OC4yMzI1NDQgNzE1LjQyOTkzMiw1NTkuMjI3NDE3IDcxMS44MDM4MzMsNTY4LjAyMzg2NSAKCUM3MTAuODE3ODEwLDU3MC40MTU3NzEgNzA5LjY4NDgxNCw1NzIuODk4OTg3IDcwOC4wMjcxMDAsNTc0LjgzMjY0MiAKCUM3MDMuNjAxODA3LDU3OS45OTQ5OTUgNjk2LjkzNzQzOSw1ODMuMTg3OTI3IDY5NC42NjQxODUsNTkwLjI4NjEzMyAKCUM2OTQuMzUwMDM3LDU5MS4yNjcwMjkgNjkzLjE1NTc2Miw1OTEuOTk0NjI5IDY5Mi4zMDYzMzUsNTkyLjc3MTA1NyAKCUM2ODQuNDgyODQ5LDU5OS45MjI2NjggNjc0LjAyNDQ3NSw2MDMuNzE3NTI5IDY2Ny4zMzQ5MDAsNjEyLjM0Nzk2MSAKCUM2NjYuOTM3NTYxLDYxMi44NjA1OTYgNjY1Ljc5NTUzMiw2MTIuNzk1OTU5IDY2NS4wMDAwMDAsNjEzLjAwMDAwMCAKeiIvPgo8cGF0aCBmaWxsPSIjMzQ2NkFFIiBvcGFjaXR5PSIxLjAwMDAwMCIgc3Ryb2tlPSJub25lIiAKCWQ9IgpNNjY1LjA1MzcxMSw2MTMuMzUxOTI5IAoJQzY2NS43OTU1MzIsNjEyLjc5NTk1OSA2NjYuOTM3NTYxLDYxMi44NjA1OTYgNjY3LjMzNDkwMCw2MTIuMzQ3OTYxIAoJQzY3NC4wMjQ0NzUsNjAzLjcxNzUyOSA2ODQuNDgyODQ5LDU5OS45MjI2NjggNjkyLjMwNjMzNSw1OTIuNzcxMDU3IAoJQzY5My4xNTU3NjIsNTkxLjk5NDYyOSA2OTQuMzUwMDM3LDU5MS4yNjcwMjkgNjk0LjY2NDE4NSw1OTAuMjg2MTMzIAoJQzY5Ni45Mzc0MzksNTgzLjE4NzkyNyA3MDMuNjAxODA3LDU3OS45OTQ5OTUgNzA4LjAyNzEwMCw1NzQuODMyNjQyIAoJQzcwOS42ODQ4MTQsNTcyLjg5ODk4NyA3MTAuODE3ODEwLDU3MC40MTU3NzEgNzExLjgwMzgzMyw1NjguMDIzODY1IAoJQzcxNS40Mjk5MzIsNTU5LjIyNzQxNyA3MjAuMjQ1NTQ0LDU1OC4yMzI1NDQgNzI3LjU3MjMyNyw1NjQuNDkzMTAzIAoJQzcyOS45NTQ3MTIsNTY2LjUyODgwOSA3MzIuMzYwNjU3LDU2OC4wMzg4MTggNzMxLjE0NTc1Miw1NzIuMDI4MTk4IAoJQzcyMi4zNTE0NDAsNTgxLjI3ODUwMyA3MTMuNTU2NTgwLDU5MC4xNDcyNzggNzA0LjI5MzMzNSw1OTguODQ5MjQzIAoJQzcwMy4yNTA4NTQsNTk3Ljg4NzI2OCA3MDIuODM4MjU3LDU5Ni42OTYzNTAgNzAyLjA2Nzk5Myw1OTYuMzgyMDgwIAoJQzcwMC42MTI2NzEsNTk1Ljc4ODUxMyA2OTguOTUxNjYwLDU5NS42OTg5NzUgNjk3LjM3NjE2MCw1OTUuMzk5OTYzIAoJQzY5Ny41NTU0MjAsNTk2Ljk1NDEwMiA2OTcuNTA3ODEyLDU5OC41ODI1ODEgNjk3Ljk4NDkyNCw2MDAuMDM5MTI0IAoJQzY5OC4zNzU0MjcsNjAxLjIzMTQ0NSA2OTkuMzkxNDc5LDYwMi4yMTg4NzIgNzAwLjEzMDI0OSw2MDMuMjk3MDU4IAoJQzY5Ni43MTI5NTIsNjA2LjgxMTgyOSA2OTMuMjk1NjU0LDYxMC4zMjY1OTkgNjg5LjIzNjgxNiw2MTMuODc3MzE5IAoJQzY4Ny40Mzk0NTMsNjEzLjAxNTY4NiA2ODYuMzc4OTY3LDYxMS45MzExNTIgNjg1LjA5ODU3Miw2MTEuMjc3MzQ0IAoJQzY4NC4wMDExNjAsNjEwLjcxNzEwMiA2ODIuNjUxODU1LDYxMC42NTAwMjQgNjgxLjQxNDAwMSw2MTAuMzY0ODA3IAoJQzY4MS41NDU1MzIsNjExLjYwNTA0MiA2ODEuNDc0NjcwLDYxMi45MTE3NDMgNjgxLjg1NTQwOCw2MTQuMDcwMDY4IAoJQzY4Mi40NDM3ODcsNjE1Ljg2MDEwNyA2ODMuMzQxMDY0LDYxNy41NDg3NjcgNjg0LjEwNzMwMCw2MTkuMjgwMzk2IAoJQzY4MC43MDIwODcsNjIyLjgxMTE1NyA2NzcuMjk2ODc1LDYyNi4zNDE5MTkgNjczLjU4OTYwMCw2MjkuOTk4MjkxIAoJQzY3MC4wMDEwOTksNjI3LjQzMDg0NyA2NzAuNjM1MzE1LDYyNC45MzU4NTIgNjczLjUwMTg5Miw2MjIuMzMxMjk5IAoJQzY3NC41NjkzMzYsNjIxLjM2MTQ1MCA2NzUuMjM5Njg1LDYxOS45NTQ1OTAgNjc2LjA5MTA2NCw2MTguNzQ2OTQ4IAoJQzY3NC4zOTQ4MzYsNjE3Ljk1NTMyMiA2NzIuNzI3NjYxLDYxNi41OTU1MjAgNjcwLjk5NTU0NCw2MTYuNTA2OTU4IAoJQzY2OC40NzUzNDIsNjE2LjM3ODA1MiA2NjUuOTQ2NTMzLDYxNy4wODA2ODggNjY1LjA1MzcxMSw2MTMuMzUxOTI5IAp6Ii8+CjxwYXRoIGZpbGw9IiMzNTY3QUUiIG9wYWNpdHk9IjEuMDAwMDAwIiBzdHJva2U9Im5vbmUiIAoJZD0iCk03NTUuMTM0NzY2LDUwMS42MTMxNTkgCglDNzUzLjY0ODMxNSw1MDUuNTM4NDIyIDc1MS41MjgwMTUsNTA4Ljk5ODEzOCA3NTEuMTcxMzI2LDUxMi42MzEwNDIgCglDNzUwLjM5NTQ0Nyw1MjAuNTM0MDU4IDc0Ny40NDkwMzYsNTI0LjkwMTA2MiA3MzkuNzE0MTExLDUyNi41Njc2MjcgCglDNzM4LjA4NDU5NSw1MjYuOTE4NzAxIDczNS4wMTg5MjEsNTI2LjIyNjY4NSA3MzQuNTE3MjczLDUyNS4xMzgzNjcgCglDNzMyLjk5NjY0Myw1MjEuODM5MjMzIDczMS4xMDcxMTcsNTE3Ljg1NzU0NCA3MzEuNzM4MjIwLDUxNC42MDI1MzkgCglDNzMyLjkzMDk2OSw1MDguNDUwNDA5IDczNS42Mzg4NTUsNTAyLjU2Mjk1OCA3MzcuOTgzMjc2LDQ5Ni42NzEzODcgCglDNzQwLjI5OTM3Nyw0OTAuODUxMTA1IDc0My4yNDAzNTYsNDg5Ljg5NzU4MyA3NDguOTAzMDE1LDQ5Mi41Njc2ODggCglDNzUwLjIyNDM2NSw0OTMuMTkwNzM1IDc1MS42ODkxNDgsNDkzLjUwOTU1MiA3NTMuNDY0NjAwLDQ5My45ODMwMzIgCglDNzU0LjMyNzc1OSw0OTYuNDA3MTY2IDc1NC44MTQyMDksNDk4LjgxNjY1MCA3NTUuMTM0NzY2LDUwMS42MTMxNTkgCnoiLz4KPHBhdGggZmlsbD0iIzM5NjlBRiIgb3BhY2l0eT0iMS4wMDAwMDAiIHN0cm9rZT0ibm9uZSIgCglkPSIKTTY4Ni43Mzg1ODYsNTUwLjY5MDMwOCAKCUM2ODYuODI3MjA5LDU1Mi44ODc5MzkgNjg3LjQ2MjUyNCw1NTYuMTg5NDUzIDY4Ni4yMDU2ODgsNTU3LjI1MTI4MiAKCUM2ODQuODgwNzM3LDU1OC4zNzA2MDUgNjgxLjc0OTA4NCw1NTcuMzUxMzc5IDY3OS4wODQ3MTcsNTU3LjA3MzE4MSAKCUM2ODEuMzI2MTExLDU1NC44NTYzMjMgNjgzLjg4OTcwOSw1NTIuODMyODg2IDY4Ni43Mzg1ODYsNTUwLjY5MDMwOCAKeiIvPgo8cGF0aCBmaWxsPSIjM0E2OUFFIiBvcGFjaXR5PSIxLjAwMDAwMCIgc3Ryb2tlPSJub25lIiAKCWQ9IgpNNzAzLjkwNDE3NSw1MzYuNzU5MDMzIAoJQzcwNy4xMjMxNjksNTQwLjQ5NjE1NSA3MDQuNTk5NjcwLDU0Mi40Mjg5NTUgNzAxLjM5NjA1Nyw1NDMuNjUxMTIzIAoJQzY5OS43NzgxMzcsNTQ0LjI2ODMxMSA2OTcuNzk4MDk2LDU0My45MzYxNTcgNjk1LjU1NzI1MSw1NDQuMDM4MDI1IAoJQzY5Ny45NjA3NTQsNTQxLjY1NzgzNyA3MDAuNzg4Njk2LDUzOS4yNzI4MjcgNzAzLjkwNDE3NSw1MzYuNzU5MDMzIAp6Ii8+CjxwYXRoIGZpbGw9IiMzNTY3QUUiIG9wYWNpdHk9IjEuMDAwMDAwIiBzdHJva2U9Im5vbmUiIAoJZD0iCk03MDAuNDIxNzUzLDYwMy4xNjIzNTQgCglDNjk5LjM5MTQ3OSw2MDIuMjE4ODcyIDY5OC4zNzU0MjcsNjAxLjIzMTQ0NSA2OTcuOTg0OTI0LDYwMC4wMzkxMjQgCglDNjk3LjUwNzgxMiw1OTguNTgyNTgxIDY5Ny41NTU0MjAsNTk2Ljk1NDEwMiA2OTcuMzc2MTYwLDU5NS4zOTk5NjMgCglDNjk4Ljk1MTY2MCw1OTUuNjk4OTc1IDcwMC42MTI2NzEsNTk1Ljc4ODUxMyA3MDIuMDY3OTkzLDU5Ni4zODIwODAgCglDNzAyLjgzODI1Nyw1OTYuNjk2MzUwIDcwMy4yNTA4NTQsNTk3Ljg4NzI2OCA3MDMuOTg2MzI4LDU5OC45OTg0NzQgCglDNzAzLjAwMjgwOCw2MDAuNTUyMjQ2IDcwMS44NTc5NzEsNjAxLjc4OTk3OCA3MDAuNDIxNzUzLDYwMy4xNjIzNTQgCnoiLz4KPHBhdGggZmlsbD0iIzM1NjdBRSIgb3BhY2l0eT0iMS4wMDAwMDAiIHN0cm9rZT0ibm9uZSIgCglkPSIKTTY4NC40MTA2NDUsNjE5LjEzNTk4NiAKCUM2ODMuMzQxMDY0LDYxNy41NDg3NjcgNjgyLjQ0Mzc4Nyw2MTUuODYwMTA3IDY4MS44NTU0MDgsNjE0LjA3MDA2OCAKCUM2ODEuNDc0NjcwLDYxMi45MTE3NDMgNjgxLjU0NTUzMiw2MTEuNjA1MDQyIDY4MS40MTQwMDEsNjEwLjM2NDgwNyAKCUM2ODIuNjUxODU1LDYxMC42NTAwMjQgNjg0LjAwMTE2MCw2MTAuNzE3MTAyIDY4NS4wOTg1NzIsNjExLjI3NzM0NCAKCUM2ODYuMzc4OTY3LDYxMS45MzExNTIgNjg3LjQzOTQ1Myw2MTMuMDE1Njg2IDY4OC45Mzk5NDEsNjE0LjAxMjkzOSAKCUM2ODcuNzYxMDQ3LDYxNS43Mzg5NTMgNjg2LjIzNzU0OSw2MTcuMzY1MjM0IDY4NC40MTA2NDUsNjE5LjEzNTk4NiAKeiIvPgo8cGF0aCBmaWxsPSIjM0I2QkIxIiBvcGFjaXR5PSIxLjAwMDAwMCIgc3Ryb2tlPSJub25lIiAKCWQ9IgpNNzUwLjQ2MjE1OCw1NTMuMzY1MjM0IAoJQzc1MC42NjI0MTUsNTUyLjgwODE2NyA3NTEuMTQ1MjAzLDU1Mi4wODQ3MTcgNzUxLjk0NDU4MCw1NTEuMjM1MzUyIAoJQzc1MS43NTU2MTUsNTUxLjgwNTg0NyA3NTEuMjUwMTgzLDU1Mi41MDIzODAgNzUwLjQ2MjE1OCw1NTMuMzY1MjM0IAp6Ii8+Cjwvc3ZnPg==';
 
+    const groupIconUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    const ALL_FEED_ICON = groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#5a6c84'/><circle cx='28' cy='28' r='7' fill='#fff'/><circle cx='52' cy='28' r='7' fill='#fff'/><circle cx='28' cy='52' r='7' fill='#fff'/><circle cx='52' cy='52' r='7' fill='#fff'/></svg>");
+    const GROUP_ICON_BY_ID = {
+      'grp-product': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#2a5bd7'/><stop offset='1' stop-color='#21b6d7'/></linearGradient></defs><rect width='80' height='80' rx='40' fill='url(#g1)'/><circle cx='26' cy='26' r='6' fill='#fff'/><circle cx='54' cy='26' r='6' fill='#dff7ff'/><circle cx='26' cy='54' r='6' fill='#dff7ff'/><circle cx='54' cy='54' r='6' fill='#fff'/><path d='M32 26h16M26 32v16M48 48h6' stroke='#fff' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-sales': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#17a673'/><rect x='16' y='16' width='48' height='48' rx='10' fill='#fff' opacity='.18'/><path d='M24 52l10-10 8 8 14-18' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='24' cy='52' r='3' fill='#fff'/><circle cx='58' cy='32' r='3' fill='#fff'/></svg>"),
+      'grp-pr': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#ff8a3d'/><path d='M18 49V31l25-8v34z' fill='#fff'/><path d='M44 35h8M50 31l10-5M50 39l10 5' stroke='#fff' stroke-width='4' stroke-linecap='round'/><circle cx='22' cy='50' r='5' fill='#ffd2b5'/></svg>"),
+      'grp-director-share': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#2f3148'/><rect x='20' y='24' width='40' height='34' rx='8' fill='none' stroke='#e3d7a2' stroke-width='4'/><path d='M32 24v-5a8 8 0 0 1 16 0v5' fill='none' stroke='#e3d7a2' stroke-width='4' stroke-linecap='round'/><circle cx='40' cy='40' r='4' fill='#e3d7a2'/></svg>"),
+      'grp-festival': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><defs><linearGradient id='g2' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#ff4d6d'/><stop offset='1' stop-color='#ffbe0b'/></linearGradient></defs><rect width='80' height='80' rx='40' fill='url(#g2)'/><path d='M20 50l11-24 9 15 10-19 10 28' fill='none' stroke='#fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='16' cy='26' r='3' fill='#fff'/><circle cx='63' cy='20' r='3' fill='#fff'/><circle cx='64' cy='50' r='3' fill='#fff'/></svg>"),
+      'grp-ops-improve': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#3c6e71'/><path d='M40 20l5 10 11 1-8 8 2 11-10-6-10 6 2-11-8-8 11-1z' fill='none' stroke='#fff' stroke-width='4' stroke-linejoin='round'/><circle cx='40' cy='40' r='5' fill='#fff'/></svg>"),
+      'grp-med-safety-up': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#118ab2'/><path d='M40 15l21 9v15c0 14-9 24-21 29-12-5-21-15-21-29V24z' fill='#fff' opacity='.2'/><path d='M40 26v24M28 38h24' stroke='#fff' stroke-width='5' stroke-linecap='round'/></svg>"),
+      'grp-ops-improve-2': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#6a4c93'/><rect x='18' y='18' width='44' height='44' rx='9' fill='none' stroke='#fff' stroke-width='4'/><path d='M26 50h28M26 44l7-7 6 6 15-15' fill='none' stroke='#fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>"),
+      'grp-dx-promo': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#0f4c81'/><rect x='18' y='22' width='44' height='28' rx='5' fill='none' stroke='#8be9ff' stroke-width='4'/><path d='M30 58h20M40 50v8M24 30h8M24 38h14M46 38h10' stroke='#8be9ff' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-team-care': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#ef476f'/><path d='M40 56s-17-10-17-22a9 9 0 0 1 17-4 9 9 0 0 1 17 4c0 12-17 22-17 22z' fill='#fff'/></svg>"),
+      'grp-infection-share': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#495057'/><circle cx='40' cy='40' r='9' fill='#ced4da'/><path d='M40 18v9M40 53v9M18 40h9M53 40h9M25 25l6 6M49 49l6 6M55 25l-6 6M31 49l-6 6' stroke='#ced4da' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-training-plan': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#8338ec'/><path d='M14 34l26-12 26 12-26 12z' fill='#fff'/><path d='M27 40v11c8 6 18 6 26 0V40' fill='none' stroke='#e7d8ff' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-case-share': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#ff006e'/><path d='M18 24h44v26H45l-9 9v-9H18z' fill='#fff' opacity='.2' stroke='#fff' stroke-width='3' stroke-linejoin='round'/><path d='M27 34h26M27 42h18' stroke='#fff' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-comm-activate': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#fb5607'/><path d='M20 48V32l22-8v32z' fill='#fff'/><path d='M44 37h9M50 33l10-4M50 41l10 4' stroke='#fff' stroke-width='4' stroke-linecap='round'/><path d='M25 49v8' stroke='#ffd7c2' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-service-up': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><defs><linearGradient id='g3' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#06d6a0'/><stop offset='1' stop-color='#1b9aaa'/></linearGradient></defs><rect width='80' height='80' rx='40' fill='url(#g3)'/><circle cx='40' cy='40' r='17' fill='none' stroke='#fff' stroke-width='4'/><circle cx='33' cy='36' r='2.5' fill='#fff'/><circle cx='47' cy='36' r='2.5' fill='#fff'/><path d='M31 46c2.5 3 5.5 4.5 9 4.5s6.5-1.5 9-4.5' fill='none' stroke='#fff' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-workstyle-lab': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#264653'/><circle cx='40' cy='40' r='19' fill='none' stroke='#f4a261' stroke-width='4'/><path d='M40 40V28M40 40h11M24 54h32' stroke='#f4a261' stroke-width='4' stroke-linecap='round'/></svg>"),
+      'grp-pr-team': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#9d4edd'/><path d='M22 44V30l20-7v28z' fill='#fff'/><path d='M43 36h11M49 32l9-4M49 40l9 4' stroke='#fff' stroke-width='4' stroke-linecap='round'/><circle cx='22' cy='45' r='4' fill='#cdb4ff'/></svg>"),
+      'grp-patient-sat': groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#2a9d8f'/><path d='M31 56V34a6 6 0 0 1 6-6h2v24h10a6 6 0 0 0 6-6v-4a6 6 0 0 0-6-6h-2' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='58' cy='22' r='4' fill='#e9fff9'/></svg>")
+    };
+    const DEFAULT_GROUP_ICON = groupIconUri("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><rect width='80' height='80' rx='40' fill='#7f8c8d'/><path d='M20 56l9-24 11 13 8-18 12 29' fill='none' stroke='#fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+
+    function iconSrcForGroup(group) {
+      if (group && (group.id === 'grp-hr' || group.name === '看護部')) {
+        return NURSING_GROUP_ICON;
+      }
+      return group ? (GROUP_ICON_BY_ID[group.id] || DEFAULT_GROUP_ICON) : DEFAULT_GROUP_ICON;
+    }
+
+    function iconSrcForFeed(feed) {
+      if (!feed || feed.id === 'all') return ALL_FEED_ICON;
+      const group = groupByFeedId(feed.id);
+      return iconSrcForGroup(group);
+    }
+
+    function feedTabIconHtml(feed) {
+      const iconSrc = iconSrcForFeed(feed);
+      return `<img class="feed-tab-icon" src="${iconSrc}" alt="" aria-hidden="true" />`;
+    }
+
+    function inlineFeedIconHtml(feed) {
+      const iconSrc = iconSrcForFeed(feed);
+      return `<img class="inline-group-icon" src="${iconSrc}" alt="" aria-hidden="true" />`;
+    }
+
     function groupIconHtml(group, initials) {
       if (group && (group.id === 'grp-hr' || group.name === '看護部')) {
         return `<img src="${NURSING_GROUP_ICON}" alt="看護部アイコン" />`;
+      }
+      if (group) {
+        const iconSrc = GROUP_ICON_BY_ID[group.id] || DEFAULT_GROUP_ICON;
+        return `<img src="${iconSrc}" alt="${escapeHtml(group.name || 'グループ')} アイコン" />`;
       }
       return escapeHtml(initials);
     }
@@ -1951,7 +2114,7 @@
         actionHtml = `<div class="group-actions"><button class="group-action-btn ${requested ? 'requested' : ''}" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-action="${requested ? '' : 'join'}" ${requested ? 'disabled' : ''}>${requested ? '申請済み' : '参加申請'}</button></div>`;
       }
       return `<li class="group-item ${group.joined && isGroupSortMode ? 'sortable' : ''} ${isGroupMenuOpen ? 'menu-open' : ''}" data-group-id="${escapeHtml(group.id || '')}">
-        <div class="group-item-main">
+        <div class="group-item-main" data-group-open-detail="true">
           <span class="group-icon">${iconHtml}</span>
           <div class="group-meta">
             <span class="group-name">${escapeHtml(group.name)}</span>
@@ -1968,15 +2131,16 @@
     function renderGroupsView() {
       syncJoinedGroupMemberCounts();
       const q = currentGroupSearchQuery.trim().toLowerCase();
+      const isSearchingGroups = q.length > 0;
       const match = (item) => !q || item.name.toLowerCase().includes(q);
       const joinedTotalCount = GROUP_DIRECTORY.filter((item) => item.joined).length;
       const canSortJoinedGroups = joinedTotalCount >= 2;
-      if (!canSortJoinedGroups && isGroupSortMode) isGroupSortMode = false;
+      if ((!canSortJoinedGroups || isSearchingGroups) && isGroupSortMode) isGroupSortMode = false;
       const joined = GROUP_DIRECTORY.filter((item) => item.joined && match(item));
       const unjoined = GROUP_DIRECTORY.filter((item) => !item.joined && !item.secret && match(item));
       const visibleGroupIds = new Set([...joined, ...unjoined].map((item) => item.id));
       if (activeGroupMenuId && !visibleGroupIds.has(activeGroupMenuId)) activeGroupMenuId = '';
-      groupSortCancel.classList.toggle('show', canSortJoinedGroups);
+      groupSortCancel.classList.toggle('show', canSortJoinedGroups && !isSearchingGroups);
       groupSortCancel.classList.toggle('active', isGroupSortMode);
       groupSortCancel.textContent = isGroupSortMode ? '並び替えを終了' : '並び替え';
       joinedGroups.innerHTML = joined.length > 0
@@ -2031,7 +2195,7 @@
           <div class="post-header-main">
             ${avatarHtmlByName(post.author.user, "avatar")}
             <div class="post-meta">
-              <b>${postFeed.name}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}</b>
+              <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}</b>
               <small>${formatPostMetaLine(post)}</small>
             </div>
           </div>
@@ -2171,6 +2335,7 @@
       const pendingInvites = inviteModalMode === 'invite'
         ? new Set(Array.isArray(inviteModalGroup?.pendingInvites) ? inviteModalGroup.pendingInvites : [])
         : new Set();
+      const joinedMembers = new Set(Array.isArray(inviteModalGroup?.membersList) ? inviteModalGroup.membersList : []);
       const q = inviteModalSearchQuery.trim().toLowerCase();
       const visibleUsers = q
         ? inviteModalUsers.filter((name) => name.toLowerCase().includes(q))
@@ -2180,9 +2345,14 @@
         return;
       }
       inviteUserList.innerHTML = visibleUsers.map((name) => {
+        const isJoined = joinedMembers.has(name);
         const isPending = pendingInvites.has(name);
-        const checked = !isPending && inviteModalSelectedUsers.has(name);
-        return `<li class="reader-item"><label class="invite-user-label ${isPending ? 'is-pending' : ''}"><input class="invite-user-check" type="checkbox" value="${escapeHtml(name)}" ${isPending ? 'disabled' : ''} ${checked ? 'checked' : ''} /><span>${avatarHtmlByName(name, 'reader-avatar')}</span><span class="invite-user-name">${escapeHtml(name)}</span>${isPending ? '<span class="invite-user-pending">承認待ち</span>' : ''}</label></li>`;
+        const disabled = isJoined || isPending;
+        const checked = !disabled && inviteModalSelectedUsers.has(name);
+        const badge = isJoined
+          ? '<span class="invite-user-joined">参加済み</span>'
+          : (isPending ? '<span class="invite-user-pending">承認待ち</span>' : '');
+        return `<li class="reader-item"><label class="invite-user-label ${disabled ? 'is-pending' : ''}"><input class="invite-user-check" type="checkbox" value="${escapeHtml(name)}" ${disabled ? 'disabled' : ''} ${checked ? 'checked' : ''} /><span>${avatarHtmlByName(name, 'reader-avatar')}</span><span class="invite-user-name">${escapeHtml(name)}</span>${badge}</label></li>`;
       }).join('');
     }
 
@@ -2194,6 +2364,7 @@
       inviteModalSearchQuery = '';
       inviteUserSearch.value = '';
       renderInviteUsersList();
+      inviteUserList.scrollTop = 0;
       inviteModalError.textContent = '';
       inviteModalTitle.textContent = inviteModalMode === 'add'
         ? `「${group.name}」にメンバーを追加`
@@ -2210,6 +2381,7 @@
     function closeInviteUsersModal(result = null) {
       inviteModal.classList.remove('open');
       inviteBackdrop.classList.remove('open');
+      inviteUserList.scrollTop = 0;
       inviteUserList.innerHTML = '';
       inviteUserSearch.value = '';
       inviteModalError.textContent = '';
@@ -2241,6 +2413,18 @@
       group.adminUsers = uniqueNames(seededAdmins).filter((name) => group.membersList.includes(name));
       group.joinRequests = uniqueNames([...(group.joinRequests || []), ...(group.pendingInvites || [])])
         .filter((name) => !group.membersList.includes(name));
+      const requestTimeMap = (group.joinRequestAt && typeof group.joinRequestAt === 'object') ? group.joinRequestAt : {};
+      group.joinRequestAt = requestTimeMap;
+      const now = Date.now();
+      group.joinRequests.forEach((name, idx) => {
+        const ts = Number(group.joinRequestAt[name]);
+        if (!Number.isFinite(ts) || ts <= 0) {
+          group.joinRequestAt[name] = now - ((idx + 1) * 60 * 60 * 1000);
+        }
+      });
+      Object.keys(group.joinRequestAt).forEach((name) => {
+        if (!group.joinRequests.includes(name)) delete group.joinRequestAt[name];
+      });
       group.pendingInvites = group.joinRequests.slice();
       group.admin = group.adminUsers.includes(CURRENT_USER);
     }
@@ -2251,8 +2435,11 @@
       const authorUsers = feed && AUTHORS_BY_FEED[feed.id]
         ? AUTHORS_BY_FEED[feed.id].map((author) => author.user).filter(Boolean)
         : [];
-      const inferred = uniqueNames([CURRENT_USER, ...authorUsers]);
-      return inferred.length > 0 ? inferred : [CURRENT_USER];
+      const baseUsers = group.joined
+        ? [CURRENT_USER, ...authorUsers]
+        : [...authorUsers, ...people.filter((name) => name !== CURRENT_USER)];
+      const inferred = uniqueNames(baseUsers);
+      return inferred.length > 0 ? inferred : (group.joined ? [CURRENT_USER] : people.filter((name) => name !== CURRENT_USER).slice(0, 3));
     }
 
     function syncJoinedGroupMemberCounts() {
@@ -2283,6 +2470,127 @@
       });
     }
 
+    function groupDetailDescriptionText(group) {
+      if (!group) return '';
+      return GROUP_DETAIL_DESCRIPTION[group.id] || `${group.name}に関するお知らせ・情報共有を行うグループです。`;
+    }
+
+    function buildGroupDetailMembers(group, maxVisible = null) {
+      if (!group) return [];
+      let members = uniqueNames(group.membersList);
+      if (members.length === 0) {
+        members = inferInitialMembersForGroup(group);
+      }
+      const desired = Math.max(1, Number(group.members || members.length || 1));
+      if (members.length < desired) {
+        const candidates = uniqueNames([...people, ...authors.map((author) => author.user)])
+          .filter((name) => !members.includes(name) && (group.joined || name !== CURRENT_USER));
+        members = [...members, ...candidates.slice(0, desired - members.length)];
+      }
+      const limit = Number.isInteger(maxVisible) && maxVisible > 0 ? maxVisible : desired;
+      return members.slice(0, limit);
+    }
+
+    function groupDetailAdminUsers(group, members) {
+      const explicitAdmins = uniqueNames(group && group.adminUsers);
+      if (explicitAdmins.length > 0) return explicitAdmins;
+      if (group && group.joined && members.includes(CURRENT_USER)) return [CURRENT_USER];
+      return members.length > 0 ? [members[0]] : [];
+    }
+
+    function renderGroupDetailModal() {
+      const group = groupDetailModalGroup;
+      if (!group) return;
+      ensureGroupManageData(group);
+      groupDetailTitle.textContent = `「${group.name}」の詳細`;
+      const iconSrc = iconSrcForGroup(group);
+      const badges = [
+        group.official ? '<span class="group-official">公式</span>' : '',
+        isCurrentUserGroupAdmin(group) ? '<span class="group-admin">管理者</span>' : '',
+        group.secret ? '<span class="group-secret"><span class="secret-lock-icon" aria-label="秘密グループ"></span></span>' : '',
+      ].filter(Boolean).join('');
+      groupDetailHead.innerHTML = `
+        <span class="group-detail-icon-wrap"><img src="${iconSrc}" alt="${escapeHtml(group.name)} アイコン" /></span>
+        <div class="group-detail-title">${escapeHtml(group.name)}${badges ? `<span class="group-detail-badges">${badges}</span>` : ''}</div>
+      `;
+      groupDetailDescription.textContent = groupDetailDescriptionText(group);
+      const allMembers = buildGroupDetailMembers(group);
+      const members = groupDetailExpanded ? allMembers : allMembers.slice(0, 12);
+      const adminUsers = groupDetailAdminUsers(group, allMembers);
+      groupDetailAdminSummary.textContent = adminUsers.length > 0
+        ? `管理者: ${adminUsers.join('、')}`
+        : '';
+      const linkedFeedId = feedIdByGroup(group);
+      if (linkedFeedId) {
+        groupDetailActions.style.display = '';
+        groupDetailOpenTimeline.dataset.feedId = linkedFeedId;
+        groupDetailOpenTimeline.style.display = '';
+      } else {
+        groupDetailOpenTimeline.style.display = 'none';
+        groupDetailOpenTimeline.dataset.feedId = '';
+      }
+      if (!group.joined && !group.official) {
+        groupDetailActions.style.display = '';
+        groupDetailJoinRequest.style.display = '';
+        groupDetailJoinRequest.disabled = !!group.requested;
+        groupDetailJoinRequest.classList.toggle('requested', !!group.requested);
+        groupDetailJoinRequest.textContent = group.requested ? '申請済み' : '参加申請する';
+      } else {
+        groupDetailJoinRequest.style.display = 'none';
+        groupDetailJoinRequest.disabled = false;
+        groupDetailJoinRequest.classList.remove('requested');
+        groupDetailJoinRequest.textContent = '参加申請する';
+      }
+      if (!linkedFeedId && (group.joined || group.official)) {
+        groupDetailActions.style.display = 'none';
+      }
+      groupDetailMembersMeta.textContent = `（${allMembers.length}名）`;
+      groupDetailMembers.innerHTML = members.length > 0
+        ? members.map((name) => `<li class="reader-item">${avatarHtmlByName(name, 'reader-avatar')}<span class="group-detail-member-name">${escapeHtml(name)}</span>${adminUsers.includes(name) ? '<span class="group-detail-admin-badge">管理者</span>' : ''}</li>`).join('')
+        : '<li class="reader-item">メンバー情報がありません</li>';
+      const remain = Math.max(0, allMembers.length - members.length);
+      if (remain > 0) {
+        groupDetailMembersMore.innerHTML = `<button type="button" class="group-detail-members-more-btn" data-group-detail-expand="1">ほか ${remain} 名</button>`;
+      } else if (allMembers.length > 12) {
+        groupDetailMembersMore.innerHTML = `<button type="button" class="group-detail-members-more-btn" data-group-detail-expand="0">表示をたたむ</button>`;
+      } else {
+        groupDetailMembersMore.textContent = '';
+      }
+    }
+
+    function openGroupDetailModal(group) {
+      groupDetailModalGroup = group;
+      groupDetailExpanded = false;
+      renderGroupDetailModal();
+      groupDetailModal.classList.add('open');
+      groupDetailBackdrop.classList.add('open');
+      if (groupDetailBody) {
+        groupDetailBody.scrollTop = 0;
+        requestAnimationFrame(() => { groupDetailBody.scrollTop = 0; });
+      }
+    }
+
+    function closeGroupDetailModal() {
+      groupDetailModal.classList.remove('open');
+      groupDetailBackdrop.classList.remove('open');
+      if (groupDetailBody) groupDetailBody.scrollTop = 0;
+      groupDetailHead.innerHTML = '';
+      groupDetailDescription.textContent = '';
+      groupDetailAdminSummary.textContent = '';
+      groupDetailActions.style.display = '';
+      groupDetailOpenTimeline.dataset.feedId = '';
+      groupDetailOpenTimeline.style.display = '';
+      groupDetailJoinRequest.style.display = '';
+      groupDetailJoinRequest.disabled = false;
+      groupDetailJoinRequest.classList.remove('requested');
+      groupDetailJoinRequest.textContent = '参加申請する';
+      groupDetailMembersMeta.textContent = '';
+      groupDetailMembers.innerHTML = '';
+      groupDetailMembersMore.textContent = '';
+      groupDetailModalGroup = null;
+      groupDetailExpanded = false;
+    }
+
     function isCurrentUserGroupAdmin(group) {
       ensureGroupManageData(group);
       return !!group.admin;
@@ -2308,9 +2616,10 @@
       manageUsersMembersEmpty.textContent = group.membersList.length > 0 ? '' : 'メンバーがいません';
 
       const requestRows = group.joinRequests.map((name) => {
+        const requestAt = Number(group.joinRequestAt && group.joinRequestAt[name]) || Date.now();
         return `<li class="manage-users-item">
           ${avatarHtmlByName(name, 'reader-avatar')}
-          <span class="manage-users-name">${escapeHtml(name)}</span>
+          <span class="manage-users-meta"><span class="manage-users-name">${escapeHtml(name)}</span><span class="manage-users-request-time">申請: ${escapeHtml(formatDateTimeJa(new Date(requestAt)))}</span></span>
           <button class="manage-users-item-btn approve" type="button" data-manage-approve-user="${escapeHtml(name)}">承認</button>
           <button class="manage-users-item-btn reject" type="button" data-manage-reject-user="${escapeHtml(name)}">拒否</button>
         </li>`;
@@ -2352,13 +2661,20 @@
       }).join('');
     }
 
+    function clearGroupRequestErrors() {
+      groupRequestIconError.textContent = '';
+      groupRequestNameError.textContent = '';
+      groupRequestDescriptionError.textContent = '';
+      groupRequestMemberError.textContent = '';
+    }
+
     function openGroupRequestModal() {
       groupRequestSelectedMembers = new Set();
       groupRequestSearchQuery = '';
       groupRequestMemberSearch.value = '';
       groupRequestName.value = '';
       groupRequestDescription.value = '';
-      groupRequestError.textContent = '';
+      clearGroupRequestErrors();
       if (groupRequestIconRevokeOnClose && groupRequestIconUrl) URL.revokeObjectURL(groupRequestIconUrl);
       groupRequestIconUrl = '';
       groupRequestIconRevokeOnClose = false;
@@ -2373,7 +2689,7 @@
     function closeGroupRequestModal() {
       groupRequestModal.classList.remove('open');
       groupRequestBackdrop.classList.remove('open');
-      groupRequestError.textContent = '';
+      clearGroupRequestErrors();
       groupRequestMemberList.innerHTML = '';
       groupRequestMemberSearch.value = '';
       if (groupRequestIconRevokeOnClose && groupRequestIconUrl) URL.revokeObjectURL(groupRequestIconUrl);
@@ -2439,7 +2755,7 @@
 
       applyAvatarToElement(commentHeaderAvatar, post.author.user);
       const postFeed = feedMetaById(post.feedId);
-      commentHeaderTitle.innerHTML = `${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}`;
+      commentHeaderTitle.innerHTML = `${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}`;
       commentHeaderMeta.textContent = formatPostMetaLine(post);
 
       const fullCard = makePostCard(post);
@@ -2949,6 +3265,34 @@
     groupRequestClose.addEventListener('click', closeGroupRequestModal);
     groupRequestCancel.addEventListener('click', closeGroupRequestModal);
     groupRequestBackdrop.addEventListener('click', closeGroupRequestModal);
+    groupDetailClose.addEventListener('click', closeGroupDetailModal);
+    groupDetailBackdrop.addEventListener('click', closeGroupDetailModal);
+    groupDetailOpenTimeline.addEventListener('click', () => {
+      const feedId = groupDetailOpenTimeline.dataset.feedId || '';
+      if (!feedId) return;
+      closeGroupDetailModal();
+      activateTimelineView();
+      currentFeedId = feedId;
+      rerenderTimeline();
+      scrollPageTop();
+    });
+    groupDetailJoinRequest.addEventListener('click', async () => {
+      const group = groupDetailModalGroup;
+      if (!group || group.joined || group.official || group.requested) return;
+      closeGroupDetailModal();
+      if (!await showConfirm(`「${group.name}」に参加申請しますか？`, 'グループに参加申請', { okText: '参加申請する', cancelText: 'キャンセル' })) {
+        return;
+      }
+      group.requested = true;
+      renderGroupsView();
+      await showAlert(`「${group.name}」に参加申請しました`);
+    });
+    groupDetailMembersMore.addEventListener('click', (event) => {
+      const toggleBtn = event.target.closest('[data-group-detail-expand]');
+      if (!toggleBtn) return;
+      groupDetailExpanded = toggleBtn.dataset.groupDetailExpand === '1';
+      renderGroupDetailModal();
+    });
     groupRequestIconBtn.addEventListener('click', () => groupRequestIconInput.click());
     groupRequestIconInput.addEventListener('change', () => {
       const file = groupRequestIconInput.files && groupRequestIconInput.files[0];
@@ -2957,6 +3301,13 @@
       groupRequestIconUrl = URL.createObjectURL(file);
       groupRequestIconRevokeOnClose = true;
       groupRequestIconPreview.innerHTML = `<img src="${groupRequestIconUrl}" alt="${escapeHtml(file.name)}" />`;
+      groupRequestIconError.textContent = '';
+    });
+    groupRequestName.addEventListener('input', () => {
+      if (groupRequestName.value.trim()) groupRequestNameError.textContent = '';
+    });
+    groupRequestDescription.addEventListener('input', () => {
+      if (groupRequestDescription.value.trim()) groupRequestDescriptionError.textContent = '';
     });
     groupRequestMemberSearch.addEventListener('input', () => {
       groupRequestSearchQuery = groupRequestMemberSearch.value;
@@ -2967,24 +3318,30 @@
       if (!checkbox) return;
       if (checkbox.checked) groupRequestSelectedMembers.add(checkbox.value);
       else groupRequestSelectedMembers.delete(checkbox.value);
-      if (groupRequestSelectedMembers.size > 0) groupRequestError.textContent = '';
+      if (groupRequestSelectedMembers.size > 0) groupRequestMemberError.textContent = '';
     });
     groupRequestSubmit.addEventListener('click', async () => {
       const title = groupRequestName.value.trim();
       const description = groupRequestDescription.value.trim();
       const selectedMembers = Array.from(groupRequestSelectedMembers).filter(Boolean);
+      clearGroupRequestErrors();
+      if (!groupRequestIconUrl) {
+        groupRequestIconError.textContent = 'アイコン画像を選択してください';
+        groupRequestIconBtn.focus();
+        return;
+      }
       if (!title) {
-        groupRequestError.textContent = 'グループ名を入力してください';
+        groupRequestNameError.textContent = 'グループ名を入力してください';
         groupRequestName.focus();
         return;
       }
       if (!description) {
-        groupRequestError.textContent = 'グループの詳細説明を入力してください';
+        groupRequestDescriptionError.textContent = 'グループの詳細説明を入力してください';
         groupRequestDescription.focus();
         return;
       }
       if (selectedMembers.length === 0) {
-        groupRequestError.textContent = 'メンバーを1人以上選択してください';
+        groupRequestMemberError.textContent = 'メンバーを1人以上選択してください';
         return;
       }
       closeGroupRequestModal();
@@ -3093,6 +3450,9 @@
         if (!name) return;
         ensureGroupManageData(manageUsersModalGroup);
         manageUsersModalGroup.joinRequests = manageUsersModalGroup.joinRequests.filter((item) => item !== name);
+        if (manageUsersModalGroup.joinRequestAt && typeof manageUsersModalGroup.joinRequestAt === 'object') {
+          delete manageUsersModalGroup.joinRequestAt[name];
+        }
         manageUsersModalGroup.pendingInvites = manageUsersModalGroup.joinRequests.slice();
         if (!manageUsersModalGroup.membersList.includes(name)) {
           manageUsersModalGroup.membersList.push(name);
@@ -3109,6 +3469,9 @@
         if (!name) return;
         ensureGroupManageData(manageUsersModalGroup);
         manageUsersModalGroup.joinRequests = manageUsersModalGroup.joinRequests.filter((item) => item !== name);
+        if (manageUsersModalGroup.joinRequestAt && typeof manageUsersModalGroup.joinRequestAt === 'object') {
+          delete manageUsersModalGroup.joinRequestAt[name];
+        }
         manageUsersModalGroup.pendingInvites = manageUsersModalGroup.joinRequests.slice();
         renderManageUsersModal();
       }
@@ -3178,7 +3541,11 @@
           const selectedUsers = await openInviteUsersModal(target, candidateUsers);
           if (Array.isArray(selectedUsers) && selectedUsers.length > 0) {
             const pending = new Set(Array.isArray(target.pendingInvites) ? target.pendingInvites : []);
-            selectedUsers.forEach((name) => pending.add(name));
+            if (!target.joinRequestAt || typeof target.joinRequestAt !== 'object') target.joinRequestAt = {};
+            selectedUsers.forEach((name) => {
+              pending.add(name);
+              if (!target.joinRequestAt[name]) target.joinRequestAt[name] = Date.now();
+            });
             target.pendingInvites = Array.from(pending);
             await showAlert(`「${target.name}」へ ${selectedUsers.length}名の招待申請をグループ管理者に送信しました`);
           }
@@ -3197,6 +3564,23 @@
         if (target) {
           openManageUsersModal(target);
         }
+        event.preventDefault();
+        return;
+      }
+      const openDetailTrigger = event.target.closest('[data-group-open-detail="true"]');
+      if (openDetailTrigger) {
+        if (isGroupSortMode) {
+          event.preventDefault();
+          return;
+        }
+        if (activeGroupMenuId) {
+          activeGroupMenuId = '';
+          renderGroupsView();
+        }
+        const row = openDetailTrigger.closest('.group-item');
+        const groupId = row ? row.dataset.groupId : '';
+        const target = GROUP_DIRECTORY.find((item) => item.id === groupId);
+        if (target) openGroupDetailModal(target);
         event.preventDefault();
         return;
       }
@@ -3480,4 +3864,6 @@
   </script>
 </body>
 </html>
+
+
 
