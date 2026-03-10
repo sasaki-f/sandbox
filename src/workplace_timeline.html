@@ -37,11 +37,18 @@
     .top-menu-item { border: none; background: transparent; color: #8a8d91; font-size: 21px; padding: 7px 0 8px; border-bottom: 3px solid transparent; display: inline-flex; align-items: center; justify-content: center; }
     .top-menu-item.active { color: #1c2c3f; border-bottom-color: #1c2c3f; }
     .top-menu-icon { width: 24px; height: 24px; display: inline-block; background-repeat: no-repeat; background-position: center; background-size: contain; filter: grayscale(100%); opacity: .86; }
-    .top-menu-icon.work { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2.6' y='2.6' width='18.8' height='18.8' rx='3.6' ry='3.6' fill='none' stroke='%2391969d' stroke-width='1.8'/><circle cx='7' cy='7.5' r='1.7' fill='none' stroke='%2391969d' stroke-width='1.8'/><path d='M10.3 7.5h7' fill='none' stroke='%2391969d' stroke-width='1.8' stroke-linecap='round'/><path d='M2.8 10.9h18.4' fill='none' stroke='%2391969d' stroke-width='1.8'/></svg>"); }
+    .top-menu-icon.work { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2.6' y='2.6' width='18.8' height='18.8' rx='3.6' ry='3.6' fill='none' stroke='%2391969d' stroke-width='1.8'/><circle cx='7' cy='7.5' r='1.7' fill='none' stroke='%2391969d' stroke-width='1.8'/><path d='M10.3 7.5h7' fill='none' stroke='%2391969d' stroke-width='1.8' stroke-linecap='round'/><path d='M2.8 10.9h18.4' fill='none' stroke='%2391969d' stroke-width='1.8'/></svg>"); background-size: 21px 21px; }
     .top-menu-icon.team { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='none' stroke='%2391969d' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='7.1' r='3.0'/><circle cx='5.2' cy='8.5' r='2.2'/><circle cx='18.8' cy='8.5' r='2.2'/><path d='M6.8 16.0c.7-1.8 2.6-2.8 5.2-2.8s4.5 1 5.2 2.8'/><path d='M2.7 16.2c.4-1.2 1.5-1.9 3-1.9'/><path d='M21.3 16.2c-.4-1.2-1.5-1.9-3-1.9'/></g></svg>"); }
     .top-menu-icon.bell { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 3.6c-2.5 0-4.5 2-4.5 4.5v3.3c0 .9-.3 1.8-.9 2.4L5.4 15c-.9 1-.2 2.6 1.2 2.6h10.8c1.4 0 2.1-1.6 1.2-2.6l-1.2-1.2c-.6-.6-.9-1.5-.9-2.4V8.1c0-2.5-2-4.5-4.5-4.5z' fill='none' stroke='%2391969d' stroke-width='1.8' stroke-linejoin='round'/><path d='M10.6 18.8c.3.9.9 1.4 1.4 1.4s1.1-.5 1.4-1.4' fill='none' stroke='%2391969d' stroke-width='1.8' stroke-linecap='round'/><path d='M11.2 3.8a.8.8 0 111.6 0' fill='none' stroke='%2391969d' stroke-width='1.8' stroke-linecap='round'/></svg>"); }
+    .top-menu-icon.settings { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='none' stroke='%2391969d' stroke-width='1.85' stroke-linecap='round' stroke-linejoin='round'><path d='M14.2 2.5H9.8v2.8L8 6.1 6 4.1 3.1 7l2 2-.8 1.8H1.5v4.4h2.8l.8 1.8-2 2L6 22l2-2 1.8.8v2.8h4.4v-2.8L16 20l2 2 2.9-2.9-2-2 .8-1.8h2.8v-4.4h-2.8l-.8-1.8 2-2L18 4.1l-2 2-1.8-.8z'/><circle cx='12' cy='12.35' r='3.2'/></g></svg>"); background-size: 20px 20px; background-position: center top; }
+    .top-menu-item.active .top-menu-icon { filter: none; opacity: 1; }
+    .top-menu-item.active .top-menu-icon.work { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2.6' y='2.6' width='18.8' height='18.8' rx='3.6' ry='3.6' fill='none' stroke='%231c2c3f' stroke-width='1.8'/><circle cx='7' cy='7.5' r='1.7' fill='none' stroke='%231c2c3f' stroke-width='1.8'/><path d='M10.3 7.5h7' fill='none' stroke='%231c2c3f' stroke-width='1.8' stroke-linecap='round'/><path d='M2.8 10.9h18.4' fill='none' stroke='%231c2c3f' stroke-width='1.8'/></svg>"); }
+    .top-menu-item.active .top-menu-icon.team { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='none' stroke='%231c2c3f' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='7.1' r='3.0'/><circle cx='5.2' cy='8.5' r='2.2'/><circle cx='18.8' cy='8.5' r='2.2'/><path d='M6.8 16.0c.7-1.8 2.6-2.8 5.2-2.8s4.5 1 5.2 2.8'/><path d='M2.7 16.2c.4-1.2 1.5-1.9 3-1.9'/><path d='M21.3 16.2c-.4-1.2-1.5-1.9-3-1.9'/></g></svg>"); }
+    .top-menu-item.active .top-menu-icon.bell { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 3.6c-2.5 0-4.5 2-4.5 4.5v3.3c0 .9-.3 1.8-.9 2.4L5.4 15c-.9 1-.2 2.6 1.2 2.6h10.8c1.4 0 2.1-1.6 1.2-2.6l-1.2-1.2c-.6-.6-.9-1.5-.9-2.4V8.1c0-2.5-2-4.5-4.5-4.5z' fill='none' stroke='%231c2c3f' stroke-width='1.8' stroke-linejoin='round'/><path d='M10.6 18.8c.3.9.9 1.4 1.4 1.4s1.1-.5 1.4-1.4' fill='none' stroke='%231c2c3f' stroke-width='1.8' stroke-linecap='round'/><path d='M11.2 3.8a.8.8 0 111.6 0' fill='none' stroke='%231c2c3f' stroke-width='1.8' stroke-linecap='round'/></svg>"); }
+    .top-menu-item.active .top-menu-icon.settings { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='none' stroke='%231c2c3f' stroke-width='1.85' stroke-linecap='round' stroke-linejoin='round'><path d='M14.2 2.5H9.8v2.8L8 6.1 6 4.1 3.1 7l2 2-.8 1.8H1.5v4.4h2.8l.8 1.8-2 2L6 22l2-2 1.8.8v2.8h4.4v-2.8L16 20l2 2 2.9-2.9-2-2 .8-1.8h2.8v-4.4h-2.8l-.8-1.8 2-2L18 4.1l-2 2-1.8-.8z'/><circle cx='12' cy='12.35' r='3.2'/></g></svg>"); }
     .top-menu-item.notify { position: relative; }
     .top-badge { position: absolute; left: calc(50% + 6px); top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #f04438; color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; }
+    .top-badge.is-hidden { display: none; }
     .feed { padding: 8px 10px 88px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
     .composer { padding: 12px; }
@@ -55,6 +62,7 @@
     .composer-target-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-size: 12px; color: var(--subtle); margin-bottom: 8px; }
     .composer-target-label { text-align: right; min-width: 56px; }
     .composer-target-select { border: 1px solid var(--border); background: #fff; border-radius: 10px; padding: 6px 8px; font-size: 12px; color: var(--text); }
+    .composer-link-preview { margin: 0 0 8px; }
     .composer-attach-preview { display: flex; gap: 8px; overflow-x: auto; margin: 0 0 8px; }
     .attach-chip { position: relative; width: 76px; height: 76px; border: 1px solid var(--border); border-radius: 10px; background: #f6f7f9; flex: 0 0 auto; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .attach-chip img, .attach-chip video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -87,6 +95,57 @@
     }
     .groups-view { display: none; margin-top: 2px; }
     .groups-view.show { display: block; }
+    .panel-view { display: none; margin-top: 2px; }
+    .panel-view.show { display: block; }
+    .panel-card { padding: 10px 12px; }
+    .panel-title { margin: 2px 0 8px; font-size: 14px; font-weight: 700; color: #2d3748; }
+    .panel-tabs { display: inline-flex; gap: 6px; margin: 0 0 8px; }
+    .panel-tab-btn { border: 1px solid #cfd5de; background: #fff; color: #4b5563; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 5px 10px; }
+    .panel-tab-btn.active { border-color: #1c2c3f; background: #eef4ff; color: #1c2c3f; }
+    .panel-list { list-style: none; margin: 0; padding: 0; }
+    .panel-list-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: #344054; }
+    .panel-list-item[hidden] { display: none !important; }
+    .panel-list-item:last-child { border-bottom: none; }
+    .panel-list-item.notification-link { cursor: pointer; }
+    .panel-list-item.notification-link:hover { background: #f7f9fc; }
+    .panel-list-item.notification-link:focus-visible { outline: 2px solid #8fb2e0; outline-offset: 2px; border-radius: 6px; }
+    .panel-list-section { padding: 10px 0 6px; font-size: 12px; font-weight: 700; color: #637083; }
+    .panel-list-section + .panel-list-item { border-top: 1px solid var(--border); }
+    .panel-list-meta { font-size: 11px; color: #6b7280; white-space: nowrap; flex-shrink: 0; }
+    .panel-empty { padding: 12px 2px 4px; font-size: 12px; color: #6b7280; }
+    .settings-section { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
+    .settings-section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+    .settings-section-title { font-size: 13px; font-weight: 700; color: #334155; margin: 0 0 6px; }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row.space-after { margin-bottom: 16px; }
+    .settings-row.quiet-hours-toggle-row {
+      margin-top: 8px;
+      padding: 14px 12px 10px;
+      border: 1px solid #d7e0ee;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      background: #f7faff;
+    }
+    .settings-row.quiet-hours-time-row {
+      padding: 12px 12px 14px;
+      border: 1px solid #d7e0ee;
+      border-top: none;
+      border-bottom: none;
+      border-radius: 0 0 10px 10px;
+      background: #f7faff;
+    }
+    .settings-row-label { font-size: 13px; color: #1f2937; line-height: 1.4; }
+    .settings-row-sub { display: block; font-size: 11px; color: #6b7280; margin-top: 3px; }
+    .settings-switch { position: relative; width: 42px; height: 24px; flex: 0 0 auto; }
+    .settings-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .settings-slider { position: absolute; inset: 0; border-radius: 999px; background: #d2d7e1; transition: background .18s ease; }
+    .settings-slider::after { content: ''; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,.25); transition: transform .18s ease; }
+    .settings-switch input:checked + .settings-slider { background: #3f6fcc; }
+    .settings-switch input:checked + .settings-slider::after { transform: translateX(18px); }
+    .settings-select { border: 1px solid #cfd5de; border-radius: 8px; background: #fff; color: #334155; font-size: 12px; padding: 6px 8px; min-width: 132px; }
+    .quiet-hours-range { display: flex; align-items: center; gap: 10px; }
+    .settings-row.quiet-hours-time-row.is-disabled { opacity: 0.45; }
     .group-search-wrap { margin-bottom: 8px; }
     .group-search { width: 100%; border: 1px solid var(--border); border-radius: 999px; background: #fff; padding: 9px 12px; font-size: 13px; color: var(--text); }
     .group-create-wrap { display: flex; justify-content: flex-end; margin: 0 0 8px; }
@@ -231,6 +290,14 @@
     .post-meta small { font-size: 12px; color: var(--subtle); display: block; margin-top: 1px; }
     .badge { font-size: 11px; color: #fff; background: var(--blue); border-radius: 999px; padding: 2px 7px; margin-left: 4px; vertical-align: middle; }
     .post-content { font-size: 14px; line-height: 1.45; margin: 8px 0 8px; white-space: pre-wrap; }
+    .link-preview-card { border: 1px solid #d7deea; border-radius: 10px; background: #f7f9fc; padding: 8px; margin: 0 0 8px; }
+    a.link-preview-card { display: block; text-decoration: none; color: inherit; }
+    .link-preview-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .link-preview-favicon { width: 22px; height: 22px; border-radius: 6px; border: 1px solid #d3dae8; object-fit: contain; background: #fff; flex-shrink: 0; }
+    .link-preview-meta { min-width: 0; flex: 1; }
+    .link-preview-title { font-size: 13px; color: #24344d; font-weight: 700; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .link-preview-desc { font-size: 12px; color: #5f6f85; line-height: 1.4; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .link-preview-site { font-size: 11px; color: #6f7c8e; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .shared-post-card { border: 1px solid var(--border); border-radius: 10px; background: #f7f9fc; padding: 8px; margin: 0 0 8px; }
     .shared-post-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
     .shared-source-avatar { width: 30px; height: 30px; border-radius: 50%; background: #cfd1d5; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #3a3b3c; font-weight: 700; flex-shrink: 0; overflow: hidden; }
@@ -404,6 +471,15 @@
     .modal-title { font-size: 14px; font-weight: 700; }
     .modal-close { border: none; }
     .reader-list { list-style: none; margin: 0; padding: 8px 12px 12px; overflow: auto; max-height: calc(70vh - 56px); }
+    #report-reason-modal { height: min(78vh, 620px); max-height: min(78vh, 620px); }
+    #report-reason-modal.open { display: flex; flex-direction: column; }
+    .report-reason-list { padding-top: 4px; flex: 1; min-height: 0; max-height: none; }
+    .report-reason-item { border-bottom: 1px solid var(--border); }
+    .report-reason-item:last-child { border-bottom: none; }
+    .report-reason-btn { width: 100%; border: none; background: transparent; text-align: left; padding: 12px 2px; font-size: 14px; color: #1f2937; line-height: 1.35; }
+    .report-reason-btn:hover { background: #f6f8fb; }
+    .report-reason-btn.selected { background: #edf4ff; color: #1f4f95; font-weight: 700; }
+    .report-reason-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border); }
     .reader-item { font-size: 13px; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .reader-avatar { width: 24px; height: 24px; border-radius: 50%; background: #d9dde3; color: #4b4f56; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; overflow: hidden; }
     .reader-item:last-child { border-bottom: none; }
@@ -433,6 +509,8 @@
     .group-request-textarea,
     .group-request-member-search { width: 100%; border: 1px solid #cfd5de; border-radius: 10px; background: #fff; color: var(--text); font-size: 14px; padding: 9px 10px; }
     .group-request-textarea { min-height: 86px; resize: vertical; }
+    .group-request-flag { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
+    .group-request-flag input { width: 16px; height: 16px; }
     .group-request-member-list { height: 180px; max-height: 180px; overflow: auto; }
     .group-request-error { min-height: 18px; color: #c23030; font-size: 12px; line-height: 1.4; }
     .group-request-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border); }
@@ -459,6 +537,23 @@
     .manage-users-item-btn.remove { border-color: #e8c7c7; color: #a33f3f; background: #fff6f6; }
     .manage-users-self { font-size: 11px; color: #6b7280; border: 1px solid #d8dde6; border-radius: 999px; padding: 2px 8px; background: #f4f6f9; }
     .manage-users-admin-badge { font-size: 11px; color: #fff; background: #2f855a; border-radius: 999px; padding: 2px 8px; }
+    #admin-reports-modal { height: min(82vh, 680px); max-height: min(82vh, 680px); }
+    #admin-reports-modal.open { display: flex; flex-direction: column; }
+    .admin-reports-body { padding: 10px 12px 12px; overflow: auto; flex: 1; min-height: 0; }
+    .admin-reports-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+    .admin-reports-list.hidden { display: none; }
+    .admin-reports-item { padding: 10px; border-bottom: 1px solid var(--border); }
+    .admin-reports-item:last-child { border-bottom: none; }
+    .admin-reports-group { font-size: 12px; font-weight: 700; color: #42526b; margin-bottom: 5px; }
+    .admin-reports-author { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .admin-reports-author-name { font-size: 12px; font-weight: 700; color: #334155; }
+    .admin-reports-post { font-size: 13px; color: #1f2937; line-height: 1.45; margin-bottom: 6px; }
+    .admin-reports-meta { font-size: 11px; color: #6b7280; margin-bottom: 8px; }
+    .admin-reports-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .admin-reports-btn { border: 1px solid #d5dbe6; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; padding: 5px 10px; color: #4b5563; }
+    .admin-reports-btn.delete { border-color: #e5c1c1; color: #a33f3f; background: #fff4f4; }
+    .admin-reports-btn.ok { border-color: #bfd8c6; color: #1f7a43; background: #edf8f1; }
+    .admin-reports-empty { font-size: 12px; color: #6b7280; padding: 10px 2px; }
     #group-detail-modal { height: min(78vh, 660px); max-height: min(78vh, 660px); }
     #group-detail-modal.open { display: flex; flex-direction: column; }
     .group-detail-body { padding: 10px 12px 12px; overflow: auto; flex: 1; min-height: 0; }
@@ -468,6 +563,8 @@
     .group-detail-title { font-size: 15px; font-weight: 700; color: #1f2937; line-height: 1.35; }
     .group-detail-badges { display: inline-flex; gap: 6px; margin-left: 6px; vertical-align: middle; }
     .group-detail-desc { font-size: 13px; color: #4b5563; line-height: 1.5; margin: 0 0 12px; white-space: pre-wrap; }
+    .group-detail-notify-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0 10px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .group-detail-notify-label { font-size: 13px; color: #1f2937; font-weight: 600; }
     .group-detail-members-head { font-size: 13px; font-weight: 700; color: #334155; margin: 0 0 6px; }
     .group-detail-members-meta { font-size: 12px; color: #6b7280; margin-left: 6px; font-weight: 500; }
     .group-detail-members { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
@@ -496,6 +593,7 @@
     .comment-item { display: flex; gap: 8px; margin-bottom: 10px; }
     .comment-item[data-own="true"] { -webkit-touch-callout: none; user-select: none; }
     .comment-bubble { background: #eff1f4; border-radius: 14px; padding: 8px 10px; font-size: 14px; line-height: 1.35; }
+    .comment-bubble a { color: #1b74e4; text-decoration: underline; word-break: break-all; }
     .comment-meta { color: var(--subtle); font-size: 12px; padding: 4px 2px 0; }
     .comment-input-wrap { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(430px, 100%); background: var(--card); border-top: 1px solid var(--border); padding: 8px 10px calc(8px + var(--safe-bottom)); display: flex; gap: 8px; align-items: center; }
     .comment-input { flex: 1; border: none; background: var(--bg); border-radius: 999px; padding: 10px 12px; font-size: 14px; }
@@ -591,8 +689,8 @@
     <nav class="top-menu" aria-label="上部メニュー">
       <button class="top-menu-item active" type="button" aria-label="ホーム"><span class="top-menu-icon work" aria-hidden="true"></span></button>
       <button class="top-menu-item" type="button" aria-label="チーム"><span class="top-menu-icon team" aria-hidden="true"></span></button>
-      <button class="top-menu-item notify" type="button" aria-label="通知"><span class="top-menu-icon bell" aria-hidden="true"></span><span class="top-badge" aria-label="未読通知 1件">1</span></button>
-      <button class="top-menu-item" type="button" aria-label="メニュー">☰</button>
+      <button class="top-menu-item notify" type="button" aria-label="通知"><span class="top-menu-icon bell" aria-hidden="true"></span><span class="top-badge" aria-label="未読通知 7件">7</span></button>
+      <button class="top-menu-item" type="button" aria-label="設定"><span class="top-menu-icon settings" aria-hidden="true"></span></button>
     </nav>
     <div class="search-wrap">
       <input id="timeline-search" class="search" type="text" placeholder="タイムラインを検索" />
@@ -623,6 +721,98 @@
         <ul id="unjoined-groups" class="group-list"></ul>
       </article>
     </section>
+    <section id="notifications-view" class="panel-view" aria-label="通知一覧">
+      <article class="card panel-card">
+        <h3 class="panel-title">通知一覧</h3>
+        <div class="panel-tabs" role="tablist" aria-label="通知種別タブ">
+          <button id="notifications-tab-general" class="panel-tab-btn active" type="button" role="tab" aria-selected="true" data-notification-tab="general">通知</button>
+          <button id="notifications-tab-admin" class="panel-tab-btn" type="button" role="tab" aria-selected="false" data-notification-tab="admin">管理者向け通知</button>
+        </div>
+        <ul id="notifications-panel-list" class="panel-list">
+          <li class="panel-list-item notification-link" role="button" tabindex="0" hidden data-notification-template="own-commented" data-notification-action="open-post" data-post-keyword="週次" data-post-scope="own-commented"><span>「グループ名」の投稿にコメントがありました</span><span class="panel-list-meta">3分前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" hidden data-notification-template="group-new-post" data-notification-action="open-group-timeline" data-group-name="グループ名"><span>「グループ名」に新しい投稿があります</span><span class="panel-list-meta">12分前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="院内DX推進チーム"><span>「院内DX推進チーム」への参加申請が承認されました</span><span class="panel-list-meta">36分前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="業務改善プロジェクト"><span>「業務改善プロジェクト」に追加されました</span><span class="panel-list-meta">1時間前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-manage-group" data-group-name="ナレッジ共有ラボ"><span>「ナレッジ共有ラボ」への招待申請があります</span><span class="panel-list-meta">1時間前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="部門責任者共有"><span>「部門責任者共有」の管理者に設定されました</span><span class="panel-list-meta">2時間前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-post" data-feed-id="director-share" data-post-keyword="重点課題"><span>「部門責任者共有」の投稿に報告がありました（理由：いじめ・嫌がらせ・虐待）</span><span class="panel-list-meta">4時間前</span></li>
+        </ul>
+      </article>
+    </section>
+    <section id="settings-view" class="panel-view" aria-label="設定項目">
+      <article class="card panel-card">
+        <h3 class="panel-title">設定項目</h3>
+        <section class="settings-section" aria-label="通知設定">
+          <h4 class="settings-section-title">通知設定</h4>
+          <div class="settings-row">
+            <div class="settings-row-label">すべて</div>
+            <label class="settings-switch" aria-label="すべて">
+              <input id="settings-notify-all" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">管理者設定通知</div>
+            <label class="settings-switch" aria-label="管理者設定通知">
+              <input id="settings-notify-admin-settings" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">参加申請結果通知</div>
+            <label class="settings-switch" aria-label="参加申請結果通知">
+              <input id="settings-notify-join-request-result" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">招待申請結果通知</div>
+            <label class="settings-switch" aria-label="招待申請結果通知">
+              <input id="settings-notify-invite-request-result" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">グループ参加通知</div>
+            <label class="settings-switch" aria-label="グループ参加通知">
+              <input id="settings-notify-group-join" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">新規投稿通知</div>
+            <label class="settings-switch" aria-label="新規投稿通知">
+              <input id="settings-notify-group-posts" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row space-after">
+            <div class="settings-row-label">コメント通知</div>
+            <label class="settings-switch" aria-label="コメント通知">
+              <input id="settings-notify-comments" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="settings-row quiet-hours-toggle-row">
+            <div class="settings-row-label">
+              通知オフ時間
+            </div>
+            <label class="settings-switch" aria-label="通知オフ時間">
+              <input id="settings-quiet-hours-enabled" type="checkbox" />
+              <span class="settings-slider" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div id="settings-quiet-hours-row" class="settings-row quiet-hours-time-row">
+            <div class="settings-row-label"></div>
+            <div class="quiet-hours-range">
+              <input id="settings-quiet-hours-start" class="settings-select" type="time" aria-label="通知停止開始時刻" value="22:00" />
+              <span>〜</span>
+              <input id="settings-quiet-hours-end" class="settings-select" type="time" aria-label="通知停止終了時刻" value="07:00" />
+            </div>
+          </div>
+        </section>
+      </article>
+    </section>
     <article class="card composer">
       <div class="composer-top">
         <span id="composer-avatar" class="avatar">や</span>
@@ -638,6 +828,7 @@
           <option value="pr">社内イベント運営</option>
         </select>
       </div>
+      <div id="composer-link-preview" class="composer-link-preview"></div>
       <div id="composer-attach-preview" class="composer-attach-preview"></div>
       <input id="composer-file-input" type="file" multiple hidden accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" />
       <input id="composer-camera-input" type="file" hidden accept="image/*,video/*" capture="environment" />
@@ -698,6 +889,17 @@
       </section>
     </div>
   </div>
+  <div id="admin-reports-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+  <div id="admin-reports-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="admin-reports-title">
+    <div class="modal-header">
+      <div id="admin-reports-title" class="modal-title">報告管理</div>
+      <button id="admin-reports-close" class="modal-close popup-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="admin-reports-body">
+      <ul id="admin-reports-list" class="admin-reports-list"></ul>
+      <div id="admin-reports-empty" class="admin-reports-empty"></div>
+    </div>
+  </div>
   <div id="group-request-backdrop" class="modal-backdrop" aria-hidden="true"></div>
   <div id="group-request-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="group-request-title">
     <div class="modal-header">
@@ -725,6 +927,10 @@
         <div id="group-request-description-error" class="group-request-error"></div>
       </div>
       <div class="group-request-field">
+        <label class="group-request-label" for="group-request-secret">公開設定</label>
+        <label class="group-request-flag"><input id="group-request-secret" type="checkbox" />秘密グループにする</label>
+      </div>
+      <div class="group-request-field">
         <label class="group-request-label" for="group-request-member-search">メンバー選択</label>
         <input id="group-request-member-search" class="group-request-member-search" type="text" placeholder="メンバーを検索" />
       </div>
@@ -745,6 +951,13 @@
     <div class="group-detail-body">
       <div id="group-detail-head" class="group-detail-head"></div>
       <p id="group-detail-description" class="group-detail-desc"></p>
+      <div id="group-detail-notify-row" class="group-detail-notify-row" hidden>
+        <div class="group-detail-notify-label">グループ通知</div>
+        <label class="settings-switch" aria-label="グループ通知">
+          <input id="group-detail-notify-mute" type="checkbox" />
+          <span class="settings-slider" aria-hidden="true"></span>
+        </label>
+      </div>
       <div id="group-detail-actions" class="group-detail-actions">
         <button id="group-detail-open-timeline" class="group-detail-link-btn" type="button">このグループのタイムラインを開く</button>
         <button id="group-detail-join-request" class="group-detail-join-btn" type="button">参加申請する</button>
@@ -791,6 +1004,19 @@
     <button id="comment-report" class="sheet-btn" type="button"><span class="sheet-icon report" aria-hidden="true"></span>グループ管理者に報告</button>
     <button id="comment-delete" class="sheet-btn" type="button"><span class="sheet-icon delete" aria-hidden="true"></span>削除</button>
     <button id="comment-edit" class="sheet-btn" type="button"><span class="sheet-icon edit" aria-hidden="true"></span>編集</button>
+  </div>
+
+  <div id="report-reason-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+  <div id="report-reason-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="report-reason-title">
+    <div class="modal-header">
+      <div id="report-reason-title" class="modal-title">報告理由を選択</div>
+      <button id="report-reason-close" class="modal-close popup-close" type="button" aria-label="閉じる">×</button>
+    </div>
+    <ul id="report-reason-list" class="reader-list report-reason-list"></ul>
+    <div class="report-reason-actions">
+      <button id="report-reason-cancel" class="app-dialog-btn cancel" type="button">キャンセル</button>
+      <button id="report-reason-submit" class="app-dialog-btn ok" type="button" disabled>報告する</button>
+    </div>
   </div>
 
   <div id="app-dialog-backdrop" class="app-dialog-backdrop" aria-hidden="true"></div>
@@ -886,6 +1112,9 @@
       'director-share': [
         { team: '部門責任者共有', avatar: '部門', label: '責任者限定', user: 'たなか けん' },
       ],
+      'training-plan': [
+        { team: '勉強会・研修企画', avatar: '研修', label: '研修企画', user: 'やまだ たろう' },
+      ],
     };
     const authors = Object.values(AUTHORS_BY_FEED).flat();
     const commentSamples = [
@@ -902,22 +1131,23 @@
       { id: 'product', name: 'ナレッジ共有ラボ', official: false },
       { id: 'sales', name: '品質改善タスクフォース', official: false },
       { id: 'pr', name: '社内イベント運営', official: false },
+      { id: 'training-plan', name: '勉強会・研修企画', official: false },
       { id: 'director-share', name: '部門責任者共有', official: false, secret: true }
     ];
     const GROUP_DIRECTORY = [
-      { id: 'grp-hr', name: '看護部', members: 68, joined: true, official: true, admin: false, adminUsers: ['さとう はなこ'], membersList: ['さとう はなこ', 'すずき いちろう', 'たかはし みさき'] },
+      { id: 'grp-hr', name: '看護部', members: 68, joined: true, official: true, admin: true, adminUsers: ['さとう はなこ', 'やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'すずき いちろう', 'たかはし みさき'] },
       { id: 'grp-product', name: 'ナレッジ共有ラボ', members: 34, joined: true, official: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'いとう ゆう', 'こばやし ゆうな'], joinRequests: ['たかはし みさき', 'よしだ あおい'] },
-      { id: 'grp-sales', name: '品質改善タスクフォース', members: 19, joined: true, official: false, admin: false, adminUsers: ['すずき いちろう'], membersList: ['すずき いちろう', 'かとう まこと', 'さとう はなこ'] },
-      { id: 'grp-pr', name: '社内イベント運営', members: 22, joined: true, official: false, admin: false, adminUsers: ['たかはし みさき'], membersList: ['たかはし みさき', 'よしだ あおい', 'さとう はなこ'] },
+      { id: 'grp-sales', name: '品質改善タスクフォース', members: 20, joined: true, official: false, admin: false, adminUsers: ['すずき いちろう'], membersList: ['やまだ たろう', 'すずき いちろう', 'かとう まこと', 'さとう はなこ', 'よしだ あおい'] },
+      { id: 'grp-pr', name: '社内イベント運営', members: 20, joined: true, official: false, admin: false, adminUsers: ['たかはし みさき'], membersList: ['やまだ たろう', 'たかはし みさき', 'よしだ あおい'] },
       { id: 'grp-director-share', name: '部門責任者共有', members: 9, joined: true, official: false, secret: true, admin: true, adminUsers: ['やまだ たろう', 'たなか けん'], membersList: ['やまだ たろう', 'たなか けん'], joinRequests: ['すずき いちろう'] },
-      { id: 'grp-festival', name: '病院祭実行委員会', members: 28, joined: false, official: false, requested: false, adminUsers: ['あんどう りな'], membersList: ['あんどう りな', 'おおた しん', 'ふじた みお', 'すずき いちろう', 'こいずみ れん'] },
+      { id: 'grp-festival', name: '病院祭実行委員会', members: 28, joined: false, official: false, requested: false, requestRejected: true, requestRejectedAt: Date.now() - (32 * 60 * 1000), adminUsers: ['あんどう りな'], membersList: ['あんどう りな', 'おおた しん', 'ふじた みお', 'すずき いちろう', 'こいずみ れん'] },
       { id: 'grp-ops-improve', name: '業務改善プロジェクト', members: 26, joined: false, official: false, requested: false, adminUsers: ['きむら なお', 'なかじま りく'], membersList: ['きむら なお', 'なかじま りく', 'さとう はなこ', 'おかだ えり', 'いしい さな'] },
       { id: 'grp-med-safety-up', name: '医療安全向向上チーム', members: 22, joined: false, official: false, requested: false, adminUsers: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい'], membersList: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい', 'たなか けん', 'あおき るい'] },
       { id: 'grp-ops-improve-2', name: '業務改善プロジェクト', members: 31, joined: false, official: false, requested: false, adminUsers: ['まつい しゅん', 'にしむら そら', 'おおた しん', 'こばやし ゆうな'], membersList: ['まつい しゅん', 'にしむら そら', 'おおた しん', 'こばやし ゆうな', 'うめだ りく'] },
       { id: 'grp-dx-promo', name: '院内DX推進チーム', members: 24, joined: false, official: false, requested: false, adminUsers: ['こいずみ れん', 'きむら なお', 'ふじた みお', 'いとう ゆう', 'みずの なおき'], membersList: ['こいずみ れん', 'きむら なお', 'ふじた みお', 'いとう ゆう', 'みずの なおき', 'おざき ひなの'] },
       { id: 'grp-team-care', name: 'チーム医療推進会', members: 18, joined: false, official: false, requested: false, adminUsers: ['おかだ えり'], membersList: ['おかだ えり', 'よしだ あおい', 'なかじま りく', 'しらいし めい', 'たなべ はるか'] },
       { id: 'grp-infection-share', name: '感染対策情報共有', members: 33, joined: false, official: false, requested: false, adminUsers: ['はせがわ ゆい', 'まつい しゅん'], membersList: ['はせがわ ゆい', 'まつい しゅん', 'すずき いちろう', 'みやざき けい', 'くぼ しゅん'] },
-      { id: 'grp-training-plan', name: '勉強会・研修企画', members: 20, joined: false, official: false, requested: false, adminUsers: ['しらいし めい', 'あんどう りな', 'おおた しん'], membersList: ['しらいし めい', 'あんどう りな', 'おおた しん', 'たかはし みさき', 'しばた れん'] },
+      { id: 'grp-training-plan', name: '勉強会・研修企画', members: 6, joined: true, official: false, requested: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'すずき いちろう', 'たかはし みさき', 'いとう ゆう', 'よしだ あおい'] },
       { id: 'grp-case-share', name: '症例共有コミュニティ', members: 27, joined: false, official: false, requested: false, adminUsers: ['なかじま りく', 'こいずみ れん', 'にしむら そら', 'さとう はなこ'], membersList: ['なかじま りく', 'こいずみ れん', 'にしむら そら', 'さとう はなこ', 'ささき あかり'] },
       { id: 'grp-comm-activate', name: '院内コミュニケーション活性化', members: 23, joined: false, official: false, requested: false, adminUsers: ['ふじた みお', 'きむら なお', 'おかだ えり', 'わたなべ あおい', 'まるやま るか'], membersList: ['ふじた みお', 'きむら なお', 'おかだ えり', 'わたなべ あおい', 'まるやま るか', 'よねだ しん'] },
       { id: 'grp-service-up', name: '医療サービス向上プロジェクト', members: 21, joined: false, official: false, requested: false, adminUsers: ['にしむら そら'], membersList: ['にしむら そら', 'かとう まこと', 'はせがわ ゆい', 'みやざき けい', 'つるた りお'] },
@@ -1001,11 +1231,424 @@
       return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
     }
 
+    function mockMeetingPhotoSvgDataUri(title, variant = 0) {
+      const tones = [
+        { wall: '#eef2f7', floor: '#8ca0b8', suit: '#1f2b3a', desk: '#d8dde6', accent: '#3f6fcc' },
+        { wall: '#edf1f5', floor: '#94a6bc', suit: '#243141', desk: '#dfe4ec', accent: '#5a7fc5' },
+        { wall: '#f1f4f8', floor: '#879bb4', suit: '#1d2836', desk: '#d6dbe4', accent: '#4f78bf' },
+      ];
+      const t = tones[variant % tones.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680">
+  <defs>
+    <linearGradient id="ceiling" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f2f5f9"/>
+    </linearGradient>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${t.wall}"/>
+      <stop offset="1" stop-color="#dde4ee"/>
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="${17 + variant}"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.04"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="180" fill="url(#ceiling)"/>
+  <rect y="180" width="1200" height="350" fill="url(#room)"/>
+  <rect y="530" width="1200" height="150" fill="${t.floor}"/>
+  <rect x="120" y="135" width="250" height="160" rx="8" fill="#2b3c52"/>
+  <rect x="135" y="150" width="220" height="130" rx="4" fill="#eef3fb"/>
+  <rect x="165" y="234" width="160" height="8" fill="${t.accent}" opacity="0.8"/>
+  <rect x="175" y="214" width="26" height="20" fill="${t.accent}" opacity="0.65"/>
+  <rect x="210" y="200" width="26" height="34" fill="${t.accent}" opacity="0.65"/>
+  <rect x="245" y="184" width="26" height="50" fill="${t.accent}" opacity="0.65"/>
+  <rect x="280" y="172" width="26" height="62" fill="${t.accent}" opacity="0.65"/>
+  <rect x="780" y="170" width="110" height="240" fill="#f6f8fb"/>
+  <rect x="905" y="170" width="110" height="240" fill="#f6f8fb"/>
+  <rect x="1030" y="170" width="110" height="240" fill="#f6f8fb"/>
+  <g fill="#ffffff" opacity="0.84">
+    <rect x="160" y="62" width="260" height="16" rx="8"/>
+    <rect x="455" y="62" width="290" height="16" rx="8"/>
+    <rect x="780" y="62" width="250" height="16" rx="8"/>
+  </g>
+  <g>
+    <rect x="250" y="440" width="270" height="70" rx="6" fill="${t.desk}"/>
+    <rect x="560" y="440" width="270" height="70" rx="6" fill="${t.desk}"/>
+    <rect x="870" y="440" width="240" height="70" rx="6" fill="${t.desk}"/>
+    <rect x="210" y="530" width="270" height="80" rx="6" fill="${t.desk}" opacity="0.95"/>
+    <rect x="520" y="530" width="270" height="80" rx="6" fill="${t.desk}" opacity="0.95"/>
+    <rect x="830" y="530" width="270" height="80" rx="6" fill="${t.desk}" opacity="0.95"/>
+  </g>
+  <g fill="${t.suit}">
+    <circle cx="305" cy="420" r="22"/><rect x="286" y="442" width="38" height="55" rx="12"/>
+    <circle cx="410" cy="420" r="22"/><rect x="391" y="442" width="38" height="55" rx="12"/>
+    <circle cx="615" cy="420" r="22"/><rect x="596" y="442" width="38" height="55" rx="12"/>
+    <circle cx="720" cy="420" r="22"/><rect x="701" y="442" width="38" height="55" rx="12"/>
+    <circle cx="935" cy="420" r="22"/><rect x="916" y="442" width="38" height="55" rx="12"/>
+    <circle cx="1020" cy="420" r="22"/><rect x="1001" y="442" width="38" height="55" rx="12"/>
+    <circle cx="275" cy="515" r="24"/><rect x="254" y="540" width="42" height="62" rx="13"/>
+    <circle cx="600" cy="515" r="24"/><rect x="579" y="540" width="42" height="62" rx="13"/>
+    <circle cx="915" cy="515" r="24"/><rect x="894" y="540" width="42" height="62" rx="13"/>
+  </g>
+  <circle cx="540" cy="300" r="24" fill="#1f2b3a"/>
+  <rect x="520" y="328" width="40" height="78" rx="14" fill="#1f2b3a"/>
+  <text x="46" y="654" font-size="27" fill="#54657d" font-family="Segoe UI, Arial, sans-serif">${title}</text>
+  <rect width="1200" height="680" filter="url(#grain)" opacity="0.55"/>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockDocumentPhotoSvgDataUri(title, variant = 0) {
+      const tones = [
+        { bg: '#eef2f8', board: '#ffffff', line: '#d3dceb', accent: '#6d8ec5', note: '#f4f7fc' },
+        { bg: '#f0f4f9', board: '#ffffff', line: '#d7dfec', accent: '#5f83bf', note: '#f6f8fc' },
+        { bg: '#edf3f8', board: '#ffffff', line: '#d0d9e8', accent: '#7396cb', note: '#f3f7fd' },
+      ];
+      const t = tones[variant % tones.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680">
+  <rect width="1200" height="680" fill="${t.bg}"/>
+  <rect x="50" y="46" width="1100" height="588" rx="20" fill="${t.board}" stroke="${t.line}" stroke-width="3"/>
+  <text x="96" y="120" font-size="62" font-family="Segoe UI, Arial, sans-serif" fill="#2e4c7b" font-weight="700">${title}</text>
+  <line x1="96" y1="146" x2="1080" y2="146" stroke="${t.line}" stroke-width="4"/>
+  <rect x="104" y="186" width="470" height="374" rx="12" fill="${t.note}" stroke="${t.line}" stroke-width="2"/>
+  <rect x="612" y="186" width="470" height="374" rx="12" fill="${t.note}" stroke="${t.line}" stroke-width="2"/>
+  <circle cx="338" cy="372" r="128" fill="none" stroke="#89a8d8" stroke-width="34"/>
+  <path d="M338 244 A128 128 0 0 1 454 396" fill="none" stroke="${t.accent}" stroke-width="34"/>
+  <rect x="730" y="440" width="54" height="112" fill="#8fa9d2"/>
+  <rect x="804" y="404" width="54" height="148" fill="${t.accent}"/>
+  <rect x="878" y="458" width="54" height="94" fill="#8fa9d2"/>
+  <rect x="656" y="500" width="54" height="52" fill="#8fa9d2"/>
+  <text x="104" y="598" font-size="30" font-family="Segoe UI, Arial, sans-serif" fill="#5b6e8d">資料プレビュー（ダミー）</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockInfographicSvgDataUri(title, variant = 0) {
+      const tones = [
+        { bg: '#f5f8ff', card: '#ffffff', line: '#d7e0f2', accent: '#3f6fcc', accent2: '#66b3ff', text: '#29456f' },
+        { bg: '#f6fbf7', card: '#ffffff', line: '#d7e7db', accent: '#3f9d6f', accent2: '#6cc9a3', text: '#285541' },
+        { bg: '#fff8f2', card: '#ffffff', line: '#ead8c9', accent: '#d8843f', accent2: '#f1b47b', text: '#694126' },
+      ];
+      const t = tones[variant % tones.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680">
+  <rect width="1200" height="680" fill="${t.bg}"/>
+  <rect x="42" y="42" width="1116" height="596" rx="18" fill="${t.card}" stroke="${t.line}" stroke-width="3"/>
+  <text x="92" y="116" font-size="52" font-family="Segoe UI, Arial, sans-serif" fill="${t.text}" font-weight="700">${title}</text>
+  <rect x="90" y="162" width="1020" height="14" rx="7" fill="${t.line}"/>
+  <rect x="100" y="214" width="310" height="160" rx="12" fill="${t.accent2}" opacity="0.2"/>
+  <rect x="444" y="214" width="310" height="160" rx="12" fill="${t.accent}" opacity="0.18"/>
+  <rect x="788" y="214" width="310" height="160" rx="12" fill="${t.accent2}" opacity="0.2"/>
+  <circle cx="254" cy="520" r="96" fill="none" stroke="${t.accent2}" stroke-width="30"/>
+  <path d="M254 424 A96 96 0 0 1 342 548" fill="none" stroke="${t.accent}" stroke-width="30"/>
+  <rect x="480" y="560" width="48" height="48" fill="${t.accent2}"/>
+  <rect x="550" y="530" width="48" height="78" fill="${t.accent}"/>
+  <rect x="620" y="498" width="48" height="110" fill="${t.accent2}"/>
+  <rect x="690" y="466" width="48" height="142" fill="${t.accent}"/>
+  <rect x="870" y="458" width="190" height="22" rx="11" fill="${t.line}"/>
+  <rect x="870" y="500" width="170" height="22" rx="11" fill="${t.line}"/>
+  <rect x="870" y="542" width="150" height="22" rx="11" fill="${t.line}"/>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
     const MOCK_SLIDE_IMAGES = [
       mockSlideSvgDataUri('Your Headline Here', 'Dashboard Overview', 0),
       mockSlideSvgDataUri('Sample Dashboard', 'KPI Snapshot', 1),
       mockSlideSvgDataUri('Your Presentation Title', 'Data Analytics Overview', 2),
       mockSlideSvgDataUri('Business Performance Report', 'Sales and Revenue', 0),
+    ];
+
+    const MOCK_MEETING_IMAGES = [
+      mockMeetingPhotoSvgDataUri('全体会議の様子（ダミー）', 0),
+      mockMeetingPhotoSvgDataUri('研修セッションの様子（ダミー）', 1),
+      mockMeetingPhotoSvgDataUri('レビュー会議の様子（ダミー）', 2),
+    ];
+
+    const MOCK_DOCUMENT_IMAGES = [
+      mockDocumentPhotoSvgDataUri('Your Headline Here', 0),
+      mockDocumentPhotoSvgDataUri('Business Performance Report', 1),
+      mockDocumentPhotoSvgDataUri('Sample Dashboard', 2),
+    ];
+
+    const MOCK_INFOGRAPHIC_IMAGES = [
+      mockInfographicSvgDataUri('Weekly Operations Snapshot', 0),
+      mockInfographicSvgDataUri('Team KPI Overview', 1),
+      mockInfographicSvgDataUri('Project Metrics Digest', 2),
+    ];
+
+    const MOCK_ATTACHMENT_IMAGES = [
+      ...MOCK_SLIDE_IMAGES,
+      ...MOCK_MEETING_IMAGES,
+      ...MOCK_DOCUMENT_IMAGES,
+      ...MOCK_INFOGRAPHIC_IMAGES,
+    ];
+
+    function mockFestivalFlyerSvgDataUri(eventName, dateText, variant = 0) {
+      const palettes = [
+        { bgTop: '#ff8d2b', bgBottom: '#ff6c1f', card: '#0b8ff4', wave: '#31b8ff', text: '#ffffff', accent: '#ffe06e' },
+        { bgTop: '#ff7b2f', bgBottom: '#ff5d25', card: '#1f97ff', wave: '#45c4ff', text: '#ffffff', accent: '#ffe58a' },
+        { bgTop: '#ff9433', bgBottom: '#ff6b2a', card: '#108af0', wave: '#29b1ff', text: '#ffffff', accent: '#ffe27d' },
+      ];
+      const p = palettes[variant % palettes.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1280">
+  <defs>
+    <linearGradient id="flyerBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${p.bgTop}"/>
+      <stop offset="1" stop-color="${p.bgBottom}"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1280" fill="url(#flyerBg)"/>
+  <g opacity="0.25" fill="none" stroke="#ffd5a2" stroke-width="8">
+    <path d="M42 210 C150 60, 280 80, 360 190"/>
+    <path d="M560 120 C660 20, 820 30, 860 180"/>
+    <path d="M70 540 C190 430, 310 460, 380 580"/>
+  </g>
+  <circle cx="460" cy="470" r="300" fill="${p.card}"/>
+  <text x="450" y="300" text-anchor="middle" fill="${p.text}" font-size="74" font-family="Segoe UI, Arial, sans-serif" font-weight="700">第${10 + variant}回</text>
+  <text x="450" y="430" text-anchor="middle" fill="${p.text}" font-size="126" font-family="Segoe UI, Arial, sans-serif" font-weight="800">${eventName}</text>
+  <text x="450" y="540" text-anchor="middle" fill="${p.accent}" font-size="86" font-family="Segoe UI, Arial, sans-serif" font-weight="700">${dateText}</text>
+  <text x="450" y="612" text-anchor="middle" fill="${p.text}" font-size="36" font-family="Segoe UI, Arial, sans-serif">会場 / 1F エントランス前</text>
+  <path d="M0 900 C110 860, 160 930, 230 900 C330 860, 370 940, 450 900 C540 855, 580 940, 660 905 C760 860, 820 940, 900 900 L900 1280 L0 1280 Z" fill="${p.wave}"/>
+  <text x="52" y="992" fill="${p.text}" font-size="38" font-family="Segoe UI, Arial, sans-serif" font-weight="700">わっしょい！病院祭 実行委員会</text>
+  <text x="52" y="1048" fill="${p.text}" font-size="29" font-family="Segoe UI, Arial, sans-serif">・ステージイベント ・屋台 ・キッチンカー ・体験ブース</text>
+  <text x="52" y="1092" fill="${p.text}" font-size="29" font-family="Segoe UI, Arial, sans-serif">・フォトスポット ・抽選会 ・地域交流コーナー</text>
+  <text x="52" y="1160" fill="${p.text}" font-size="25" font-family="Segoe UI, Arial, sans-serif">お問い合わせ: 社内イベント運営チーム / 内線 2276</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockFestivalPhotoPosterSvgDataUri(title = '病院祭') {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1280">
+  <defs>
+    <linearGradient id="photoBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8794f"/>
+      <stop offset="1" stop-color="#6f4a36"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1280" fill="url(#photoBg)"/>
+  <rect x="0" y="810" width="900" height="470" fill="#274b76" opacity="0.35"/>
+  <circle cx="620" cy="520" r="168" fill="#e6d7c9"/>
+  <circle cx="620" cy="460" r="54" fill="#c99f7c"/>
+  <rect x="560" y="520" width="120" height="220" rx="56" fill="#f3ece5"/>
+  <rect x="528" y="770" width="184" height="250" rx="70" fill="#f7f3ef"/>
+  <circle cx="200" cy="420" r="150" fill="#7d5e49" opacity="0.7"/>
+  <circle cx="320" cy="620" r="170" fill="#8c6d56" opacity="0.7"/>
+  <g fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-weight="800">
+    <text x="52" y="210" font-size="174">病</text>
+    <text x="52" y="390" font-size="174">院</text>
+    <text x="52" y="570" font-size="174">祭</text>
+  </g>
+  <text x="520" y="980" text-anchor="middle" fill="#ffffff" font-size="58" font-family="Segoe UI, Arial, sans-serif" font-weight="700">${title} ポスター（ダミー）</text>
+  <text x="520" y="1046" text-anchor="middle" fill="#dbe8ff" font-size="34" font-family="Segoe UI, Arial, sans-serif">社内イベント運営チーム</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockEventPhotoSvgDataUri(title = 'イベント当日の様子（ダミー）', variant = 0) {
+      const tones = [
+        { sky: '#b9e2ff', grass: '#8fd36f', shirtA: '#ffd83f', shirtB: '#f6f8ff', navy: '#234069' },
+        { sky: '#c0e7ff', grass: '#87cc67', shirtA: '#ffcf39', shirtB: '#ffffff', navy: '#213c63' },
+        { sky: '#b5deff', grass: '#82c961', shirtA: '#ffd443', shirtB: '#f5f9ff', navy: '#29466f' },
+      ];
+      const t = tones[variant % tones.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="${t.sky}"/>
+  <rect y="500" width="1200" height="300" fill="${t.grass}"/>
+  <rect x="110" y="260" width="80" height="260" rx="16" fill="#f5f7fb"/><rect x="990" y="250" width="80" height="270" rx="16" fill="#f5f7fb"/>
+  <circle cx="430" cy="312" r="58" fill="#f2c9a7"/><rect x="368" y="364" width="124" height="182" rx="54" fill="${t.shirtA}"/>
+  <rect x="378" y="546" width="50" height="146" rx="18" fill="${t.navy}"/><rect x="432" y="546" width="50" height="146" rx="18" fill="${t.navy}"/>
+  <circle cx="635" cy="324" r="58" fill="#f2c9a7"/><rect x="573" y="376" width="124" height="170" rx="54" fill="${t.shirtB}"/>
+  <rect x="583" y="546" width="50" height="146" rx="18" fill="${t.navy}"/><rect x="637" y="546" width="50" height="146" rx="18" fill="${t.navy}"/>
+  <g fill="#f2c9a7">
+    <circle cx="190" cy="414" r="44"/><circle cx="280" cy="430" r="42"/><circle cx="860" cy="408" r="45"/><circle cx="950" cy="424" r="42"/>
+  </g>
+  <g fill="${t.navy}">
+    <rect x="152" y="454" width="76" height="128" rx="34"/><rect x="244" y="470" width="72" height="118" rx="32"/>
+    <rect x="820" y="448" width="78" height="130" rx="35"/><rect x="914" y="468" width="72" height="120" rx="32"/>
+  </g>
+  <text x="54" y="756" fill="#13335b" font-size="42" font-family="Segoe UI, Arial, sans-serif" font-weight="700">${title}</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockEventGroupPhotoSvgDataUri() {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#d9c6aa"/>
+  <rect x="0" y="510" width="1400" height="390" fill="#b88f6c"/>
+  <rect x="250" y="90" width="900" height="430" fill="#efe8dc" stroke="#cfbfa6" stroke-width="10"/>
+  <text x="700" y="210" text-anchor="middle" fill="#caa57c" font-size="140" font-family="Segoe UI, Arial, sans-serif" font-weight="800">20</text>
+  <text x="700" y="302" text-anchor="middle" fill="#c1b7aa" font-size="58" font-family="Segoe UI, Arial, sans-serif" font-weight="700">ANNIVERSARY</text>
+  <text x="700" y="360" text-anchor="middle" fill="#d2b08e" font-size="80" font-family="Segoe UI, Arial, sans-serif" font-weight="700">th</text>
+  <g fill="#f0d2b5">
+    <circle cx="220" cy="500" r="26"/><circle cx="290" cy="520" r="24"/><circle cx="360" cy="505" r="26"/>
+    <circle cx="430" cy="530" r="24"/><circle cx="500" cy="510" r="26"/><circle cx="570" cy="530" r="24"/>
+    <circle cx="640" cy="512" r="26"/><circle cx="710" cy="532" r="24"/><circle cx="780" cy="508" r="26"/>
+    <circle cx="850" cy="530" r="24"/><circle cx="920" cy="508" r="26"/><circle cx="990" cy="528" r="24"/>
+    <circle cx="1060" cy="510" r="26"/><circle cx="1130" cy="530" r="24"/><circle cx="1200" cy="506" r="26"/>
+  </g>
+  <g fill="#733f2d">
+    <rect x="198" y="526" width="44" height="78" rx="18"/><rect x="268" y="544" width="44" height="72" rx="18"/>
+    <rect x="338" y="529" width="44" height="76" rx="18"/><rect x="408" y="552" width="44" height="70" rx="18"/>
+    <rect x="478" y="534" width="44" height="74" rx="18"/><rect x="548" y="554" width="44" height="68" rx="18"/>
+    <rect x="618" y="535" width="44" height="74" rx="18"/><rect x="688" y="554" width="44" height="68" rx="18"/>
+    <rect x="758" y="533" width="44" height="74" rx="18"/><rect x="828" y="554" width="44" height="68" rx="18"/>
+    <rect x="898" y="532" width="44" height="74" rx="18"/><rect x="968" y="552" width="44" height="68" rx="18"/>
+    <rect x="1038" y="534" width="44" height="74" rx="18"/><rect x="1108" y="552" width="44" height="68" rx="18"/>
+    <rect x="1178" y="530" width="44" height="74" rx="18"/>
+  </g>
+  <text x="44" y="846" fill="#fff3e6" font-size="42" font-family="Segoe UI, Arial, sans-serif" font-weight="700">記念イベント集合写真（ダミー）</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockEventResearchBannerSvgDataUri() {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="rbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d8e8f3"/>
+      <stop offset="1" stop-color="#b6c8d6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#rbg)"/>
+  <polygon points="0,0 460,0 260,720 0,720" fill="#c6d9e7" opacity="0.8"/>
+  <rect x="520" y="90" width="680" height="520" rx="12" fill="#e9ecef" opacity="0.82"/>
+  <rect x="570" y="160" width="560" height="340" fill="#ffffff" stroke="#9fb6c7" stroke-width="4"/>
+  <rect x="660" y="210" width="220" height="30" fill="#c9d7e3"/><rect x="660" y="262" width="290" height="24" fill="#d9e4ed"/>
+  <rect x="660" y="304" width="260" height="24" fill="#d9e4ed"/><rect x="660" y="346" width="320" height="24" fill="#d9e4ed"/>
+  <rect x="80" y="270" width="760" height="120" fill="#ffffff" opacity="0.78"/>
+  <rect x="80" y="410" width="860" height="120" fill="#ffffff" opacity="0.78"/>
+  <text x="102" y="350" fill="#4e7896" font-size="78" font-family="Segoe UI, Arial, sans-serif" font-weight="800">調査データから見る</text>
+  <text x="102" y="488" fill="#4e7896" font-size="84" font-family="Segoe UI, Arial, sans-serif" font-weight="800">社内イベント成功の秘訣！</text>
+  <text x="102" y="574" fill="#f3f7fb" font-size="54" font-family="Segoe UI, Arial, sans-serif" font-weight="700">リアルな事例を交えて紹介</text>
+  <text x="760" y="656" fill="#f8fbff" font-size="70" font-family="Segoe UI, Arial, sans-serif" font-weight="700">HAKUTEN</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    const MOCK_PR_FLYER_IMAGES = [
+      mockFestivalFlyerSvgDataUri('病院祭', '9/10(土)', 0),
+      mockFestivalFlyerSvgDataUri('病院祭', '10/14(土)', 1),
+      mockFestivalFlyerSvgDataUri('病院祭', '11/18(土)', 2),
+      mockFestivalFlyerSvgDataUri('病院祭', '12/09(土)', 0),
+      mockFestivalFlyerSvgDataUri('病院祭', '1/20(土)', 1),
+      mockFestivalPhotoPosterSvgDataUri('病院祭'),
+    ];
+    const MOCK_PR_EVENT_PHOTO_IMAGES = [
+      mockEventPhotoSvgDataUri('イベント準備の様子（ダミー）', 0),
+      mockEventPhotoSvgDataUri('当日運営チーム（ダミー）', 1),
+      mockEventPhotoSvgDataUri('交流プログラムの様子（ダミー）', 2),
+    ];
+    const MOCK_PR_FEATURE_IMAGES = [
+      mockEventGroupPhotoSvgDataUri(),
+      mockEventResearchBannerSvgDataUri(),
+    ];
+
+    function mockTaskforcePosterSvgDataUri(title = 'タスクフォースとは？', variant = 0) {
+      const tones = [
+        { bg: '#dbe8f5', skin: '#f3d8c4', suit: '#2b3f5f', card: '#ffffff' },
+        { bg: '#dfe9f6', skin: '#f1d4bf', suit: '#304766', card: '#ffffff' },
+        { bg: '#d8e5f3', skin: '#f5dcc8', suit: '#29415e', card: '#ffffff' },
+      ];
+      const t = tones[variant % tones.length];
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680">
+  <rect width="1200" height="680" fill="${t.bg}"/>
+  <rect x="0" y="450" width="1200" height="230" fill="#c8d7ea"/>
+  <circle cx="210" cy="240" r="70" fill="${t.skin}"/><rect x="155" y="300" width="110" height="170" rx="52" fill="${t.card}"/>
+  <circle cx="430" cy="200" r="66" fill="${t.skin}"/><rect x="376" y="256" width="108" height="164" rx="50" fill="#9fb7d5"/>
+  <circle cx="650" cy="270" r="62" fill="${t.skin}"/><rect x="600" y="320" width="100" height="152" rx="48" fill="${t.suit}"/>
+  <circle cx="850" cy="220" r="64" fill="${t.skin}"/><rect x="798" y="276" width="104" height="160" rx="50" fill="#8fa9cd"/>
+  <circle cx="1010" cy="250" r="60" fill="${t.skin}"/><rect x="962" y="300" width="96" height="148" rx="46" fill="${t.card}"/>
+  <rect x="0" y="286" width="1200" height="140" fill="#ffffff" opacity="0.82"/>
+  <text x="600" y="378" text-anchor="middle" fill="#111111" font-size="92" font-family="Segoe UI, Arial, sans-serif" font-weight="800">${title}</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    const MOCK_SALES_POSTER_IMAGES = [
+      mockTaskforcePosterSvgDataUri('タスクフォースとは？', 0),
+      mockTaskforcePosterSvgDataUri('品質改善タスクフォース', 1),
+      mockTaskforcePosterSvgDataUri('改善チーム始動', 2),
+    ];
+
+    function mockNursingTeamPhotoSvgDataUri() {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#dfe7ea"/>
+  <rect y="640" width="1400" height="260" fill="#9ba9b0"/>
+  <rect x="140" y="110" width="1120" height="520" fill="#eef3f4" stroke="#8f9ca3" stroke-width="8"/>
+  <g fill="#f1ccb0">
+    <circle cx="350" cy="360" r="82"/><circle cx="560" cy="340" r="82"/><circle cx="760" cy="360" r="82"/><circle cx="980" cy="350" r="82"/><circle cx="1140" cy="370" r="82"/>
+  </g>
+  <g fill="#f9fdff" stroke="#c9d8e6" stroke-width="4">
+    <rect x="274" y="430" width="152" height="270" rx="66"/><rect x="484" y="410" width="152" height="290" rx="66"/>
+    <rect x="684" y="430" width="152" height="270" rx="66"/><rect x="904" y="420" width="152" height="280" rx="66"/><rect x="1064" y="440" width="152" height="260" rx="66"/>
+  </g>
+  <text x="62" y="844" fill="#2a4f73" font-size="52" font-family="Segoe UI, Arial, sans-serif" font-weight="700">看護部チーム写真（ダミー）</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockNursingPamphletSvgDataUri() {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1200">
+  <rect width="720" height="1200" fill="#f38da4"/>
+  <rect x="0" y="0" width="720" height="160" fill="#f7b4c4"/>
+  <text x="360" y="86" text-anchor="middle" fill="#2b2b2b" font-size="50" font-family="Segoe UI, Arial, sans-serif" font-weight="700">看護部のパンフレットが</text>
+  <text x="360" y="136" text-anchor="middle" fill="#2b2b2b" font-size="50" font-family="Segoe UI, Arial, sans-serif" font-weight="700">完成しました</text>
+  <text x="72" y="248" fill="#ffffff" font-size="76" font-family="Segoe UI, Arial, sans-serif" font-weight="800">YAOTOKU STORY</text>
+  <rect x="84" y="300" width="552" height="500" fill="#f6d7df"/>
+  <g>
+    <rect x="108" y="328" width="160" height="214" fill="#f3f8ff"/><rect x="280" y="328" width="160" height="214" fill="#f3f8ff"/><rect x="452" y="328" width="160" height="214" fill="#f3f8ff"/>
+    <rect x="108" y="554" width="160" height="214" fill="#f3f8ff"/><rect x="280" y="554" width="160" height="214" fill="#f3f8ff"/><rect x="452" y="554" width="160" height="214" fill="#f3f8ff"/>
+  </g>
+  <text x="360" y="520" text-anchor="middle" fill="#ffffff" font-size="74" font-family="Segoe UI, Arial, sans-serif" font-weight="800" opacity="0.45">OUR REAL</text>
+  <text x="72" y="934" fill="#ffffff" font-size="36" font-family="Segoe UI, Arial, sans-serif">あなたとお届けする、6つのストーリー</text>
+  <text x="580" y="1110" fill="#3a3a3a" font-size="92" font-family="Segoe UI, Arial, sans-serif" font-weight="700">→</text>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    function mockNursingPieChartSvgDataUri() {
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <rect width="900" height="900" fill="#ffffff"/>
+  <circle cx="450" cy="450" r="320" fill="#f3f6fb"/>
+  <path d="M450 450 L450 130 A320 320 0 0 1 740 316 Z" fill="#a8cf45"/>
+  <path d="M450 450 L740 316 A320 320 0 0 1 740 584 Z" fill="#f2d91f"/>
+  <path d="M450 450 L740 584 A320 320 0 0 1 590 745 Z" fill="#72bad1"/>
+  <path d="M450 450 L590 745 A320 320 0 0 1 304 738 Z" fill="#e98b8f"/>
+  <path d="M450 450 L304 738 A320 320 0 0 1 144 564 Z" fill="#aa97da"/>
+  <path d="M450 450 L144 564 A320 320 0 0 1 194 264 Z" fill="#61a7d8"/>
+  <path d="M450 450 L194 264 A320 320 0 0 1 450 130 Z" fill="#f6b043"/>
+  <g font-family="Segoe UI, Arial, sans-serif" font-weight="700" fill="#ffffff">
+    <text x="580" y="300" font-size="58">3年未満</text><text x="620" y="372" font-size="76">98人</text>
+    <text x="558" y="516" font-size="54">3〜5年未満</text><text x="640" y="584" font-size="74">42人</text>
+    <text x="468" y="690" font-size="70">24人</text>
+    <text x="374" y="760" font-size="76">32人</text>
+    <text x="164" y="516" font-size="58">10〜20年未満</text><text x="226" y="584" font-size="76">66人</text>
+    <text x="164" y="304" font-size="58">20〜30年未満</text><text x="226" y="372" font-size="76">58人</text>
+    <text x="370" y="180" font-size="72">26人</text>
+  </g>
+</svg>`;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    const MOCK_HR_FEATURE_IMAGES = [
+      mockNursingTeamPhotoSvgDataUri(),
+      mockNursingPamphletSvgDataUri(),
+      mockNursingPieChartSvgDataUri(),
     ];
 
     const MOCK_VIDEO_URLS = [
@@ -1055,18 +1698,194 @@
         url: mockFileDataUri(item.body, item.type),
       }));
       const f = (index) => fileCatalog[index % fileCatalog.length];
+      const imagePool = feedId === 'pr'
+        ? [...MOCK_PR_FEATURE_IMAGES, ...MOCK_PR_FLYER_IMAGES, ...MOCK_PR_EVENT_PHOTO_IMAGES]
+        : feedId === 'hr'
+          ? [...MOCK_HR_FEATURE_IMAGES, ...MOCK_ATTACHMENT_IMAGES]
+        : feedId === 'sales'
+          ? [...MOCK_SALES_POSTER_IMAGES, ...MOCK_ATTACHMENT_IMAGES]
+          : MOCK_ATTACHMENT_IMAGES;
+      const salesPrimaryPool = feedId === 'sales' ? MOCK_SALES_POSTER_IMAGES : [];
+      const uniqueImagePool = Array.from(new Set(imagePool));
+      const uniqueSlidePool = Array.from(new Set(MOCK_SLIDE_IMAGES));
+      const uniqueMeetingPool = Array.from(new Set(MOCK_MEETING_IMAGES));
+      const uniqueDocumentPool = Array.from(new Set(MOCK_DOCUMENT_IMAGES));
+      const uniqueInfographicPool = Array.from(new Set(MOCK_INFOGRAPHIC_IMAGES));
+      const uniqueMeetingSet = new Set(uniqueMeetingPool);
+      const uniqueSlideSet = new Set(uniqueSlidePool);
+      const uniqueDocumentSet = new Set(uniqueDocumentPool);
+      const uniqueInfographicSet = new Set(uniqueInfographicPool);
+      const usedImageUrls = new Set();
+      let usedMeetingCount = 0;
+      let usedSlideCount = 0;
+      let usedDocumentCount = 0;
+      let usedInfographicCount = 0;
+
+      const pickFromPool = (pool, offset) => {
+        if (!pool || pool.length === 0) return null;
+        for (let step = 0; step < pool.length; step += 1) {
+          const candidate = pool[(i + offset + step) % pool.length];
+          if (!usedImageUrls.has(candidate)) {
+            usedImageUrls.add(candidate);
+            if (uniqueMeetingSet.has(candidate)) usedMeetingCount += 1;
+            if (uniqueSlideSet.has(candidate)) usedSlideCount += 1;
+            if (uniqueDocumentSet.has(candidate)) usedDocumentCount += 1;
+            if (uniqueInfographicSet.has(candidate)) usedInfographicCount += 1;
+            return candidate;
+          }
+        }
+        return null;
+      };
+
+      const pickUniqueImageUrl = (offset) => {
+        if (feedId !== 'pr') {
+          const canUseMeeting = usedMeetingCount < 1;
+          const canUseSlide = usedSlideCount < 1;
+          const canUseDocument = usedDocumentCount < 1;
+          const canUseInfographic = usedInfographicCount < 1;
+          const families = [
+            canUseMeeting ? uniqueMeetingPool : null,
+            canUseSlide ? uniqueSlidePool : null,
+            canUseDocument ? uniqueDocumentPool : null,
+            canUseInfographic ? uniqueInfographicPool : null,
+          ];
+          const rotation = offset % 4;
+          const familyOrder = [
+            families[(0 + rotation) % 4],
+            families[(1 + rotation) % 4],
+            families[(2 + rotation) % 4],
+            families[(3 + rotation) % 4],
+          ];
+          for (let idx = 0; idx < familyOrder.length; idx += 1) {
+            const pool = familyOrder[idx];
+            if (!pool) continue;
+            const picked = pickFromPool(pool, offset + (idx * 3));
+            if (picked) return picked;
+          }
+        }
+        const picked = pickFromPool(uniqueImagePool, offset);
+        if (picked) return picked;
+        const fallback = uniqueImagePool[(i + offset) % uniqueImagePool.length];
+        usedImageUrls.add(fallback);
+        return fallback;
+      };
 
       const image = (offset) => ({
         name: `投稿画像_${i + 1}_${offset + 1}.svg`,
         type: 'image/svg+xml',
-        url: MOCK_SLIDE_IMAGES[(i + offset) % MOCK_SLIDE_IMAGES.length],
+        url: (() => {
+          if (feedId === 'hr' && offset === 0) {
+            const hrFeatured = MOCK_HR_FEATURE_IMAGES[i % MOCK_HR_FEATURE_IMAGES.length];
+            if (!usedImageUrls.has(hrFeatured)) {
+              usedImageUrls.add(hrFeatured);
+              return hrFeatured;
+            }
+          }
+          if (feedId === 'pr' && (offset === 0 || (offset === 1 && i % 3 === 0))) {
+            const featured = MOCK_PR_FEATURE_IMAGES[(i + offset) % MOCK_PR_FEATURE_IMAGES.length];
+            if (!usedImageUrls.has(featured)) {
+              usedImageUrls.add(featured);
+              return featured;
+            }
+          }
+          if (feedId === 'sales' && offset === 0 && salesPrimaryPool.length > 0) {
+            const forced = salesPrimaryPool[i % salesPrimaryPool.length];
+            usedImageUrls.add(forced);
+            return forced;
+          }
+          return pickUniqueImageUrl(offset);
+        })(),
       });
       const video = (offset) => ({
         name: `投稿動画_${i + 1}_${offset + 1}.mp4`,
         type: 'video/mp4',
         url: MOCK_VIDEO_URLS[(i + offset) % MOCK_VIDEO_URLS.length],
-        thumbUrl: MOCK_SLIDE_IMAGES[(i + offset + 2) % MOCK_SLIDE_IMAGES.length],
+        thumbUrl: pickUniqueImageUrl(offset + 20),
       });
+
+      if (feedId === 'pr') {
+        switch (i % 8) {
+          case 0:
+            return [f(0), f(1), f(2), f(3)];
+          case 1:
+            return [image(0), f(0), f(1), f(2)];
+          case 2:
+            return [image(0), image(1), f(1), f(2)];
+          case 3:
+            return [image(0), image(1), image(2), video(0), f(0)];
+          case 4:
+            return [image(0), image(1), image(2), image(3), image(4), f(1)];
+          case 5:
+            return [image(0), image(1), image(2), image(3), image(4), image(5), f(2)];
+          case 6:
+            return [video(0), f(0), f(2), f(3)];
+          default:
+            return [image(0), video(0), image(1), f(0), image(2), f(1)];
+        }
+      }
+
+      if (feedId === 'hr') {
+        switch (i % 8) {
+          case 0:
+            return [f(0), f(1), f(2), f(3)];
+          case 1:
+            return [image(0), f(0), f(1), f(2)];
+          case 2:
+            return [image(0), image(1), f(0), f(1)];
+          case 3:
+            return [image(0), image(1), image(2), video(0), f(2)];
+          case 4:
+            return [image(0), image(1), image(2), image(3), image(4), f(0)];
+          case 5:
+            return [image(0), image(1), image(2), image(3), image(4), image(5), f(1)];
+          case 6:
+            return [video(0), f(0), f(1), f(2)];
+          default:
+            return [image(0), video(0), image(1), f(0), image(2), f(1)];
+        }
+      }
+
+      if (feedId === 'sales') {
+        switch (i % 8) {
+          case 0:
+            return [f(0), f(1), f(2), f(3)];
+          case 1:
+            return [image(0), f(0), f(1), f(2)];
+          case 2:
+            return [image(0), image(1), f(0), f(1)];
+          case 3:
+            return [image(0), image(1), image(2), video(0), f(2)];
+          case 4:
+            return [image(0), image(1), image(2), image(3), image(4), f(0)];
+          case 5:
+            return [image(0), image(1), image(2), image(3), image(4), image(5), f(1)];
+          case 6:
+            return [video(0), f(0), f(1), f(2)];
+          default:
+            return [image(0), video(0), image(1), f(0), image(2), f(1)];
+        }
+      }
+
+      if (feedId === 'director-share') {
+        switch (i % 8) {
+          case 0:
+            return [];
+          case 1:
+            return [image(0)];
+          case 2:
+            return [image(0), image(1)];
+          case 3:
+            return [f(0), f(1)];
+          case 4:
+            return [image(0), f(0)];
+          case 5:
+            return [image(0), image(1), image(2), f(2)];
+          case 6:
+            return [video(0), f(1)];
+          default:
+            return [image(0), image(1), f(0), f(2)];
+        }
+      }
 
       switch (i % 5) {
         case 0:
@@ -1083,7 +1902,9 @@
     }
 
     function createMockPost(i) {
-      const feedId = FEEDS[1 + (i % (FEEDS.length - 1))].id;
+      const mockTargetFeeds = FEEDS
+        .filter((feed) => feed.id !== 'all' && feed.id !== 'training-plan');
+      const feedId = mockTargetFeeds[i % mockTargetFeeds.length].id;
       const feedTemplates = FEED_TEMPLATES[feedId] || FEED_TEMPLATES.product;
       const content = feedTemplates[i % feedTemplates.length] + (i % 3 === 0 ? '\n\n詳細: 追記事項として、各担当の期限と担当範囲をコメント欄に追記しています。' : '');
       const feedAuthors = AUTHORS_BY_FEED[feedId] || authors;
@@ -1111,8 +1932,10 @@
         id: i + 1,
         author,
         feedId,
+        createdAt: Date.now() - ((i + 1) * 60 * 60 * 1000),
         hoursAgo: i + 1,
         content,
+        linkPreview: buildLinkPreviewFromText(content),
         media: '',
         attachments,
         readers,
@@ -1127,6 +1950,22 @@
     const postsRoot = document.getElementById('posts');
     const feedTabs = document.getElementById('feed-tabs');
     const groupsView = document.getElementById('groups-view');
+    const notificationsView = document.getElementById('notifications-view');
+    const notificationsTabGeneral = document.getElementById('notifications-tab-general');
+    const notificationsTabAdmin = document.getElementById('notifications-tab-admin');
+    const notificationsPanelList = document.getElementById('notifications-panel-list');
+    const settingsView = document.getElementById('settings-view');
+    const settingsNotifyAll = document.getElementById('settings-notify-all');
+    const settingsNotifyAdminSettings = document.getElementById('settings-notify-admin-settings');
+    const settingsNotifyJoinRequestResult = document.getElementById('settings-notify-join-request-result');
+    const settingsNotifyInviteRequestResult = document.getElementById('settings-notify-invite-request-result');
+    const settingsNotifyGroupJoin = document.getElementById('settings-notify-group-join');
+    const settingsNotifyComments = document.getElementById('settings-notify-comments');
+    const settingsNotifyGroupPosts = document.getElementById('settings-notify-group-posts');
+    const settingsQuietHoursEnabled = document.getElementById('settings-quiet-hours-enabled');
+    const settingsQuietHoursRow = document.getElementById('settings-quiet-hours-row');
+    const settingsQuietHoursStart = document.getElementById('settings-quiet-hours-start');
+    const settingsQuietHoursEnd = document.getElementById('settings-quiet-hours-end');
     const groupSearch = document.getElementById('group-search');
     const groupCreateRequestBtn = document.getElementById('group-create-request-btn');
     const groupSortCancel = document.getElementById('group-sort-cancel');
@@ -1134,6 +1973,7 @@
     const unjoinedGroups = document.getElementById('unjoined-groups');
     const composerCard = document.querySelector('.composer');
     const composerInput = document.getElementById('composer-input');
+    const composerLinkPreview = document.getElementById('composer-link-preview');
     const composerTargetRow = document.getElementById('composer-target-row');
     const composerTarget = document.getElementById('composer-target');
     const composerAttachPreview = document.getElementById('composer-attach-preview');
@@ -1164,6 +2004,12 @@
     const manageUsersMembersEmpty = document.getElementById('manage-users-members-empty');
     const manageUsersRequests = document.getElementById('manage-users-requests');
     const manageUsersRequestsEmpty = document.getElementById('manage-users-requests-empty');
+    const adminReportsBackdrop = document.getElementById('admin-reports-backdrop');
+    const adminReportsModal = document.getElementById('admin-reports-modal');
+    const adminReportsTitle = document.getElementById('admin-reports-title');
+    const adminReportsClose = document.getElementById('admin-reports-close');
+    const adminReportsList = document.getElementById('admin-reports-list');
+    const adminReportsEmpty = document.getElementById('admin-reports-empty');
     const groupRequestBackdrop = document.getElementById('group-request-backdrop');
     const groupRequestModal = document.getElementById('group-request-modal');
     const groupRequestClose = document.getElementById('group-request-close');
@@ -1174,6 +2020,7 @@
     const groupRequestIconPreview = document.getElementById('group-request-icon-preview');
     const groupRequestName = document.getElementById('group-request-name');
     const groupRequestDescription = document.getElementById('group-request-description');
+    const groupRequestSecret = document.getElementById('group-request-secret');
     const groupRequestMemberSearch = document.getElementById('group-request-member-search');
     const groupRequestMemberList = document.getElementById('group-request-member-list');
     const groupRequestIconError = document.getElementById('group-request-icon-error');
@@ -1187,6 +2034,8 @@
     const groupDetailClose = document.getElementById('group-detail-close');
     const groupDetailHead = document.getElementById('group-detail-head');
     const groupDetailDescription = document.getElementById('group-detail-description');
+    const groupDetailNotifyRow = document.getElementById('group-detail-notify-row');
+    const groupDetailNotifyMute = document.getElementById('group-detail-notify-mute');
     const groupDetailAdminSummary = document.getElementById('group-detail-admin-summary');
     const groupDetailActions = document.getElementById('group-detail-actions');
     const groupDetailOpenTimeline = document.getElementById('group-detail-open-timeline');
@@ -1208,6 +2057,12 @@
     const commentActionSheet = document.getElementById('comment-action-sheet');
     const commentActionClose = document.getElementById('comment-action-close');
     const topMenuItems = Array.from(document.querySelectorAll('.top-menu-item'));
+    const reportReasonBackdrop = document.getElementById('report-reason-backdrop');
+    const reportReasonModal = document.getElementById('report-reason-modal');
+    const reportReasonClose = document.getElementById('report-reason-close');
+    const reportReasonList = document.getElementById('report-reason-list');
+    const reportReasonCancel = document.getElementById('report-reason-cancel');
+    const reportReasonSubmit = document.getElementById('report-reason-submit');
     const timelineSearch = document.getElementById('timeline-search');
     const timelineSearchClear = document.getElementById('timeline-search-clear');
     const topbar = document.querySelector('.topbar');
@@ -1256,7 +2111,17 @@
     let groupSortPressTimer = null;
     let groupSortDragState = null;
     let currentFeedId = 'all';
+    const seenGroupNewPostByFeed = {};
+    const seenOwnCommentedByPostTs = {};
+    const cachedOwnCommentNotificationItemsByPost = {};
+    const cachedGroupNewPostNotificationItemsByFeed = {};
+    const cachedAdminNotificationItemsByKey = {};
+    let previousLiveAdminNotificationsByKey = {};
+    const dismissedNotificationKeys = new Set();
+    let currentNotificationsTab = 'general';
+    let hasSeenAdminAssignedDirectorShareNotification = false;
     let composerAttachments = [];
+    let composerDetectedLinkPreview = null;
     let appDialogResolver = null;
     let appDialogType = 'alert';
     let appDialogMediaEnabled = false;
@@ -1274,10 +2139,44 @@
     let groupRequestIconUrl = '';
     let groupRequestIconRevokeOnClose = false;
     let manageUsersModalGroup = null;
+    let adminReportsModalFeedId = '';
+    let adminReportsSeeded = false;
+    let nextAdminReportId = 1;
     let groupDetailModalGroup = null;
     let groupDetailExpanded = false;
     let mediaPreviewItems = [];
     let mediaPreviewIndex = 0;
+    let reportReasonResolver = null;
+    let selectedReportReasonIndex = -1;
+    const appSettings = {
+      notifyAll: true,
+      notifyAdminSettings: true,
+      notifyJoinRequestResult: true,
+      notifyInviteRequestResult: true,
+      notifyGroupJoin: true,
+      notifyComments: true,
+      notifyGroupPosts: true,
+      quietHoursEnabled: false,
+      quietHoursStart: '22:00',
+      quietHoursEnd: '07:00',
+    };
+    const groupCreateDecisionNotices = [
+      { groupId: 'grp-training-plan', groupName: '勉強会・研修企画', approved: true, decidedAt: Date.now() - (28 * 60 * 1000) },
+      { groupId: 'grp-sato-farewell', groupName: '佐藤さん送別会', approved: false, decidedAt: Date.now() - (96 * 60 * 1000) },
+    ];
+    const adminPostReports = [];
+
+    const REPORT_REASONS = [
+      '18歳未満の人物が関わる問題',
+      'いじめ、嫌がらせ、虐待',
+      '自殺または自傷行為',
+      '暴力的、不快、または悪意があるコンテンツ',
+      '制限された商品を販売または宣伝している',
+      '成人向けコンテンツ',
+      '詐欺または虚偽の情報',
+      '知的財産権',
+      'これを見たくない',
+    ];
 
     function closeAppDialog(result) {
       const shouldKeepDraftUrls = !!(result && typeof result === 'object' && result.keepUrls);
@@ -1399,6 +2298,38 @@
       return openAppDialog({ type: 'prompt', title, message, defaultValue, okText: '保存', cancelText: 'キャンセル', ...options });
     }
 
+    function closeReportReasonModal(selectedReason = null) {
+      reportReasonModal.classList.remove('open');
+      reportReasonBackdrop.classList.remove('open');
+      selectedReportReasonIndex = -1;
+      reportReasonList.innerHTML = '';
+      reportReasonSubmit.disabled = true;
+      if (reportReasonResolver) {
+        const resolve = reportReasonResolver;
+        reportReasonResolver = null;
+        resolve(selectedReason);
+      }
+    }
+
+    function renderReportReasonList() {
+      reportReasonList.innerHTML = REPORT_REASONS.map((reason, index) => {
+        const selected = selectedReportReasonIndex === index;
+        return `<li class="report-reason-item"><button class="report-reason-btn ${selected ? 'selected' : ''}" type="button" data-report-reason-index="${index}" aria-pressed="${selected ? 'true' : 'false'}">${escapeHtml(reason)}</button></li>`;
+      }).join('');
+      reportReasonSubmit.disabled = selectedReportReasonIndex < 0;
+    }
+
+    function openReportReasonModal() {
+      if (reportReasonResolver) closeReportReasonModal(null);
+      selectedReportReasonIndex = -1;
+      renderReportReasonList();
+      reportReasonModal.classList.add('open');
+      reportReasonBackdrop.classList.add('open');
+      return new Promise((resolve) => {
+        reportReasonResolver = resolve;
+      });
+    }
+
     function selectedDialogTargetValues() {
       if (!appDialogTargetEnabled) return [];
       if (!appDialogTargetMultiEnabled) return appDialogTargetSelect.value ? [appDialogTargetSelect.value] : [];
@@ -1430,11 +2361,18 @@
       timelineSearch.classList.toggle('hidden', !showSearch);
       topbar.classList.toggle('no-search', !showSearch);
       const showGroups = activeMenuIndex === 1;
+      const showNotifications = activeMenuIndex === 2;
+      const showSettings = activeMenuIndex === 3;
       groupsView.classList.toggle('show', showGroups);
-      feedTabs.style.display = showGroups ? 'none' : '';
-      composerCard.style.display = showGroups ? 'none' : '';
-      postsRoot.style.display = showGroups ? 'none' : '';
+      notificationsView.classList.toggle('show', showNotifications);
+      settingsView.classList.toggle('show', showSettings);
+      const showTimeline = activeMenuIndex === 0;
+      feedTabs.style.display = showTimeline ? '' : 'none';
+      composerCard.style.display = showTimeline ? '' : 'none';
+      postsRoot.style.display = showTimeline ? '' : 'none';
       if (showGroups) renderGroupsView();
+      if (showNotifications) renderNotificationsPanel();
+      if (showSettings) renderSettingsPanel();
     }
 
     function scrollPageTop() {
@@ -1529,6 +2467,14 @@
         if (event.key === 'Escape') closeInviteUsersModal(null);
         return;
       }
+      if (reportReasonModal.classList.contains('open')) {
+        if (event.key === 'Escape') closeReportReasonModal(null);
+        return;
+      }
+      if (adminReportsModal.classList.contains('open')) {
+        if (event.key === 'Escape') closeAdminReportsModal();
+        return;
+      }
       if (!appDialog.classList.contains('open')) return;
       if (event.key === 'Escape') {
         if (appDialogType === 'confirm') closeAppDialog(false);
@@ -1552,13 +2498,9 @@
       }
     });
 
-    topMenuItems.forEach((item) => {
+    topMenuItems.forEach((item, index) => {
       item.addEventListener('click', () => {
-        if (isGroupSortMode) exitGroupSortMode();
-        topMenuItems.forEach((btn) => btn.classList.remove('active'));
-        item.classList.add('active');
-        syncTopbarSearchVisibility();
-        scrollPageTop();
+        activateTopMenu(index);
       });
     });
 
@@ -1595,6 +2537,7 @@
 
     applyAvatarToElement(document.getElementById('composer-avatar'), CURRENT_USER);
     renderComposerTargetOptions();
+    renderComposerLinkPreview();
 
 
     function feedMetaById(feedId) {
@@ -1647,24 +2590,35 @@
 
     function renderComposerTargetOptions() {
       const targets = shareableFeeds();
-      if (targets.length >= 2) {
-        const options = targets
-          .map((feed) => `<option value="${feed.id}">${escapeHtml(feed.name)}${feed.official ? '（公式）' : ''}${feed.secret ? '（秘密）' : ''}</option>`)
-          .join('');
-        composerTargetRow.style.display = 'flex';
-        composerTarget.innerHTML = `<option value="" selected>グループを選択</option>${options}`;
+      if (currentFeedId !== 'all') {
+        composerTargetRow.style.display = 'none';
+        const currentFeed = targets.find((feed) => feed.id === currentFeedId) || null;
+        if (currentFeed) {
+          composerTarget.innerHTML = `<option value="${currentFeed.id}" selected>${escapeHtml(currentFeed.name)}${currentFeed.official ? '（公式）' : ''}${currentFeed.secret ? '（秘密）' : ''}</option>`;
+          composerTarget.value = currentFeed.id;
+        } else {
+          composerTarget.innerHTML = `<option value="" selected>グループを選択</option>`;
+          composerTarget.value = '';
+        }
+        return;
+      }
+      if (targets.length === 0) {
+        composerTargetRow.style.display = 'none';
+        composerTarget.innerHTML = `<option value="" selected>グループを選択</option>`;
         composerTarget.value = '';
         return;
       }
+      const options = targets
+        .map((feed) => `<option value="${feed.id}">${escapeHtml(feed.name)}${feed.official ? '（公式）' : ''}${feed.secret ? '（秘密）' : ''}</option>`)
+        .join('');
+      composerTargetRow.style.display = 'flex';
       if (targets.length === 1) {
         const only = targets[0];
-        composerTargetRow.style.display = 'none';
-        composerTarget.innerHTML = `<option value="${only.id}" selected>${escapeHtml(only.name)}${only.official ? '（公式）' : ''}${only.secret ? '（秘密）' : ''}</option>`;
+        composerTarget.innerHTML = options;
         composerTarget.value = only.id;
         return;
       }
-      composerTargetRow.style.display = 'none';
-      composerTarget.innerHTML = `<option value="" selected>グループを選択</option>`;
+      composerTarget.innerHTML = `<option value="" selected>グループを選択</option>${options}`;
       composerTarget.value = '';
     }
 
@@ -1936,7 +2890,7 @@
           ${avatarHtmlByName(source.author?.user || '', 'shared-source-avatar')}
           <div class="shared-post-head-meta">
             <div class="shared-post-author">${escapeHtml(source.author?.user || '')}</div>
-            <div class="shared-post-time">${source.hoursAgo !== undefined ? escapeHtml(formatTimestamp(source.hoursAgo)) : ''}</div>
+            <div class="shared-post-time">${escapeHtml(formatPostTimestamp(source))}</div>
           </div>
         </div>
         <div class="shared-post-meta">シェア元: ${escapeHtml(sourceFeed.name || '')} ・ ${escapeHtml(source.author?.user || '')}</div>
@@ -1957,7 +2911,7 @@
       if (!sourcePost) return '';
       const sourceFeed = feedMetaById(sourcePost.feedId);
       const sourceUser = sourcePost.author?.user || '';
-      const sourceTime = sourcePost.hoursAgo !== undefined ? formatTimestamp(sourcePost.hoursAgo) : '';
+      const sourceTime = formatPostTimestamp(sourcePost);
       return `<div class="app-dialog-share-head">
           ${avatarHtmlByName(sourceUser, 'app-dialog-share-avatar')}
           <div class="app-dialog-share-head-meta">
@@ -2010,9 +2964,15 @@
     function renderFeedTabs() {
       const orderedJoinedFeeds = shareableFeeds();
       const allFeed = FEEDS.find((feed) => feed.id === 'all') || FEEDS[0];
-      const visibleFeeds = [allFeed, ...orderedJoinedFeeds];
+      const showAllFeed = orderedJoinedFeeds.length >= 2;
+      const visibleFeeds = showAllFeed
+        ? [allFeed, ...orderedJoinedFeeds]
+        : (orderedJoinedFeeds.length > 0 ? orderedJoinedFeeds : [allFeed]);
+      if (!showAllFeed && currentFeedId === 'all' && orderedJoinedFeeds.length > 0) {
+        currentFeedId = orderedJoinedFeeds[0].id;
+      }
       if (!visibleFeeds.some((feed) => feed.id === currentFeedId)) {
-        currentFeedId = 'all';
+        currentFeedId = visibleFeeds[0]?.id || 'all';
       }
       feedTabs.innerHTML = visibleFeeds.map((feed) => `
         <button class="feed-tab ${feed.id === currentFeedId ? 'active' : ''}" type="button" data-feed-id="${feed.id}">
@@ -2092,7 +3052,9 @@
     function groupItemHtml(group) {
       const initials = (group.name || '').slice(0, 2);
       const iconHtml = groupIconHtml(group, initials);
+      const showAdminBadge = isCurrentUserGroupAdmin(group);
       const canManageUsers = !!group.joined && !group.official && isCurrentUserGroupAdmin(group);
+      const canDeleteGroup = !!group.joined && !group.official && isCurrentUserGroupAdmin(group);
       const canInviteUsers = !!group.joined && !group.official && !canManageUsers;
       const canShowJoinedMenu = !!group.joined && !group.official;
       const isGroupMenuOpen = activeGroupMenuId === group.id;
@@ -2103,6 +3065,7 @@
         const menuItems = [
           canManageUsers ? `<button class="group-menu-item" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-manage-users="true">メンバー管理</button>` : '',
           canInviteUsers ? `<button class="group-menu-item" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-invite="true">招待申請</button>` : '',
+          canDeleteGroup ? `<button class="group-menu-item danger" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-action="delete">グループを削除</button>` : '',
           `<button class="group-menu-item danger" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-action="leave">退出</button>`,
         ].filter(Boolean).join('');
         actionHtml = `<div class="group-actions menu">
@@ -2119,7 +3082,7 @@
           <div class="group-meta">
             <span class="group-name">${escapeHtml(group.name)}</span>
             ${group.official ? '<span class="group-official">公式</span>' : ''}
-            ${canManageUsers ? '<span class="group-admin">管理者</span>' : ''}
+            ${showAdminBadge ? '<span class="group-admin">管理者</span>' : ''}
             ${group.secret ? '<span class="group-secret"><span class="secret-lock-icon" aria-label="秘密グループ"></span></span>' : ''}
             <span class="group-count">(${group.members})</span>
           </div>
@@ -2163,6 +3126,14 @@
         }
         return `<div class="attach-chip">${body}<button class="attach-remove" type="button" data-attach-id="${item.id}" aria-label="添付を削除">✕</button></div>`;
       }).join('');
+    }
+
+    function renderComposerLinkPreview() {
+      if (!composerLinkPreview) return;
+      composerDetectedLinkPreview = buildLinkPreviewFromText(composerInput.value || '');
+      composerLinkPreview.innerHTML = composerDetectedLinkPreview
+        ? renderLinkPreviewCard(composerDetectedLinkPreview)
+        : '';
     }
 
     async function addComposerFiles(fileList) {
@@ -2213,6 +3184,7 @@
           </div>
         </div>
         ${post.content ? `<div class="post-content" data-full="${escapeHtml(post.content)}">${escapeHtml(post.content)}</div>` : ''}
+        ${post.linkPreview ? renderLinkPreviewCard(post.linkPreview) : ''}
         ${renderSharedPostBlock(post)}
         ${renderPostMedia(post)}
         <div class="engagement-row">
@@ -2280,6 +3252,34 @@
         .replaceAll("'", '&#39;');
     }
 
+    function linkifyCommentText(text) {
+      const raw = String(text || '');
+      const pattern = /https?:\/\/[^\s<>"'`]+/gi;
+      let html = '';
+      let lastIndex = 0;
+
+      for (const match of raw.matchAll(pattern)) {
+        const start = match.index || 0;
+        const end = start + match[0].length;
+        html += escapeHtml(raw.slice(lastIndex, start)).replace(/\n/g, '<br>');
+        let url = match[0];
+        let trailing = '';
+        while (/[),.;!?]$/.test(url)) {
+          trailing = url.slice(-1) + trailing;
+          url = url.slice(0, -1);
+        }
+        if (url) {
+          const safeUrl = escapeHtml(url);
+          html += `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeUrl}</a>`;
+        }
+        if (trailing) html += escapeHtml(trailing);
+        lastIndex = end;
+      }
+
+      html += escapeHtml(raw.slice(lastIndex)).replace(/\n/g, '<br>');
+      return html;
+    }
+
 
 
     function formatDateTimeJa(date) {
@@ -2294,14 +3294,78 @@
     }
 
     function formatTimestamp(hoursAgo) {
-      if (hoursAgo < 24) return `${hoursAgo}時間前`;
-      const now = new Date();
-      const target = new Date(now.getTime() - hoursAgo * 60 * 60 * 1000);
-      return formatDateTimeJa(target);
+      const diffSec = Math.max(0, Math.floor(Number(hoursAgo || 0) * 60 * 60));
+      if (diffSec < 60) return `${diffSec}秒前`;
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `${diffMin}分前`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `${diffHour}時間前`;
+      const diffDay = Math.floor(diffHour / 24);
+      return `${diffDay}日前`;
+    }
+
+    function resolvePostCreatedAt(post) {
+      const createdAt = Number(post?.createdAt || 0);
+      if (createdAt > 0) return createdAt;
+      const hoursAgo = Number(post?.hoursAgo || 0);
+      if (Number.isFinite(hoursAgo) && hoursAgo >= 0) {
+        return Date.now() - Math.floor(hoursAgo * 60 * 60 * 1000);
+      }
+      return Date.now();
+    }
+
+    function formatPostTimestamp(post) {
+      return formatRelativeCommentTimestamp(resolvePostCreatedAt(post));
     }
 
     function formatPostMetaLine(post) {
-      return `${post.author.user} ・ ${formatTimestamp(post.hoursAgo)}${post.edited ? ' ・ 編集済み' : ''}`;
+      return `${post.author.user} ・ ${formatPostTimestamp(post)}${post.edited ? ' ・ 編集済み' : ''}`;
+    }
+
+    function extractFirstUrl(text) {
+      const source = String(text || '');
+      const match = source.match(/https?:\/\/[^\s<>"'`]+/i);
+      if (!match) return '';
+      return match[0].replace(/[),.;!?]+$/, '');
+    }
+
+    function buildLinkPreviewFromText(text) {
+      const rawUrl = extractFirstUrl(text);
+      if (!rawUrl) return null;
+      let parsed;
+      try {
+        parsed = new URL(rawUrl);
+      } catch {
+        return null;
+      }
+      const hostname = parsed.hostname.toLowerCase();
+      const siteName = hostname.replace(/^www\./, '');
+      const presets = {
+        'www.yahoo.co.jp': { title: 'Yahoo! JAPAN', description: 'ニュース、天気、検索、メールなどを提供するポータルサイト。' },
+        'yahoo.co.jp': { title: 'Yahoo! JAPAN', description: 'ニュース、天気、検索、メールなどを提供するポータルサイト。' },
+      };
+      const preset = presets[hostname] || null;
+      return {
+        url: parsed.href,
+        siteName,
+        title: preset ? preset.title : siteName,
+        description: preset ? preset.description : (parsed.pathname && parsed.pathname !== '/' ? `${siteName} のページ` : `${siteName} のトップページ`),
+        faviconUrl: `https://www.google.com/s2/favicons?sz=128&domain=${encodeURIComponent(hostname)}`,
+      };
+    }
+
+    function renderLinkPreviewCard(preview) {
+      if (!preview) return '';
+      return `<a class="link-preview-card" href="${escapeHtml(preview.url)}" target="_blank" rel="noopener noreferrer">
+        <div class="link-preview-head">
+          <img class="link-preview-favicon" src="${escapeHtml(preview.faviconUrl)}" alt="" aria-hidden="true" />
+          <div class="link-preview-meta">
+            <div class="link-preview-title">${escapeHtml(preview.title || preview.siteName || preview.url)}</div>
+            <div class="link-preview-desc">${escapeHtml(preview.description || '')}</div>
+            <div class="link-preview-site">${escapeHtml(preview.siteName || preview.url)}</div>
+          </div>
+        </div>
+      </a>`;
     }
 
     function formatRelativeCommentTimestamp(createdAt) {
@@ -2315,7 +3379,8 @@
       if (diffMin < 60) return `${diffMin}分前`;
       const diffHour = Math.floor(diffMin / 60);
       if (diffHour < 24) return `${diffHour}時間前`;
-      return formatDateTimeJa(new Date(createdAt));
+      const diffDay = Math.floor(diffHour / 24);
+      return `${diffDay}日前`;
     }
 
     function openReadersModal(readers) {
@@ -2404,6 +3469,7 @@
 
     function ensureGroupManageData(group) {
       if (!group) return;
+      group.notificationMuted = !!group.notificationMuted;
       group.membersList = uniqueNames(group.membersList);
       if (!group.membersList.includes(CURRENT_USER) && group.joined) {
         group.membersList.unshift(CURRENT_USER);
@@ -2459,6 +3525,7 @@
           group.members = 0;
           return;
         }
+        ensureGroupManageData(group);
         const writers = new Set(
           posts
             .filter((post) => post.feedId === feed.id)
@@ -2466,7 +3533,7 @@
             .filter(Boolean)
         );
         writers.add(CURRENT_USER);
-        group.members = writers.size;
+        group.members = Math.max(writers.size, group.membersList.length);
       });
     }
 
@@ -2514,6 +3581,8 @@
         <div class="group-detail-title">${escapeHtml(group.name)}${badges ? `<span class="group-detail-badges">${badges}</span>` : ''}</div>
       `;
       groupDetailDescription.textContent = groupDetailDescriptionText(group);
+      if (groupDetailNotifyRow) groupDetailNotifyRow.hidden = !group.joined;
+      if (groupDetailNotifyMute) groupDetailNotifyMute.checked = !group.notificationMuted;
       const allMembers = buildGroupDetailMembers(group);
       const members = groupDetailExpanded ? allMembers : allMembers.slice(0, 12);
       const adminUsers = groupDetailAdminUsers(group, allMembers);
@@ -2576,6 +3645,8 @@
       if (groupDetailBody) groupDetailBody.scrollTop = 0;
       groupDetailHead.innerHTML = '';
       groupDetailDescription.textContent = '';
+      if (groupDetailNotifyRow) groupDetailNotifyRow.hidden = true;
+      if (groupDetailNotifyMute) groupDetailNotifyMute.checked = false;
       groupDetailAdminSummary.textContent = '';
       groupDetailActions.style.display = '';
       groupDetailOpenTimeline.dataset.feedId = '';
@@ -2645,6 +3716,79 @@
       manageUsersModalGroup = null;
     }
 
+    function renderAdminReportsModal() {
+      const feedId = adminReportsModalFeedId || '';
+      const targetGroup = feedId ? groupByFeedId(feedId) : null;
+      adminReportsTitle.textContent = targetGroup ? `「${targetGroup.name}」の報告管理` : '報告管理';
+      const items = collectPendingAdminReportItems(feedId);
+      if (items.length === 0) {
+        adminReportsList.innerHTML = '';
+        adminReportsList.classList.add('hidden');
+        adminReportsEmpty.textContent = '現在、対応が必要な報告はありません';
+        return;
+      }
+      adminReportsList.classList.remove('hidden');
+      adminReportsEmpty.textContent = '';
+      adminReportsList.innerHTML = items.map((item) => {
+        const postId = Number(item.post.id || 0);
+        const reason = item.latestReason || '確認依頼';
+        const authorName = item.post.author?.user || '不明';
+        const postFeed = feedMetaById(item.post.feedId);
+        return `<li class="admin-reports-item">
+          <div class="post-header">
+            <div class="post-header-main">
+              ${avatarHtmlByName(authorName, 'avatar')}
+              <div class="post-meta">
+                <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}</b>
+                <small>${escapeHtml(formatPostMetaLine(item.post))}</small>
+              </div>
+            </div>
+          </div>
+          <div class="admin-reports-post">${escapeHtml((item.post.content || '').slice(0, 120))}</div>
+          <div class="admin-reports-meta">理由: ${escapeHtml(reason)}</div>
+          <div class="admin-reports-actions">
+            <button class="admin-reports-btn delete" type="button" data-admin-report-action="delete" data-admin-report-post-id="${String(postId)}">削除する</button>
+            <button class="admin-reports-btn ok" type="button" data-admin-report-action="no-issue" data-admin-report-post-id="${String(postId)}">問題なし</button>
+          </div>
+        </li>`;
+      }).join('');
+    }
+
+    function openAdminReportsModal(feedId = '') {
+      adminReportsModalFeedId = feedId || '';
+      renderAdminReportsModal();
+      adminReportsModal.classList.add('open');
+      adminReportsBackdrop.classList.add('open');
+    }
+
+    function closeAdminReportsModal() {
+      adminReportsModal.classList.remove('open');
+      adminReportsBackdrop.classList.remove('open');
+      adminReportsModalFeedId = '';
+      adminReportsList.innerHTML = '';
+      adminReportsEmpty.textContent = '';
+    }
+
+    function resolveAdminReport(postId, action) {
+      const targetPostId = Number(postId || 0);
+      if (targetPostId <= 0) return;
+      adminPostReports.forEach((report) => {
+        if (report.status === 'pending' && Number(report.postId || 0) === targetPostId) {
+          report.status = action;
+          report.resolvedAt = Date.now();
+        }
+      });
+      if (action === 'delete') {
+        const idx = posts.findIndex((post) => Number(post.id || 0) === targetPostId);
+        if (idx >= 0) posts.splice(idx, 1);
+        if (commentView.classList.contains('open') && Number(currentCommentPostId || 0) === targetPostId) {
+          closeCommentView();
+        }
+      }
+      rerenderTimeline();
+      renderAdminReportsModal();
+    }
+
     function renderGroupRequestMemberList() {
       const q = groupRequestSearchQuery.trim().toLowerCase();
       const candidates = people.filter((name) => name !== CURRENT_USER);
@@ -2674,6 +3818,7 @@
       groupRequestMemberSearch.value = '';
       groupRequestName.value = '';
       groupRequestDescription.value = '';
+      groupRequestSecret.checked = false;
       clearGroupRequestErrors();
       if (groupRequestIconRevokeOnClose && groupRequestIconUrl) URL.revokeObjectURL(groupRequestIconUrl);
       groupRequestIconUrl = '';
@@ -2692,6 +3837,7 @@
       clearGroupRequestErrors();
       groupRequestMemberList.innerHTML = '';
       groupRequestMemberSearch.value = '';
+      groupRequestSecret.checked = false;
       if (groupRequestIconRevokeOnClose && groupRequestIconUrl) URL.revokeObjectURL(groupRequestIconUrl);
       groupRequestIconUrl = '';
       groupRequestIconRevokeOnClose = false;
@@ -2714,7 +3860,7 @@
 
         if (isOwn && editingCommentIndex === idx) {
           return `
-        <div class="comment-item" data-comment-index="${idx}" data-comment-id="${c.commentId || ''}" data-own="true">
+        <div class="comment-item" data-comment-index="${idx}" data-comment-id="${c.commentId || ''}" data-comment-at="${Number(c.createdAt || 0)}" data-own="true">
           ${avatarHtmlByName(c.user, "avatar")}
           <div style="min-width:0; flex:1;">
             <textarea class="comment-edit-box" data-edit-input="${idx}">${escapeHtml(c.text)}</textarea>
@@ -2728,10 +3874,10 @@
         }
 
         return `
-        <div class="comment-item" data-comment-index="${idx}" data-comment-id="${c.commentId || ''}" data-own="${isOwn ? 'true' : 'false'}">
+        <div class="comment-item" data-comment-index="${idx}" data-comment-id="${c.commentId || ''}" data-comment-at="${Number(c.createdAt || 0)}" data-own="${isOwn ? 'true' : 'false'}">
           ${avatarHtmlByName(c.user, "avatar")}
           <div style="min-width:0;">
-            <div class="comment-bubble"><b>${escapeHtml(displayName)}</b><br>${escapeHtml(c.text)}</div>
+            <div class="comment-bubble"><b>${escapeHtml(displayName)}</b><br>${linkifyCommentText(c.text)}</div>
             <div class="comment-meta">${escapeHtml(formatRelativeCommentTimestamp(c.createdAt))}${c.edited ? ' ・ 編集済み' : ''}</div>
           </div>
         </div>
@@ -2851,6 +3997,23 @@
       });
     }
 
+    function scrollCommentBodyToCommentAt(commentAt, smooth = true) {
+      const ts = Number(commentAt || 0);
+      if (ts <= 0) {
+        scrollCommentBodyToBottom(smooth);
+        return;
+      }
+      requestAnimationFrame(() => {
+        const matches = Array.from(commentBody.querySelectorAll(`.comment-item[data-comment-at="${String(ts)}"]`));
+        const target = matches.length > 0 ? matches[matches.length - 1] : null;
+        if (target) {
+          target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+          return;
+        }
+        scrollCommentBodyToBottom(smooth);
+      });
+    }
+
     async function copyTextToClipboard(text) {
       try {
         await navigator.clipboard.writeText(text);
@@ -2874,12 +4037,14 @@
 
     function rerenderTimeline() {
       renderFeedTabs();
+      renderComposerTargetOptions();
       postsRoot.innerHTML = '';
       getFilteredPosts().forEach((post) => {
         const card = makePostCard(post);
         postsRoot.appendChild(card);
         applyMoreToggle(card);
       });
+      renderNotificationsPanel();
     }
 
     function scrollToPost(postId) {
@@ -2897,15 +4062,917 @@
       });
     }
 
-    function activateTimelineView() {
-      if (commentView.classList.contains('open')) {
-        closeCommentView();
-      }
-      if (topMenuItems[0]) {
-        topMenuItems.forEach((btn) => btn.classList.remove('active'));
-        topMenuItems[0].classList.add('active');
-      }
+    function activateTopMenu(index) {
+      const target = topMenuItems[index];
+      if (!target) return;
+      if (isGroupSortMode) exitGroupSortMode();
+      if (commentView.classList.contains('open')) closeCommentView();
+      if (index !== 2) currentNotificationsTab = 'general';
+      topMenuItems.forEach((btn) => btn.classList.remove('active'));
+      target.classList.add('active');
       syncTopbarSearchVisibility();
+      scrollPageTop();
+    }
+
+    function activateTimelineView() {
+      activateTopMenu(0);
+    }
+
+    function activateGroupsView() {
+      activateTopMenu(1);
+    }
+
+    function groupByName(name) {
+      return GROUP_DIRECTORY.find((group) => group.name === name) || null;
+    }
+
+    function collectOwnCommentedPosts(feedId = '') {
+      return posts
+        .map((post) => {
+          if (feedId && post.feedId !== feedId) return false;
+          const isOwn = post.author && post.author.user === CURRENT_USER;
+          const hasComments = (Array.isArray(post.comments) && post.comments.length > 0) || Number(post.commentCount || 0) > 0;
+          if (!isOwn || !hasComments) return null;
+          const latestCommentAt = Array.isArray(post.comments) && post.comments.length > 0
+            ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
+            : 0;
+          const postId = Number(post.id || 0);
+          const seenTs = Number(seenOwnCommentedByPostTs[postId] || 0);
+          if (latestCommentAt > 0 && latestCommentAt <= seenTs) return null;
+          return { post, latestCommentAt };
+        })
+        .filter(Boolean)
+        .sort((a, b) => {
+          return Number(b.latestCommentAt || 0) - Number(a.latestCommentAt || 0);
+        });
+    }
+
+    function staticNotificationItems() {
+      const rejectedJoinRequestItems = GROUP_DIRECTORY
+        .filter((group) => group && !group.joined && group.requestRejected)
+        .map((group) => {
+          const rejectedAt = Number(group.requestRejectedAt || 0);
+          const rank = rejectedAt > 0 ? Math.max(0, Math.floor((Date.now() - rejectedAt) / 60000)) : 999999;
+          return {
+            text: `「${group.name}」への参加申請は承認されませんでした`,
+            meta: rejectedAt > 0 ? formatRelativeCommentTimestamp(rejectedAt) : '',
+            rank,
+            action: 'dismiss-notification',
+            groupName: group.name,
+            notificationId: `join-request-rejected-${group.id}`,
+            settingKey: 'join-request-result',
+          };
+        });
+      return [
+        { text: '「院内DX推進チーム」への参加申請が承認されました', meta: '36分前', rank: 36, action: 'open-group', groupName: '院内DX推進チーム', settingKey: 'join-request-result' },
+        { text: '「業務改善プロジェクト」に追加されました', meta: '1時間前', rank: 60, action: 'open-group', groupName: '業務改善プロジェクト', settingKey: 'group-join' },
+        { text: '「品質改善タスクフォース」への招待申請（かとう まこと、他2名）が承認されました', meta: '42分前', rank: 42, action: 'open-group-detail-dismiss', groupName: '品質改善タスクフォース', notificationId: 'invite-request-approved-quality', settingKey: 'invite-request-result' },
+        { text: '「社内イベント運営」への招待申請（さとう はなこ、他1名）は承認されませんでした', meta: '48分前', rank: 48, action: 'dismiss-notification', groupName: '社内イベント運営', notificationId: 'invite-request-rejected-pr', settingKey: 'invite-request-result' },
+        ...(!hasSeenAdminAssignedDirectorShareNotification
+          ? [{ text: '「部門責任者共有」の管理者に設定されました', meta: '2時間前', rank: 120, action: 'open-group', groupName: '部門責任者共有', notificationId: 'admin-assigned-director-share', settingKey: 'admin-settings' }]
+          : []),
+        ...rejectedJoinRequestItems,
+      ];
+    }
+
+    function collectAdminInviteRequestNotifications() {
+      return GROUP_DIRECTORY
+        .filter((group) => group && group.joined && isCurrentUserGroupAdmin(group))
+        .map((group) => {
+          ensureGroupManageData(group);
+          const requests = Array.isArray(group.joinRequests) ? group.joinRequests : [];
+          if (requests.length === 0) return null;
+          const latestRequestAt = requests.reduce((maxTs, name) => {
+            const ts = Number(group.joinRequestAt?.[name] || 0);
+            return Math.max(maxTs, ts);
+          }, 0);
+          const rank = latestRequestAt > 0
+            ? Math.max(0, Math.floor((Date.now() - latestRequestAt) / 60000))
+            : 999999;
+          return {
+            text: `「${group.name}」への招待申請があります`,
+            meta: latestRequestAt > 0 ? formatRelativeCommentTimestamp(latestRequestAt) : '',
+            rank,
+            action: 'open-manage-group',
+            groupName: group.name,
+            settingKey: 'invite-request-result',
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
+    }
+
+    function seedAdminPostReportsIfNeeded() {
+      if (adminReportsSeeded) return;
+      const reportPost = posts.find((post) => post.feedId === 'director-share' && String(post.content || '').includes('重点課題'))
+        || posts.find((post) => post.feedId === 'director-share');
+      if (!reportPost) return;
+      adminPostReports.push({
+        id: nextAdminReportId++,
+        postId: Number(reportPost.id || 0),
+        feedId: String(reportPost.feedId || ''),
+        reason: 'いじめ・嫌がらせ・虐待',
+        createdAt: Date.now() - (5 * 60 * 60 * 1000),
+        reporter: 'さとう はなこ',
+        status: 'pending',
+      });
+      adminReportsSeeded = true;
+    }
+
+    function registerPostReport(post, reason, reporter = CURRENT_USER) {
+      if (!post || !reason) return;
+      adminPostReports.push({
+        id: nextAdminReportId++,
+        postId: Number(post.id || 0),
+        feedId: String(post.feedId || ''),
+        reason: String(reason),
+        createdAt: Date.now(),
+        reporter: String(reporter || CURRENT_USER),
+        status: 'pending',
+      });
+    }
+
+    function collectPendingAdminReportItems(feedId = '') {
+      const grouped = new Map();
+      adminPostReports.forEach((report) => {
+        if (!report || report.status !== 'pending') return;
+        if (feedId && String(report.feedId || '') !== feedId) return;
+        const postId = Number(report.postId || 0);
+        if (postId <= 0) return;
+        const post = posts.find((item) => Number(item.id || 0) === postId);
+        if (!post) return;
+        const group = groupByFeedId(post.feedId);
+        if (!group || !group.joined || !isCurrentUserGroupAdmin(group)) return;
+        const key = `${post.feedId}:${postId}`;
+        const bucket = grouped.get(key) || { post, group, reports: [] };
+        bucket.reports.push(report);
+        grouped.set(key, bucket);
+      });
+      return Array.from(grouped.values())
+        .map(({ post, group, reports }) => {
+          reports.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+          const latest = reports[0] || null;
+          return {
+            post,
+            group,
+            reports,
+            latestReason: latest?.reason || '',
+            latestAt: Number(latest?.createdAt || 0),
+          };
+        })
+        .sort((a, b) => Number(b.latestAt || 0) - Number(a.latestAt || 0));
+    }
+
+    function collectAdminReportNotifications() {
+      return collectPendingAdminReportItems().map((item) => {
+        const rank = item.latestAt > 0 ? Math.max(0, Math.floor((Date.now() - item.latestAt) / 60000)) : 999999;
+        return {
+          text: `「${item.group.name}」の投稿に報告がありました（理由：${item.latestReason || '確認依頼'}）`,
+          meta: item.latestAt > 0 ? formatRelativeCommentTimestamp(item.latestAt) : '',
+          rank,
+          action: 'open-admin-reports',
+          groupName: item.group.name,
+          feedId: item.post.feedId,
+          settingKey: 'admin-settings',
+        };
+      });
+    }
+
+    function collectGroupCreateDecisionNotifications() {
+      return groupCreateDecisionNotices
+        .map((notice) => {
+          const group = GROUP_DIRECTORY.find((item) => item.id === notice.groupId) || null;
+          const groupName = String(notice.groupName || group?.name || 'グループ');
+          const groupId = String(notice.groupId || group?.id || '');
+          const decidedAt = Number(notice.decidedAt || 0);
+          const rank = decidedAt > 0 ? Math.max(0, Math.floor((Date.now() - decidedAt) / 60000)) : 999999;
+          if (notice.approved) {
+            return {
+              text: `「${groupName}」の作成申請が承認されました`,
+              meta: decidedAt > 0 ? formatRelativeCommentTimestamp(decidedAt) : '',
+              rank,
+              action: 'open-group-detail',
+              groupName,
+              notificationId: `group-create-approved-${groupId}`,
+              settingKey: 'invite-request-result',
+            };
+          }
+          return {
+            text: `「${groupName}」の作成申請は承認されませんでした`,
+            meta: decidedAt > 0 ? formatRelativeCommentTimestamp(decidedAt) : '',
+            rank,
+            action: 'dismiss-notification',
+            groupName,
+            notificationId: `group-create-rejected-${groupId}`,
+            settingKey: 'invite-request-result',
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function collectAdminNotificationItems() {
+      return [
+        ...collectAdminInviteRequestNotifications(),
+        ...collectAdminReportNotifications(),
+        ...collectGroupCreateDecisionNotifications(),
+      ].sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
+    }
+
+    function shouldKeepStaleAdminNotification(item) {
+      if (!item) return false;
+      const action = String(item.action || '');
+      const groupName = String(item.groupName || '');
+      if (action === 'open-manage-group') {
+        const group = groupByName(groupName);
+        if (group && group.joined && isCurrentUserGroupAdmin(group)) {
+          ensureGroupManageData(group);
+          return (group.joinRequests || []).length > 0;
+        }
+        return true;
+      }
+      if (action === 'open-admin-reports') {
+        const group = groupByName(groupName);
+        if (group && group.joined && isCurrentUserGroupAdmin(group)) {
+          const feedId = item.feedId || feedIdByGroup(group);
+          if (!feedId) return false;
+          return collectPendingAdminReportItems(feedId).length > 0;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function hasJoinedAdminGroup() {
+      return GROUP_DIRECTORY.some((group) => group && group.joined && isCurrentUserGroupAdmin(group));
+    }
+
+    function formatNotificationBadgeText(count) {
+      const n = Number(count || 0);
+      if (n > 99) return '+99';
+      return String(Math.max(0, n));
+    }
+
+    function renderSettingsPanel() {
+      if (settingsNotifyAll) settingsNotifyAll.checked = !!appSettings.notifyAll;
+      if (settingsNotifyAdminSettings) settingsNotifyAdminSettings.checked = !!appSettings.notifyAdminSettings;
+      if (settingsNotifyJoinRequestResult) settingsNotifyJoinRequestResult.checked = !!appSettings.notifyJoinRequestResult;
+      if (settingsNotifyInviteRequestResult) settingsNotifyInviteRequestResult.checked = !!appSettings.notifyInviteRequestResult;
+      if (settingsNotifyGroupJoin) settingsNotifyGroupJoin.checked = !!appSettings.notifyGroupJoin;
+      if (settingsNotifyComments) settingsNotifyComments.checked = !!appSettings.notifyComments;
+      if (settingsNotifyGroupPosts) settingsNotifyGroupPosts.checked = !!appSettings.notifyGroupPosts;
+      if (settingsQuietHoursEnabled) settingsQuietHoursEnabled.checked = !!appSettings.quietHoursEnabled;
+      if (settingsQuietHoursStart) settingsQuietHoursStart.value = appSettings.quietHoursStart || '22:00';
+      if (settingsQuietHoursEnd) settingsQuietHoursEnd.value = appSettings.quietHoursEnd || '07:00';
+      if (settingsQuietHoursStart) settingsQuietHoursStart.disabled = !appSettings.quietHoursEnabled;
+      if (settingsQuietHoursEnd) settingsQuietHoursEnd.disabled = !appSettings.quietHoursEnabled;
+      if (settingsQuietHoursRow) settingsQuietHoursRow.classList.toggle('is-disabled', !appSettings.quietHoursEnabled);
+    }
+
+    function areAllNotificationSwitchesEnabled() {
+      return !!(
+        appSettings.notifyAdminSettings
+        && appSettings.notifyJoinRequestResult
+        && appSettings.notifyInviteRequestResult
+        && appSettings.notifyGroupJoin
+        && appSettings.notifyGroupPosts
+        && appSettings.notifyComments
+      );
+    }
+
+    function syncNotifyAllSettingFromDetails() {
+      appSettings.notifyAll = areAllNotificationSwitchesEnabled();
+      if (settingsNotifyAll) settingsNotifyAll.checked = !!appSettings.notifyAll;
+    }
+
+    function applyNotifyAllSetting(checked) {
+      const on = !!checked;
+      appSettings.notifyAll = on;
+      appSettings.notifyAdminSettings = on;
+      appSettings.notifyJoinRequestResult = on;
+      appSettings.notifyInviteRequestResult = on;
+      appSettings.notifyGroupJoin = on;
+      appSettings.notifyGroupPosts = on;
+      appSettings.notifyComments = on;
+      renderSettingsPanel();
+    }
+
+    function isNotificationEnabledBySetting(item) {
+      if (!appSettings.notifyAll) return false;
+      const key = String(item?.settingKey || '');
+      if (!key) return true;
+      if (key === 'admin-settings') return !!appSettings.notifyAdminSettings;
+      if (key === 'join-request-result') return !!appSettings.notifyJoinRequestResult;
+      if (key === 'invite-request-result') return !!appSettings.notifyInviteRequestResult;
+      if (key === 'group-join') return !!appSettings.notifyGroupJoin;
+      if (key === 'group-posts') return !!appSettings.notifyGroupPosts;
+      if (key === 'comments') return !!appSettings.notifyComments;
+      return true;
+    }
+
+    function renderNotificationsPanel() {
+      if (!notificationsPanelList) return;
+      const ownCommentItemsLive = collectOwnCommentedPosts('').map((entry) => {
+        const post = entry.post;
+        const latestCommentAt = Number(entry.latestCommentAt || 0);
+        const groupName = feedMetaById(post.feedId)?.name || 'グループ';
+        const rank = latestCommentAt > 0 ? Math.max(0, Math.floor((Date.now() - latestCommentAt) / 60000)) : 999999;
+        return {
+          text: `「${groupName}」の投稿にコメントがありました`,
+          meta: latestCommentAt > 0 ? formatRelativeCommentTimestamp(latestCommentAt) : '',
+          rank,
+          action: 'open-post',
+          settingKey: 'comments',
+          feedId: post.feedId,
+          postId: String(post.id),
+          latestCommentAt: String(latestCommentAt),
+          postScope: 'own-commented',
+        };
+      });
+      ownCommentItemsLive.forEach((item) => {
+        const postId = String(item.postId || '');
+        if (!postId) return;
+        cachedOwnCommentNotificationItemsByPost[postId] = { ...item };
+      });
+      Object.keys(cachedOwnCommentNotificationItemsByPost).forEach((postId) => {
+        const cached = cachedOwnCommentNotificationItemsByPost[postId];
+        const latestCommentAt = Number(cached?.latestCommentAt || 0);
+        const seenTs = Number(seenOwnCommentedByPostTs[Number(postId) || 0] || 0);
+        if (latestCommentAt > 0 && seenTs >= latestCommentAt) {
+          delete cachedOwnCommentNotificationItemsByPost[postId];
+        }
+      });
+      const ownCommentLiveKeys = new Set(ownCommentItemsLive.map((item) => notificationKeyFromItemData(item)));
+      const ownCommentItemsCached = Object.values(cachedOwnCommentNotificationItemsByPost)
+        .filter((item) => item && !ownCommentLiveKeys.has(notificationKeyFromItemData(item)));
+      const ownCommentItems = [...ownCommentItemsLive, ...ownCommentItemsCached];
+
+      const groupNewPostItemsLive = collectJoinedGroupNewPostItems().map((item) => {
+        const postCreatedAt = resolvePostCreatedAt(item.post);
+        const postDiffMinutes = Math.max(0, Math.floor((Date.now() - postCreatedAt) / 60000));
+        return {
+          text: `「${item.group.name}」に新しい投稿があります`,
+          meta: formatRelativeCommentTimestamp(postCreatedAt),
+          rank: postDiffMinutes,
+          action: 'open-group-timeline',
+          settingKey: 'group-posts',
+          groupName: item.group.name,
+          feedId: item.feedId,
+          latestPostId: String(item.post.id || 0),
+        };
+      });
+      groupNewPostItemsLive.forEach((item) => {
+        const feedId = String(item.feedId || '');
+        if (!feedId) return;
+        cachedGroupNewPostNotificationItemsByFeed[feedId] = { ...item };
+      });
+      Object.keys(cachedGroupNewPostNotificationItemsByFeed).forEach((feedId) => {
+        const cached = cachedGroupNewPostNotificationItemsByFeed[feedId];
+        const latestPostId = Number(cached?.latestPostId || 0);
+        const seenPostId = Number(seenGroupNewPostByFeed[feedId] || 0);
+        if (latestPostId > 0 && seenPostId >= latestPostId) {
+          delete cachedGroupNewPostNotificationItemsByFeed[feedId];
+        }
+      });
+      const groupNewPostLiveKeys = new Set(groupNewPostItemsLive.map((item) => notificationKeyFromItemData(item)));
+      const groupNewPostItemsCached = Object.values(cachedGroupNewPostNotificationItemsByFeed)
+        .filter((item) => item && !groupNewPostLiveKeys.has(notificationKeyFromItemData(item)));
+      const groupNewPostItems = [...groupNewPostItemsLive, ...groupNewPostItemsCached];
+      const normalItems = [...staticNotificationItems(), ...ownCommentItems, ...groupNewPostItems]
+        .sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
+      const adminItemsLive = collectAdminNotificationItems();
+      const nextLiveAdminByKey = {};
+      adminItemsLive.forEach((item) => {
+        const key = notificationKeyFromItemData(item);
+        nextLiveAdminByKey[key] = { ...item };
+        cachedAdminNotificationItemsByKey[key] = { ...item };
+      });
+      Object.keys(previousLiveAdminNotificationsByKey).forEach((key) => {
+        if (nextLiveAdminByKey[key]) return;
+        const previousItem = previousLiveAdminNotificationsByKey[key];
+        if (shouldKeepStaleAdminNotification(previousItem)) {
+          cachedAdminNotificationItemsByKey[key] = { ...previousItem };
+        } else {
+          delete cachedAdminNotificationItemsByKey[key];
+        }
+      });
+      Object.keys(cachedAdminNotificationItemsByKey).forEach((key) => {
+        if (dismissedNotificationKeys.has(key)) delete cachedAdminNotificationItemsByKey[key];
+      });
+      previousLiveAdminNotificationsByKey = nextLiveAdminByKey;
+      const adminItems = Object.values(cachedAdminNotificationItemsByKey)
+        .sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
+      const visibleNormalItems = normalItems.filter((item) => {
+        const key = notificationKeyFromItemData(item);
+        return !dismissedNotificationKeys.has(key);
+      });
+      const visibleAdminItems = adminItems.filter((item) => {
+        const key = notificationKeyFromItemData(item);
+        return !dismissedNotificationKeys.has(key);
+      });
+      const allItems = [...visibleNormalItems, ...visibleAdminItems];
+      const showAdminTab = hasJoinedAdminGroup() || visibleAdminItems.length > 0;
+      if (!showAdminTab && currentNotificationsTab === 'admin') currentNotificationsTab = 'general';
+      const activeItems = currentNotificationsTab === 'admin' ? visibleAdminItems : visibleNormalItems;
+
+      if (notificationsTabGeneral) {
+        notificationsTabGeneral.textContent = `通知 (${visibleNormalItems.length})`;
+        notificationsTabGeneral.classList.toggle('active', currentNotificationsTab === 'general');
+        notificationsTabGeneral.setAttribute('aria-selected', currentNotificationsTab === 'general' ? 'true' : 'false');
+      }
+      if (notificationsTabAdmin) {
+        notificationsTabAdmin.hidden = !showAdminTab;
+        notificationsTabAdmin.textContent = `管理者向け通知 (${visibleAdminItems.length})`;
+        notificationsTabAdmin.classList.toggle('active', currentNotificationsTab === 'admin');
+        notificationsTabAdmin.setAttribute('aria-selected', currentNotificationsTab === 'admin' ? 'true' : 'false');
+      }
+
+      const renderItem = (item) => {
+        const notificationKey = notificationKeyFromItemData(item);
+        const attrs = [
+          `data-notification-action="${escapeHtml(item.action || '')}"`,
+          item.groupName ? `data-group-name="${escapeHtml(item.groupName)}"` : '',
+          item.feedId ? `data-feed-id="${escapeHtml(item.feedId)}"` : '',
+          item.postKeyword ? `data-post-keyword="${escapeHtml(item.postKeyword)}"` : '',
+          item.postId ? `data-post-id="${escapeHtml(item.postId)}"` : '',
+          item.notificationId ? `data-notification-id="${escapeHtml(item.notificationId)}"` : '',
+          `data-notification-key="${escapeHtml(notificationKey)}"`,
+          item.latestPostId ? `data-latest-post-id="${escapeHtml(item.latestPostId)}"` : '',
+          item.latestCommentAt ? `data-latest-comment-at="${escapeHtml(item.latestCommentAt)}"` : '',
+          item.postScope ? `data-post-scope="${escapeHtml(item.postScope)}"` : '',
+          `data-notification-rank="${String(Number(item.rank || 999999))}"`,
+        ].filter(Boolean).join(' ');
+        return `<li class="panel-list-item notification-link" role="button" tabindex="0" ${attrs}><span>${escapeHtml(item.text || '')}</span><span class="panel-list-meta">${escapeHtml(item.meta || '')}</span></li>`;
+      };
+
+      if (activeItems.length === 0) {
+        notificationsPanelList.innerHTML = '<li class="panel-empty">新しい通知はありません</li>';
+      } else {
+        notificationsPanelList.innerHTML = activeItems.map(renderItem).join('');
+      }
+
+      const badge = document.querySelector('.top-menu-item.notify .top-badge');
+      if (badge) {
+        const count = Number(allItems.length || 0);
+        badge.textContent = formatNotificationBadgeText(count);
+        badge.setAttribute('aria-label', `未読通知 ${count}件`);
+        badge.classList.toggle('is-hidden', count <= 0);
+      }
+    }
+
+    function notificationKeyFromItemData(item) {
+      if (item && item.notificationId) return `id:${String(item.notificationId)}`;
+      const action = String(item?.action || '');
+      const groupName = String(item?.groupName || '');
+      const feedId = String(item?.feedId || '');
+      const postId = String(item?.postId || '');
+      const postScope = String(item?.postScope || '');
+      const postKeyword = String(item?.postKeyword || '');
+      return `act:${action}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
+    }
+
+    function notificationKeyFromElement(item) {
+      if (!item) return '';
+      const explicit = String(item.dataset.notificationKey || '');
+      if (explicit) return explicit;
+      const notificationId = String(item.dataset.notificationId || '');
+      if (notificationId) return `id:${notificationId}`;
+      const action = String(item.dataset.notificationAction || '');
+      const groupName = String(item.dataset.groupName || '');
+      const feedId = String(item.dataset.feedId || '');
+      const postId = String(item.dataset.postId || '');
+      const postScope = String(item.dataset.postScope || '');
+      const postKeyword = String(item.dataset.postKeyword || '');
+      return `act:${action}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
+    }
+
+    function dismissNotificationItem(item) {
+      if (!item) return;
+      const key = notificationKeyFromElement(item);
+      if (key) dismissedNotificationKeys.add(key);
+      item.hidden = true;
+      updateNotificationBadge();
+      renderNotificationsPanel();
+    }
+
+    function renderOwnCommentNotifications() {
+      if (!notificationsPanelList) return;
+      const templates = Array.from(notificationsPanelList.querySelectorAll('[data-notification-template="own-commented"]'));
+      const template = templates[0];
+      templates.slice(1).forEach((el) => el.remove());
+      if (!template) return;
+      notificationsPanelList
+        .querySelectorAll('[data-notification-kind="own-commented-item"], [data-notification-generated="own-commented"]')
+        .forEach((el) => el.remove());
+      const feedId = template.dataset.feedId || '';
+      const postsForNotice = collectOwnCommentedPosts(feedId);
+      if (postsForNotice.length === 0) {
+        template.hidden = true;
+      } else {
+        template.hidden = true;
+        const fragment = document.createDocumentFragment();
+        postsForNotice.forEach((entry) => {
+          const post = entry.post;
+          const latestCommentAt = Number(entry.latestCommentAt || 0);
+          const target = template.cloneNode(true);
+          target.hidden = false;
+          delete target.dataset.notificationTemplate;
+          target.dataset.notificationKind = 'own-commented-item';
+          const titleEl = target.querySelector('span');
+          const metaEl = target.querySelector('.panel-list-meta');
+          const groupName = feedMetaById(post.feedId)?.name || 'グループ名';
+          if (titleEl) titleEl.textContent = `「${groupName}」の投稿にコメントがありました`;
+          if (metaEl) metaEl.textContent = latestCommentAt > 0 ? formatRelativeCommentTimestamp(latestCommentAt) : '';
+          target.dataset.postId = String(post.id);
+          target.dataset.feedId = post.feedId;
+          target.dataset.latestCommentAt = String(latestCommentAt || 0);
+          target.dataset.notificationGenerated = 'own-commented';
+          const rankMinutes = latestCommentAt > 0
+            ? Math.max(0, Math.floor((Date.now() - latestCommentAt) / 60000))
+            : 999999;
+          target.dataset.notificationRank = String(rankMinutes);
+          fragment.appendChild(target);
+        });
+        notificationsPanelList.insertBefore(fragment, template.nextSibling);
+      }
+      dedupeNotificationItems();
+      sortNotificationsByRecency();
+      updateNotificationBadge();
+    }
+
+    function collectJoinedGroupNewPostItems() {
+      return GROUP_DIRECTORY
+        .filter((group) => group && group.joined)
+        .map((group) => {
+          const feedId = feedIdByGroup(group);
+          if (!feedId) return null;
+          const feedPosts = posts.filter((post) => post.feedId === feedId);
+          if (feedPosts.length === 0) return null;
+          feedPosts.sort((a, b) => {
+            const aCreatedAt = resolvePostCreatedAt(a);
+            const bCreatedAt = resolvePostCreatedAt(b);
+            if (aCreatedAt !== bCreatedAt) return bCreatedAt - aCreatedAt;
+            return Number(b.id || 0) - Number(a.id || 0);
+          });
+          const latestPost = feedPosts[0];
+          if (!latestPost || latestPost.author?.user === CURRENT_USER) return null;
+          const seenPostId = Number(seenGroupNewPostByFeed[feedId] || 0);
+          if (Number(latestPost.id || 0) <= seenPostId) return null;
+          return { group, feedId, post: latestPost };
+        })
+        .filter(Boolean);
+    }
+
+    function renderGroupNewPostNotifications() {
+      if (!notificationsPanelList) return;
+      const templates = Array.from(notificationsPanelList.querySelectorAll('[data-notification-template="group-new-post"]'));
+      const template = templates[0];
+      templates.slice(1).forEach((el) => el.remove());
+      if (!template) return;
+      notificationsPanelList
+        .querySelectorAll('[data-notification-kind="group-new-post-item"], [data-notification-generated="group-new-post"]')
+        .forEach((el) => el.remove());
+      const items = collectJoinedGroupNewPostItems();
+      template.hidden = true;
+      if (items.length === 0) {
+        // keep template hidden; no generated items
+      } else {
+        const fragment = document.createDocumentFragment();
+        items.forEach((item) => {
+          const target = template.cloneNode(true);
+          target.hidden = false;
+          delete target.dataset.notificationTemplate;
+          target.dataset.notificationKind = 'group-new-post-item';
+          const titleEl = target.querySelector('span');
+          const metaEl = target.querySelector('.panel-list-meta');
+          if (titleEl) titleEl.textContent = `「${item.group.name}」に新しい投稿があります`;
+          const postCreatedAt = resolvePostCreatedAt(item.post);
+          const postDiffMinutes = Math.max(0, Math.floor((Date.now() - postCreatedAt) / 60000));
+          if (metaEl) metaEl.textContent = formatRelativeCommentTimestamp(postCreatedAt);
+          target.dataset.groupName = item.group.name;
+          target.dataset.feedId = item.feedId;
+          target.dataset.latestPostId = String(item.post.id || 0);
+          target.dataset.notificationRank = String(postDiffMinutes);
+          fragment.appendChild(target);
+        });
+        notificationsPanelList.insertBefore(fragment, template.nextSibling);
+      }
+      dedupeNotificationItems();
+      sortNotificationsByRecency();
+      updateNotificationBadge();
+    }
+
+    function notificationDedupKey(item) {
+      const action = item.dataset.notificationAction || '';
+      const template = item.dataset.notificationTemplate || '';
+      const postId = item.dataset.postId || '';
+      const feedId = item.dataset.feedId || '';
+      const groupName = item.dataset.groupName || '';
+      const text = (item.querySelector('span')?.textContent || '').trim();
+      if (template === 'own-commented' || action === 'open-post') {
+        return `own:${postId || feedId}:${text}`;
+      }
+      if (template === 'group-new-post' || action === 'open-group-timeline') {
+        return `grpnew:${feedId || groupName}`;
+      }
+      return `${action}:${groupName}:${feedId}:${text}`;
+    }
+
+    function dedupeNotificationItems() {
+      if (!notificationsPanelList) return;
+      const items = Array.from(notificationsPanelList.querySelectorAll('.panel-list-item.notification-link'));
+      items.forEach((item) => {
+        const isTemplate = !!item.dataset.notificationTemplate;
+        if (isTemplate) return;
+        const text = (item.querySelector('span')?.textContent || '').trim();
+        if (text.includes('「グループ名」')) item.remove();
+      });
+      const seen = new Set();
+      Array.from(notificationsPanelList.querySelectorAll('.panel-list-item.notification-link')).forEach((item) => {
+        if (item.hidden) return;
+        const key = notificationDedupKey(item);
+        if (seen.has(key)) {
+          item.remove();
+          return;
+        }
+        seen.add(key);
+      });
+    }
+
+    function notificationRankForElement(item) {
+      const explicit = Number(item.dataset.notificationRank || '');
+      if (Number.isFinite(explicit)) return explicit;
+      const metaText = String(item.querySelector('.panel-list-meta')?.textContent || '').trim();
+      const secMatch = metaText.match(/^(\d+)\s*秒前$/);
+      if (secMatch) return Math.floor(Number(secMatch[1]) / 60);
+      const minMatch = metaText.match(/^(\d+)\s*分前$/);
+      if (minMatch) return Number(minMatch[1]);
+      const hourMatch = metaText.match(/^(\d+)\s*時間前$/);
+      if (hourMatch) return Number(hourMatch[1]) * 60;
+      const dayMatch = metaText.match(/^(\d+)\s*日前$/);
+      if (dayMatch) return Number(dayMatch[1]) * 24 * 60;
+      return 999999;
+    }
+
+    function sortNotificationsByRecency() {
+      if (!notificationsPanelList) return;
+      const items = Array.from(notificationsPanelList.querySelectorAll('.panel-list-item.notification-link'));
+      const visible = items.filter((item) => !item.hidden);
+      visible.sort((a, b) => notificationRankForElement(a) - notificationRankForElement(b));
+      visible.forEach((item) => notificationsPanelList.appendChild(item));
+      items.filter((item) => item.hidden).forEach((item) => notificationsPanelList.appendChild(item));
+    }
+
+    function updateNotificationBadge() {
+      const badge = document.querySelector('.top-menu-item.notify .top-badge');
+      if (badge) {
+        const totalCount = notificationsPanelList
+          .querySelectorAll('.panel-list-item.notification-link:not([hidden]):not([data-notification-template])').length;
+        badge.textContent = formatNotificationBadgeText(totalCount);
+        badge.setAttribute('aria-label', `未読通知 ${totalCount}件`);
+        badge.classList.toggle('is-hidden', totalCount <= 0);
+      }
+    }
+
+    function findNotificationPost(feedId, keyword, scope = '') {
+      const scoped = posts.filter((post) => {
+        if (feedId && post.feedId !== feedId) return false;
+        if (scope === 'own-commented') {
+          const isOwn = post.author && post.author.user === CURRENT_USER;
+          const hasComments = (Array.isArray(post.comments) && post.comments.length > 0) || Number(post.commentCount || 0) > 0;
+          if (!isOwn || !hasComments) return false;
+          const latestCommentAt = Array.isArray(post.comments) && post.comments.length > 0
+            ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
+            : 0;
+          const seenTs = Number(seenOwnCommentedByPostTs[Number(post.id || 0)] || 0);
+          return latestCommentAt > seenTs;
+        }
+        return true;
+      });
+      if (scoped.length === 0) return null;
+      const query = (keyword || '').trim();
+      if (query) {
+        const matched = scoped.find((post) => String(post.content || '').includes(query));
+        if (matched) return matched;
+      }
+      return scoped[0];
+    }
+
+    async function resolveNotificationGroup(groupName, { requireJoined = true, requireAdmin = false, notificationItem = null } = {}) {
+      const group = groupByName(groupName);
+      if (!group) {
+        await showAlert(`「${groupName || '対象のルーム'}」が見つかりません。既に削除された可能性があります`);
+        dismissNotificationItem(notificationItem);
+        return null;
+      }
+      if (requireJoined && !group.joined) {
+        await showAlert(`「${group.name}」に参加していないため、閲覧できません`);
+        dismissNotificationItem(notificationItem);
+        return null;
+      }
+      if (requireAdmin && !isCurrentUserGroupAdmin(group)) {
+        await showAlert(`「${group.name}」の管理者ではないため開けません`);
+        dismissNotificationItem(notificationItem);
+        return null;
+      }
+      return group;
+    }
+
+    async function handleNotificationAction(item) {
+      if (!item) return;
+      const action = item.dataset.notificationAction || '';
+      const inviteDecisionMembersByNotification = {
+        'invite-request-approved-quality': ['かとう まこと', 'さとう はなこ', 'よしだ あおい'],
+        'invite-request-rejected-pr': ['さとう はなこ', 'かとう まこと'],
+      };
+      const syncInviteDecisionMembers = (notificationId, groupName, approved) => {
+        const id = String(notificationId || '');
+        const members = inviteDecisionMembersByNotification[id];
+        if (!Array.isArray(members) || members.length === 0) return;
+        const group = groupByName(String(groupName || ''));
+        if (!group) return;
+        ensureGroupManageData(group);
+        if (approved) {
+          const allowedMembers = members.filter((name) => name && name !== CURRENT_USER && !group.adminUsers.includes(name));
+          allowedMembers.forEach((name) => {
+            if (!group.membersList.includes(name)) group.membersList.push(name);
+          });
+        } else {
+          group.membersList = group.membersList.filter((name) => !members.includes(name));
+        }
+        if (group.joined && !group.membersList.includes(CURRENT_USER)) {
+          group.membersList.unshift(CURRENT_USER);
+        }
+        group.members = group.membersList.length;
+      };
+      const removeGroupCreateDecisionNotice = (notificationId) => {
+        const id = String(notificationId || '');
+        if (id.startsWith('group-create-approved-')) {
+          const groupId = id.replace('group-create-approved-', '');
+          const idx = groupCreateDecisionNotices.findIndex((n) => !!n.approved && String(n.groupId || '') === groupId);
+          if (idx >= 0) groupCreateDecisionNotices.splice(idx, 1);
+        }
+        if (id.startsWith('group-create-rejected-')) {
+          const groupId = id.replace('group-create-rejected-', '');
+          const idx = groupCreateDecisionNotices.findIndex((n) => !n.approved && String(n.groupId || '') === groupId);
+          if (idx >= 0) groupCreateDecisionNotices.splice(idx, 1);
+        }
+      };
+      if (action === 'dismiss-notification') {
+        const notificationId = String(item.dataset.notificationId || '');
+        syncInviteDecisionMembers(notificationId, item.dataset.groupName || '', false);
+        if (notificationId.startsWith('join-request-rejected-')) {
+          const groupId = notificationId.replace('join-request-rejected-', '');
+          const group = GROUP_DIRECTORY.find((g) => String(g.id || '') === groupId);
+          if (group) {
+            group.requestRejected = false;
+            group.requestRejectedAt = 0;
+          }
+        }
+        removeGroupCreateDecisionNotice(notificationId);
+        dismissNotificationItem(item);
+        return;
+      }
+      if (action === 'open-post') {
+        const postId = Number(item.dataset.postId || 0);
+        const feedId = item.dataset.feedId || '';
+        const keyword = item.dataset.postKeyword || '';
+        const scope = item.dataset.postScope || '';
+        let targetCommentAt = 0;
+        const post = (postId > 0 ? posts.find((p) => p.id === postId) : null) || findNotificationPost(feedId, keyword, scope);
+        if (!post) {
+          await showAlert('対象の投稿が見つかりません。既に削除された可能性があります');
+          return;
+        }
+        const group = groupByFeedId(post.feedId);
+        if (!group) {
+          await showAlert('対象のルームが見つかりません。既に削除された可能性があります');
+          dismissNotificationItem(item);
+          return;
+        }
+        if (!group.joined) {
+          await showAlert(`「${group.name}」には参加していないため投稿を開けません`);
+          dismissNotificationItem(item);
+          return;
+        }
+        if (scope === 'own-commented') {
+          const targetPostId = Number(post.id || 0);
+          const latestFromItem = Number(item.dataset.latestCommentAt || 0);
+          const latestFromPost = Array.isArray(post.comments) && post.comments.length > 0
+            ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
+            : 0;
+          const seenTs = Math.max(latestFromItem, latestFromPost);
+          targetCommentAt = seenTs;
+          if (targetPostId > 0 && seenTs > 0) {
+            seenOwnCommentedByPostTs[targetPostId] = Math.max(Number(seenOwnCommentedByPostTs[targetPostId] || 0), seenTs);
+          }
+        }
+        activateTimelineView();
+        currentFeedId = post.feedId || 'all';
+        rerenderTimeline();
+        renderCommentView(post);
+        if (scope === 'own-commented') scrollCommentBodyToCommentAt(targetCommentAt, true);
+        return;
+      }
+      if (action === 'open-group') {
+        if ((item.dataset.notificationId || '') === 'admin-assigned-director-share') {
+          hasSeenAdminAssignedDirectorShareNotification = true;
+          dismissNotificationItem(item);
+        }
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        if (!group) return;
+        activateGroupsView();
+        openGroupDetailModal(group);
+        return;
+      }
+      if (action === 'open-group-detail-dismiss') {
+        const notificationId = String(item.dataset.notificationId || '');
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        if (!group) return;
+        syncInviteDecisionMembers(notificationId, group.name, true);
+        dismissNotificationItem(item);
+        activateGroupsView();
+        openGroupDetailModal(group);
+        return;
+      }
+      if (action === 'open-group-detail') {
+        const notificationId = String(item.dataset.notificationId || '');
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        if (!group) return;
+        if (!isCurrentUserGroupAdmin(group)) {
+          const linkedFeedId = feedIdByGroup(group);
+          if (!linkedFeedId) {
+            await showAlert(`「${group.name}」のタイムラインが見つかりません`);
+            return;
+          }
+          removeGroupCreateDecisionNotice(notificationId);
+          dismissNotificationItem(item);
+          activateTimelineView();
+          currentFeedId = linkedFeedId;
+          rerenderTimeline();
+          scrollPageTop();
+          return;
+        }
+        removeGroupCreateDecisionNotice(notificationId);
+        dismissNotificationItem(item);
+        activateGroupsView();
+        openGroupDetailModal(group);
+        return;
+      }
+      if (action === 'open-group-timeline') {
+        const feedId = item.dataset.feedId || '';
+        const latestPostId = Number(item.dataset.latestPostId || 0);
+        const group = feedId ? groupByFeedId(feedId) : await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        if (!group) {
+          if (feedId) {
+            await showAlert('対象のルームが見つかりません。既に削除された可能性があります');
+            dismissNotificationItem(item);
+          }
+          return;
+        }
+        if (!group.joined) {
+          await showAlert(`「${group.name}」に参加していないため、閲覧できません`);
+          dismissNotificationItem(item);
+          return;
+        }
+        const linkedFeedId = feedId || feedIdByGroup(group);
+        if (!linkedFeedId) {
+          await showAlert(`「${group.name}」のタイムラインが見つかりません`);
+          return;
+        }
+        if (latestPostId > 0) {
+          seenGroupNewPostByFeed[linkedFeedId] = Math.max(Number(seenGroupNewPostByFeed[linkedFeedId] || 0), latestPostId);
+        }
+        activateTimelineView();
+        currentFeedId = linkedFeedId;
+        rerenderTimeline();
+        scrollPageTop();
+        return;
+      }
+      if (action === 'open-manage-group') {
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: true, notificationItem: item });
+        if (!group) return;
+        ensureGroupManageData(group);
+        if ((group.joinRequests || []).length === 0) {
+          dismissNotificationItem(item);
+          await showAlert(`「${group.name}」の参加申請はありません`);
+          return;
+        }
+        activateGroupsView();
+        openManageUsersModal(group);
+        return;
+      }
+      if (action === 'open-admin-reports') {
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: true, notificationItem: item });
+        if (!group) return;
+        const feedId = item.dataset.feedId || feedIdByGroup(group);
+        const pending = collectPendingAdminReportItems(feedId);
+        if (pending.length === 0) {
+          dismissNotificationItem(item);
+          await showAlert(`「${group.name}」で対応が必要な報告はありません`);
+          return;
+        }
+        openAdminReportsModal(feedId);
+      }
     }
 
     function navigateToTimelinePost(feedId, postId) {
@@ -2929,6 +4996,17 @@
       requestAnimationFrame(tryScroll);
     }
 
+    function markPostAsSeenForOwnCommentNotification(post) {
+      if (!post || !post.author || post.author.user !== CURRENT_USER) return;
+      const postId = Number(post.id || 0);
+      if (postId <= 0) return;
+      const latestCommentAt = Array.isArray(post.comments) && post.comments.length > 0
+        ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
+        : 0;
+      if (latestCommentAt <= 0) return;
+      seenOwnCommentedByPostTs[postId] = Math.max(Number(seenOwnCommentedByPostTs[postId] || 0), latestCommentAt);
+    }
+
     function loadMorePosts() {
       if (isLoadingMore) return;
       isLoadingMore = true;
@@ -2937,8 +5015,10 @@
       for (let i = start; i < end; i += 1) {
         const post = createMockPost(i);
         posts.push(post);
+        if (start > 0) markPostAsSeenForOwnCommentNotification(post);
       }
       loadedPostCount = end;
+      seedAdminPostReportsIfNeeded();
       isLoadingMore = false;
       rerenderTimeline();
     }
@@ -3003,8 +5083,15 @@
 
       const reportAction = event.target.closest('.report-action');
       if (reportAction) {
-        await showAlert(`投稿 #${reportAction.dataset.reportId} をグループ管理者に報告しました`);
+        const reason = await openReportReasonModal();
         document.querySelectorAll('.post-menu').forEach((el) => el.classList.remove('open'));
+        if (!reason) return;
+        const targetPost = posts.find((p) => String(p.id) === String(reportAction.dataset.reportId || ''));
+        if (targetPost) {
+          registerPostReport(targetPost, reason);
+          rerenderTimeline();
+        }
+        await showAlert(`投稿 #${reportAction.dataset.reportId} を「${reason}」としてグループ管理者に報告しました`);
         return;
       }
 
@@ -3019,6 +5106,7 @@
             const trimmed = nextText.trim();
             if (trimmed || newAttachments.length > 0 || targetPost.sharedFrom) {
               targetPost.content = trimmed;
+              targetPost.linkPreview = buildLinkPreviewFromText(trimmed);
               targetPost.attachments = newAttachments.map((item) => normalizeAttachmentForPost(item));
               targetPost.edited = true;
               rerenderTimeline();
@@ -3064,6 +5152,7 @@
         const sourceSnapshot = {
           id: sourcePost.id,
           feedId: sourcePost.feedId,
+          createdAt: resolvePostCreatedAt(sourcePost),
           hoursAgo: sourcePost.hoursAgo,
           author: sourcePost.author ? { ...sourcePost.author } : null,
           content: sourcePost.content || '',
@@ -3090,8 +5179,10 @@
           id: newId,
           author,
           feedId: selectedFeed.id,
+          createdAt: Date.now(),
           hoursAgo: 0,
           content: (nextText || '').trim(),
+          linkPreview: buildLinkPreviewFromText((nextText || '').trim()),
           media: '',
           attachments: attachmentPayload,
           sharedFrom,
@@ -3181,7 +5272,9 @@
       if (!target) return;
       closeCommentActionMenu();
       const commentId = Number.isFinite(selectedCommentId) ? selectedCommentId : (Number.isFinite(target.commentId) ? target.commentId : selectedCommentIndex + 1);
-      await showAlert(`コメント #${commentId} をグループ管理者に報告しました`);
+      const reason = await openReportReasonModal();
+      if (!reason) return;
+      await showAlert(`コメント #${commentId} を「${reason}」としてグループ管理者に報告しました`);
     });
     commentDelete.addEventListener('click', async () => {
       const post = findCurrentPost();
@@ -3287,6 +5380,12 @@
       renderGroupsView();
       await showAlert(`「${group.name}」に参加申請しました`);
     });
+    groupDetailNotifyMute?.addEventListener('change', () => {
+      const group = groupDetailModalGroup;
+      if (!group || !group.joined) return;
+      group.notificationMuted = !groupDetailNotifyMute.checked;
+      // 現時点では保存のみで、通知一覧やバッジへの連動は行わない
+    });
     groupDetailMembersMore.addEventListener('click', (event) => {
       const toggleBtn = event.target.closest('[data-group-detail-expand]');
       if (!toggleBtn) return;
@@ -3323,6 +5422,7 @@
     groupRequestSubmit.addEventListener('click', async () => {
       const title = groupRequestName.value.trim();
       const description = groupRequestDescription.value.trim();
+      const isSecretGroup = !!groupRequestSecret.checked;
       const selectedMembers = Array.from(groupRequestSelectedMembers).filter(Boolean);
       clearGroupRequestErrors();
       if (!groupRequestIconUrl) {
@@ -3345,10 +5445,28 @@
         return;
       }
       closeGroupRequestModal();
-      await showAlert(`「${title}」のグループ作成申請をチャンネル管理者に送信しました`);
+      await showAlert(`「${title}」の${isSecretGroup ? '秘密グループとしての' : ''}グループ作成申請をチャンネル管理者に送信しました`);
     });
     manageUsersClose.addEventListener('click', closeManageUsersModal);
     manageUsersBackdrop.addEventListener('click', closeManageUsersModal);
+    adminReportsClose.addEventListener('click', closeAdminReportsModal);
+    adminReportsBackdrop.addEventListener('click', closeAdminReportsModal);
+    adminReportsList.addEventListener('click', async (event) => {
+      const actionBtn = event.target.closest('[data-admin-report-action][data-admin-report-post-id]');
+      if (!actionBtn) return;
+      const action = actionBtn.dataset.adminReportAction || '';
+      const postId = Number(actionBtn.dataset.adminReportPostId || 0);
+      if (postId <= 0) return;
+      if (action === 'delete') {
+        if (!await showConfirm('この投稿を削除しますか？', '報告対応', { okText: '削除する', cancelText: 'キャンセル', okClass: 'danger' })) return;
+        resolveAdminReport(postId, 'delete');
+        return;
+      }
+      if (action === 'no-issue') {
+        resolveAdminReport(postId, 'no-issue');
+        return;
+      }
+    });
     manageUsersAddBtn.addEventListener('click', async () => {
       const group = manageUsersModalGroup;
       if (!group) return;
@@ -3474,6 +5592,10 @@
         }
         manageUsersModalGroup.pendingInvites = manageUsersModalGroup.joinRequests.slice();
         renderManageUsersModal();
+        renderGroupsView();
+        renderComposerTargetOptions();
+        rerenderTimeline();
+        return;
       }
     });
 
@@ -3496,9 +5618,71 @@
       renderGroupsView();
     });
 
+    notificationsTabGeneral?.addEventListener('click', () => {
+      currentNotificationsTab = 'general';
+      renderNotificationsPanel();
+    });
+    notificationsTabAdmin?.addEventListener('click', () => {
+      currentNotificationsTab = 'admin';
+      renderNotificationsPanel();
+    });
+    settingsNotifyAll?.addEventListener('change', () => {
+      applyNotifyAllSetting(!!settingsNotifyAll.checked);
+    });
+    settingsNotifyAdminSettings?.addEventListener('change', () => {
+      appSettings.notifyAdminSettings = !!settingsNotifyAdminSettings.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsNotifyJoinRequestResult?.addEventListener('change', () => {
+      appSettings.notifyJoinRequestResult = !!settingsNotifyJoinRequestResult.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsNotifyInviteRequestResult?.addEventListener('change', () => {
+      appSettings.notifyInviteRequestResult = !!settingsNotifyInviteRequestResult.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsNotifyGroupJoin?.addEventListener('change', () => {
+      appSettings.notifyGroupJoin = !!settingsNotifyGroupJoin.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsNotifyComments?.addEventListener('change', () => {
+      appSettings.notifyComments = !!settingsNotifyComments.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsNotifyGroupPosts?.addEventListener('change', () => {
+      appSettings.notifyGroupPosts = !!settingsNotifyGroupPosts.checked;
+      syncNotifyAllSettingFromDetails();
+    });
+    settingsQuietHoursStart?.addEventListener('change', () => {
+      appSettings.quietHoursStart = settingsQuietHoursStart.value || '22:00';
+    });
+    settingsQuietHoursEnd?.addEventListener('change', () => {
+      appSettings.quietHoursEnd = settingsQuietHoursEnd.value || '07:00';
+    });
+    settingsQuietHoursEnabled?.addEventListener('change', () => {
+      appSettings.quietHoursEnabled = !!settingsQuietHoursEnabled.checked;
+      if (settingsQuietHoursStart) settingsQuietHoursStart.disabled = !appSettings.quietHoursEnabled;
+      if (settingsQuietHoursEnd) settingsQuietHoursEnd.disabled = !appSettings.quietHoursEnabled;
+      if (settingsQuietHoursRow) settingsQuietHoursRow.classList.toggle('is-disabled', !appSettings.quietHoursEnabled);
+    });
+
     groupCreateRequestBtn.addEventListener('click', async () => {
       if (isGroupSortMode) exitGroupSortMode();
       openGroupRequestModal();
+    });
+
+    notificationsView.addEventListener('click', async (event) => {
+      const item = event.target.closest('[data-notification-action]');
+      if (!item) return;
+      await handleNotificationAction(item);
+    });
+
+    notificationsView.addEventListener('keydown', async (event) => {
+      const item = event.target.closest('[data-notification-action]');
+      if (!item) return;
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      await handleNotificationAction(item);
     });
 
     groupsView.addEventListener('click', async (event) => {
@@ -3610,6 +5794,25 @@
           target.joined = false;
           target.requested = false;
           target.members = Math.max(0, Number(target.members || 0) - 1);
+        } else if (action === 'delete') {
+          ensureGroupManageData(target);
+          if (target.official || !target.joined || !isCurrentUserGroupAdmin(target)) {
+            await showAlert('このグループは削除できません');
+            event.preventDefault();
+            return;
+          }
+          if (!await showConfirm(`「${target.name}」を削除しますか？\nこの操作は取り消せません。`, 'グループを削除', { okText: '削除する', cancelText: 'キャンセル', okClass: 'danger' })) {
+            event.preventDefault();
+            return;
+          }
+          const linkedFeedId = feedIdByGroup(target);
+          const targetIndex = GROUP_DIRECTORY.findIndex((item) => item.id === target.id);
+          if (targetIndex >= 0) GROUP_DIRECTORY.splice(targetIndex, 1);
+          if (linkedFeedId) {
+            for (let idx = posts.length - 1; idx >= 0; idx -= 1) {
+              if (posts[idx].feedId === linkedFeedId) posts.splice(idx, 1);
+            }
+          }
         } else if (action === 'join') {
           if (!await showConfirm(`「${target.name}」に参加申請しますか？`, 'グループに参加申請', { okText: '参加申請する', cancelText: 'キャンセル' })) {
             event.preventDefault();
@@ -3715,6 +5918,8 @@
 
     composerAttachBtn.addEventListener('click', () => composerFileInput.click());
     composerCameraBtn.addEventListener('click', () => composerCameraInput.click());
+    composerInput.addEventListener('input', renderComposerLinkPreview);
+    composerInput.addEventListener('paste', () => { setTimeout(renderComposerLinkPreview, 0); });
 
     composerFileInput.addEventListener('change', async () => {
       await addComposerFiles(composerFileInput.files);
@@ -3742,12 +5947,18 @@
       }
       const targets = shareableFeeds();
       const implicitFeedId = targets.length === 1 ? targets[0].id : '';
-      const targetFeedId = composerTarget.value || implicitFeedId;
+      const targetFeedId = currentFeedId === 'all'
+        ? (composerTarget.value || implicitFeedId)
+        : currentFeedId;
       if (!targetFeedId) {
         await showAlert('投稿先のグループを選択してください');
         return;
       }
       const selectedFeed = feedMetaById(targetFeedId);
+      if (!selectedFeed) {
+        await showAlert('投稿先のグループが見つかりません');
+        return;
+      }
       const newId = posts.length ? Math.max(...posts.map((post) => post.id)) + 1 : 1;
       const author = authors.find((item) => item.user === CURRENT_USER) || authors[0];
       const attachmentPayload = composerAttachments.map((item) => normalizeAttachmentForPost(item));
@@ -3755,8 +5966,10 @@
         id: newId,
         author,
         feedId: selectedFeed.id,
+        createdAt: Date.now(),
         hoursAgo: 0,
         content: text || '（添付のみの投稿）',
+        linkPreview: buildLinkPreviewFromText(text || ''),
         media: '',
         attachments: attachmentPayload,
         readers: [],
@@ -3767,6 +5980,7 @@
       composerInput.value = '';
       composerAttachments = [];
       renderComposerAttachments();
+      renderComposerLinkPreview();
       renderComposerTargetOptions();
       currentFeedId = selectedFeed.id;
       rerenderTimeline();
@@ -3809,7 +6023,7 @@
       if (!post) return;
 
       if (event.target.closest('.comment-header-report-post')) {
-        await showAlert(`投稿 #${post.id} をグループ管理者に報告しました`);
+        const reason = await openReportReasonModal();
         commentHeaderPopup.classList.remove('open');
         selectedOwnCommentIndex = null;
         selectedCommentIndex = null;
@@ -3817,6 +6031,10 @@
         editingCommentIndex = null;
         commentActionSheet.classList.remove('open');
         commentActionBackdrop.classList.remove('open');
+        if (!reason) return;
+        registerPostReport(post, reason);
+        rerenderTimeline();
+        await showAlert(`投稿 #${post.id} を「${reason}」としてグループ管理者に報告しました`);
         return;
       }
 
@@ -3829,6 +6047,7 @@
           const trimmed = nextText.trim();
           if (trimmed || newAttachments.length > 0 || post.sharedFrom) {
             post.content = trimmed;
+            post.linkPreview = buildLinkPreviewFromText(trimmed);
             post.attachments = newAttachments.map((item) => normalizeAttachmentForPost(item));
             post.edited = true;
             rerenderTimeline();
@@ -3859,6 +6078,22 @@
         activeGroupMenuId = '';
         renderGroupsView();
       }
+    });
+
+    reportReasonClose.addEventListener('click', () => closeReportReasonModal(null));
+    reportReasonCancel.addEventListener('click', () => closeReportReasonModal(null));
+    reportReasonBackdrop.addEventListener('click', () => closeReportReasonModal(null));
+    reportReasonList.addEventListener('click', (event) => {
+      const reasonBtn = event.target.closest('[data-report-reason-index]');
+      if (!reasonBtn) return;
+      const idx = Number(reasonBtn.dataset.reportReasonIndex);
+      if (!Number.isFinite(idx) || !REPORT_REASONS[idx]) return;
+      selectedReportReasonIndex = idx;
+      renderReportReasonList();
+    });
+    reportReasonSubmit.addEventListener('click', () => {
+      if (selectedReportReasonIndex < 0 || !REPORT_REASONS[selectedReportReasonIndex]) return;
+      closeReportReasonModal(REPORT_REASONS[selectedReportReasonIndex]);
     });
     window.addEventListener('scroll', maybeLoadOlderPosts, { passive: true });
   </script>
