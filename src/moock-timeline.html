@@ -26,7 +26,9 @@
       min-height: 100vh;
     }
     html.app-dialog-open,
-    body.app-dialog-open {
+    body.app-dialog-open,
+    html.modal-open,
+    body.modal-open {
       overflow: hidden;
       height: 100%;
       overscroll-behavior: none;
@@ -36,6 +38,12 @@
       inset: 0;
       width: 100%;
       top: var(--app-dialog-lock-top, 0px);
+    }
+    body.modal-open {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      top: var(--modal-lock-top, 0px);
     }
     .topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; }
     .topbar.no-search { padding-bottom: 0; }
@@ -2270,6 +2278,8 @@
     let appDialogViewportMode = '';
     let appDialogLockedScrollY = 0;
     let appDialogScrollLocked = false;
+    let modalLockedScrollY = 0;
+    let modalScrollLockCount = 0;
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -2503,6 +2513,7 @@
     function closeReportReasonModal(selectedReason = null) {
       reportReasonModal.classList.remove('open');
       reportReasonBackdrop.classList.remove('open');
+      unlockModalScroll();
       selectedReportReasonIndex = -1;
       reportReasonList.innerHTML = '';
       reportReasonError.textContent = '';
@@ -2520,6 +2531,25 @@
       }).join('');
     }
 
+    function lockModalScroll() {
+      if (modalScrollLockCount === 0) {
+        modalLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        document.body.style.setProperty('--modal-lock-top', `${-modalLockedScrollY}px`);
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+      }
+      modalScrollLockCount += 1;
+    }
+
+    function unlockModalScroll() {
+      modalScrollLockCount = Math.max(0, modalScrollLockCount - 1);
+      if (modalScrollLockCount > 0) return;
+      document.documentElement.classList.remove('modal-open');
+      document.body.classList.remove('modal-open');
+      document.body.style.removeProperty('--modal-lock-top');
+      window.scrollTo({ top: modalLockedScrollY, left: 0, behavior: 'auto' });
+    }
+
     function openReportReasonModal() {
       if (reportReasonResolver) closeReportReasonModal(null);
       selectedReportReasonIndex = -1;
@@ -2527,6 +2557,7 @@
       renderReportReasonList();
       reportReasonModal.classList.add('open');
       reportReasonBackdrop.classList.add('open');
+      lockModalScroll();
       return new Promise((resolve) => {
         reportReasonResolver = resolve;
       });
@@ -3608,11 +3639,13 @@
       }).join('');
       modal.classList.add('open');
       backdrop.classList.add('open');
+      lockModalScroll();
     }
 
     function closeReadersModal() {
       modal.classList.remove('open');
       backdrop.classList.remove('open');
+      unlockModalScroll();
     }
 
     function renderInviteUsersList() {
@@ -3656,6 +3689,7 @@
       inviteModalSubmit.textContent = inviteModalMode === 'add' ? '追加する' : '招待申請する';
       inviteModal.classList.add('open');
       inviteBackdrop.classList.add('open');
+      lockModalScroll();
       setTimeout(() => inviteUserSearch.focus(), 0);
       return new Promise((resolve) => {
         inviteModalResolver = resolve;
@@ -3665,6 +3699,7 @@
     function closeInviteUsersModal(result = null) {
       inviteModal.classList.remove('open');
       inviteBackdrop.classList.remove('open');
+      unlockModalScroll();
       inviteUserList.scrollTop = 0;
       inviteUserList.innerHTML = '';
       inviteUserSearch.value = '';
@@ -3852,6 +3887,7 @@
       renderGroupDetailModal();
       groupDetailModal.classList.add('open');
       groupDetailBackdrop.classList.add('open');
+      lockModalScroll();
       if (groupDetailBody) {
         groupDetailBody.scrollTop = 0;
         requestAnimationFrame(() => { groupDetailBody.scrollTop = 0; });
@@ -3861,6 +3897,7 @@
     function closeGroupDetailModal() {
       groupDetailModal.classList.remove('open');
       groupDetailBackdrop.classList.remove('open');
+      unlockModalScroll();
       if (groupDetailBody) groupDetailBody.scrollTop = 0;
       groupDetailHead.innerHTML = '';
       groupDetailDescription.textContent = '';
@@ -3923,11 +3960,13 @@
       renderManageUsersModal();
       manageUsersModal.classList.add('open');
       manageUsersBackdrop.classList.add('open');
+      lockModalScroll();
     }
 
     function closeManageUsersModal() {
       manageUsersModal.classList.remove('open');
       manageUsersBackdrop.classList.remove('open');
+      unlockModalScroll();
       manageUsersMembers.innerHTML = '';
       manageUsersRequests.innerHTML = '';
       manageUsersMembersEmpty.textContent = '';
@@ -3985,11 +4024,13 @@
       renderAdminReportsModal();
       adminReportsModal.classList.add('open');
       adminReportsBackdrop.classList.add('open');
+      lockModalScroll();
     }
 
     function closeAdminReportsModal() {
       adminReportsModal.classList.remove('open');
       adminReportsBackdrop.classList.remove('open');
+      unlockModalScroll();
       adminReportsModalFeedId = '';
       adminReportsList.innerHTML = '';
       adminReportsEmpty.textContent = '';
@@ -4054,12 +4095,14 @@
       renderGroupRequestMemberList();
       groupRequestModal.classList.add('open');
       groupRequestBackdrop.classList.add('open');
+      lockModalScroll();
       setTimeout(() => groupRequestName.focus(), 0);
     }
 
     function closeGroupRequestModal() {
       groupRequestModal.classList.remove('open');
       groupRequestBackdrop.classList.remove('open');
+      unlockModalScroll();
       clearGroupRequestErrors();
       groupRequestMemberList.innerHTML = '';
       groupRequestMemberSearch.value = '';
