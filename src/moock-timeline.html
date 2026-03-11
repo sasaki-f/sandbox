@@ -25,9 +25,17 @@
       margin-inline: auto;
       min-height: 100vh;
     }
+    html.app-dialog-open,
     body.app-dialog-open {
       overflow: hidden;
+      height: 100%;
       overscroll-behavior: none;
+    }
+    body.app-dialog-open {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      top: var(--app-dialog-lock-top, 0px);
     }
     .topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; }
     .topbar.no-search { padding-bottom: 0; }
@@ -2222,7 +2230,9 @@
       appDialogBackdrop.classList.remove('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
       disableAppDialogViewportSync();
+      document.documentElement.classList.remove('app-dialog-open');
       document.body.classList.remove('app-dialog-open');
+      document.body.style.removeProperty('--app-dialog-lock-top');
       window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
       if (appDialogResolver) {
         const resolve = appDialogResolver;
@@ -2296,7 +2306,9 @@
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
-      appDialogLockedScrollY = window.scrollY || window.pageYOffset || 0;
+      appDialogLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      document.body.style.setProperty('--app-dialog-lock-top', `${-appDialogLockedScrollY}px`);
+      document.documentElement.classList.add('app-dialog-open');
       document.body.classList.add('app-dialog-open');
       enableAppDialogViewportSync();
       setTimeout(() => {
@@ -2345,7 +2357,7 @@
         return;
       }
       const top = isMobileInputMode
-        ? viewport.offsetTop + (appDialogViewportMode === 'share' ? 88 : 12)
+        ? viewport.offsetTop + 12
         : Math.max(12, viewport.offsetTop + (viewport.height / 2));
       const maxHeight = Math.max(220, viewport.height - 24);
       appDialog.style.top = `${top}px`;
