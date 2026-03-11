@@ -638,6 +638,10 @@
     .comment-action-sheet { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(430px, 100%); background: var(--card); border-radius: 16px 16px 0 0; padding: 10px 10px calc(12px + var(--safe-bottom)); box-shadow: 0 -8px 20px rgba(0,0,0,.18); display: none; z-index: 91; }
     .comment-action-sheet.open { display: block; }
     .comment-action-head { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 2px; }
+    .comment-action-head .popup-close.is-temporarily-disabled {
+      pointer-events: none;
+      opacity: 0.999;
+    }
     .sheet-grip { width: 44px; height: 5px; border-radius: 999px; background: #c8cbd1; margin: 0 auto 10px; }
     .sheet-btn { width: 100%; border: none; background: transparent; text-align: left; font-size: 15px; line-height: 1.35; padding: 11px 8px; color: #1c1e21; display: flex; align-items: center; gap: 10px; }
     .sheet-btn:active { background: #f2f3f5; }
@@ -2133,6 +2137,7 @@
     let selectedOwnCommentIndex = null;
     let selectedCommentIndex = null;
     let selectedCommentId = null;
+    let commentActionCloseUnlockTimer = null;
     let editingCommentIndex = null;
     let longPressTimer = null;
     let longPressOpened = false;
@@ -4097,6 +4102,7 @@
       commentActionBackdrop.classList.add('open');
       commentActionSheet.classList.add('open');
       commentActionSheet.setAttribute('aria-hidden', 'false');
+      lockCommentActionCloseButton();
       requestAnimationFrame(() => {
         if (document.activeElement === commentActionClose) commentActionClose.blur();
       });
@@ -4108,6 +4114,24 @@
         longPressTimer = null;
       }
       longPressPointerId = null;
+    }
+
+    function lockCommentActionCloseButton() {
+      if (!commentActionClose) return;
+      if (commentActionCloseUnlockTimer) {
+        clearTimeout(commentActionCloseUnlockTimer);
+        commentActionCloseUnlockTimer = null;
+      }
+      commentActionClose.disabled = true;
+      commentActionClose.tabIndex = -1;
+      commentActionClose.classList.add('is-temporarily-disabled');
+      commentActionClose.blur();
+      commentActionCloseUnlockTimer = setTimeout(() => {
+        commentActionClose.disabled = false;
+        commentActionClose.tabIndex = 0;
+        commentActionClose.classList.remove('is-temporarily-disabled');
+        commentActionCloseUnlockTimer = null;
+      }, 320);
     }
 
     function scheduleCommentLongPress(item, clientX, clientY, pointerId = null) {
@@ -4128,6 +4152,14 @@
     }
 
     function closeCommentActionMenu() {
+      if (commentActionCloseUnlockTimer) {
+        clearTimeout(commentActionCloseUnlockTimer);
+        commentActionCloseUnlockTimer = null;
+      }
+      commentActionClose.disabled = false;
+      commentActionClose.tabIndex = 0;
+      commentActionClose.classList.remove('is-temporarily-disabled');
+      commentActionClose.blur();
       selectedOwnCommentIndex = null;
       selectedCommentIndex = null;
       selectedCommentId = null;
@@ -5445,6 +5477,12 @@
     }, true);
 
     commentActionBackdrop.addEventListener('click', closeCommentActionMenu);
+    commentActionClose.addEventListener('pointerdown', (event) => {
+      event.preventDefault();
+    });
+    commentActionClose.addEventListener('touchstart', (event) => {
+      event.preventDefault();
+    }, { passive: false });
     commentActionClose.addEventListener('click', closeCommentActionMenu);
     commentActionSheet.addEventListener('click', (event) => {
       event.stopPropagation();
