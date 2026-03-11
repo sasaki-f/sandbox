@@ -5525,28 +5525,23 @@
       }
     }, true);
 
-    document.addEventListener('touchstart', (event) => {
-      if (event.touches.length !== 1) {
+    commentView.addEventListener('touchstart', (event) => {
+      if (!commentView.classList.contains('open') || event.touches.length !== 1) {
         resetEdgeSwipeState();
         return;
       }
       const touch = event.touches[0];
-      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-      const edgeSize = 28;
-      const fromLeftEdge = touch.clientX <= edgeSize;
-      const fromRightEdge = touch.clientX >= Math.max(edgeSize, viewportWidth - edgeSize);
       edgeSwipeState = {
         startX: touch.clientX,
         startY: touch.clientY,
         currentX: touch.clientX,
         currentY: touch.clientY,
-        fromLeftEdge,
-        fromRightEdge,
+        fromLeftEdge: touch.clientX <= 28,
         lockedAxis: '',
       };
-    }, { passive: true, capture: true });
+    }, { passive: true });
 
-    document.addEventListener('touchmove', (event) => {
+    commentView.addEventListener('touchmove', (event) => {
       if (!edgeSwipeState || event.touches.length !== 1) return;
       const touch = event.touches[0];
       edgeSwipeState.currentX = touch.clientX;
@@ -5557,33 +5552,23 @@
         if (Math.abs(deltaX) < 8 && Math.abs(deltaY) < 8) return;
         edgeSwipeState.lockedAxis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
       }
-      if (edgeSwipeState.lockedAxis !== 'x') return;
-      const commentSwipe = commentView.classList.contains('open') && edgeSwipeState.fromLeftEdge && deltaX > 0;
-      const browserEdgeSwipe = (!commentView.classList.contains('open') && (edgeSwipeState.fromLeftEdge || edgeSwipeState.fromRightEdge))
-        || (commentView.classList.contains('open') && (edgeSwipeState.fromLeftEdge || edgeSwipeState.fromRightEdge));
-      if (!commentSwipe && !browserEdgeSwipe) return;
+      if (edgeSwipeState.lockedAxis !== 'x' || !edgeSwipeState.fromLeftEdge || deltaX <= 0) return;
       event.preventDefault();
-      if (commentSwipe) {
-        const offset = Math.max(0, Math.min(deltaX, window.innerWidth || 0));
-        commentView.style.transform = `translateX(${offset}px)`;
-      }
-    }, { passive: false, capture: true });
+      const offset = Math.max(0, Math.min(deltaX, window.innerWidth || 0));
+      commentView.style.transform = `translateX(${offset}px)`;
+    }, { passive: false });
 
     ['touchend', 'touchcancel'].forEach((evt) => {
-      document.addEventListener(evt, () => {
+      commentView.addEventListener(evt, () => {
         if (!edgeSwipeState) return;
         const deltaX = edgeSwipeState.currentX - edgeSwipeState.startX;
-        const shouldCloseComment = commentView.classList.contains('open')
-          && edgeSwipeState.fromLeftEdge
-          && edgeSwipeState.lockedAxis === 'x'
-          && deltaX > 72;
-        if (shouldCloseComment) {
+        if (commentView.classList.contains('open') && edgeSwipeState.fromLeftEdge && edgeSwipeState.lockedAxis === 'x' && deltaX > 72) {
           closeCommentView();
         } else if (commentView.classList.contains('open')) {
           commentView.style.transform = '';
         }
         resetEdgeSwipeState();
-      }, { capture: true });
+      });
     });
 
     commentActionBackdrop.addEventListener('click', closeCommentActionMenu);
