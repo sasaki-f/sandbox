@@ -2280,6 +2280,9 @@
     let appDialogScrollLocked = false;
     let modalLockedScrollY = 0;
     let modalScrollLockCount = 0;
+    let timelineSearchRenderTimer = 0;
+    let groupSearchRenderTimer = 0;
+    let maybeLoadOlderPostsTicking = false;
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -5372,11 +5375,16 @@
     }
 
     function maybeLoadOlderPosts() {
-      if (commentView.classList.contains('open')) return;
-      const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 240;
-      if (nearBottom) {
-        loadMorePosts();
-      }
+      if (maybeLoadOlderPostsTicking) return;
+      maybeLoadOlderPostsTicking = true;
+      requestAnimationFrame(() => {
+        maybeLoadOlderPostsTicking = false;
+        if (commentView.classList.contains('open')) return;
+        const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 240;
+        if (nearBottom) {
+          loadMorePosts();
+        }
+      });
     }
 
     loadMorePosts();
@@ -6045,10 +6053,14 @@
     timelineSearch.addEventListener('input', () => {
       currentSearchQuery = timelineSearch.value.trim().toLowerCase();
       timelineSearchClear.classList.toggle('show', timelineSearch.value.length > 0);
-      rerenderTimeline();
+      clearTimeout(timelineSearchRenderTimer);
+      timelineSearchRenderTimer = setTimeout(() => {
+        rerenderTimeline();
+      }, 80);
     });
 
     timelineSearchClear.addEventListener('click', () => {
+      clearTimeout(timelineSearchRenderTimer);
       timelineSearch.value = '';
       currentSearchQuery = '';
       timelineSearchClear.classList.remove('show');
@@ -6058,7 +6070,10 @@
 
     groupSearch.addEventListener('input', () => {
       currentGroupSearchQuery = groupSearch.value;
-      renderGroupsView();
+      clearTimeout(groupSearchRenderTimer);
+      groupSearchRenderTimer = setTimeout(() => {
+        renderGroupsView();
+      }, 80);
     });
 
     notificationsTabGeneral?.addEventListener('click', () => {
