@@ -479,6 +479,7 @@
     .report-reason-btn { width: 100%; border: none; background: transparent; text-align: left; padding: 12px 2px; font-size: 14px; color: #1f2937; line-height: 1.35; }
     .report-reason-btn:hover { background: #f6f8fb; }
     .report-reason-btn.selected { background: #edf4ff; color: #1f4f95; font-weight: 700; }
+    .report-reason-error { min-height: 18px; padding: 6px 12px 0; color: #c23030; font-size: 12px; line-height: 1.4; }
     .report-reason-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border); }
     .reader-item { font-size: 13px; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
     .reader-avatar { width: 24px; height: 24px; border-radius: 50%; background: #d9dde3; color: #4b4f56; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; overflow: hidden; }
@@ -549,6 +550,7 @@
     .admin-reports-author-name { font-size: 12px; font-weight: 700; color: #334155; }
     .admin-reports-post { font-size: 13px; color: #1f2937; line-height: 1.45; margin-bottom: 6px; }
     .admin-reports-meta { font-size: 11px; color: #6b7280; margin-bottom: 8px; }
+    .admin-reports-meta-line + .admin-reports-meta-line { margin-top: 2px; }
     .admin-reports-actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .admin-reports-btn { border: 1px solid #d5dbe6; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; padding: 5px 10px; color: #4b5563; }
     .admin-reports-btn.delete { border-color: #e5c1c1; color: #a33f3f; background: #fff4f4; }
@@ -735,7 +737,7 @@
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="業務改善プロジェクト"><span>「業務改善プロジェクト」に追加されました</span><span class="panel-list-meta">1時間前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-manage-group" data-group-name="ナレッジ共有ラボ"><span>「ナレッジ共有ラボ」への招待申請があります</span><span class="panel-list-meta">1時間前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="部門責任者共有"><span>「部門責任者共有」の管理者に設定されました</span><span class="panel-list-meta">2時間前</span></li>
-          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-post" data-feed-id="director-share" data-post-keyword="重点課題"><span>「部門責任者共有」の投稿に報告がありました（理由：いじめ・嫌がらせ・虐待）</span><span class="panel-list-meta">4時間前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-post" data-feed-id="director-share" data-post-keyword="重点課題"><span>「部門責任者共有」の投稿に報告がありました（理由：業務上不適切な投稿）</span><span class="panel-list-meta">4時間前</span></li>
         </ul>
       </article>
     </section>
@@ -831,7 +833,7 @@
       <div id="composer-link-preview" class="composer-link-preview"></div>
       <div id="composer-attach-preview" class="composer-attach-preview"></div>
       <input id="composer-file-input" type="file" multiple hidden accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" />
-      <input id="composer-camera-input" type="file" hidden accept="image/*,video/*" capture="environment" />
+      <input id="composer-camera-input" type="file" hidden accept="image/*" capture="environment" />
       <div class="row-actions">
         <button id="composer-camera-btn" class="action" type="button"><img class="action-icon" alt="カメラ" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><g fill='none' stroke='%23000' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'><path d='M10 20h10l4-7h16l4 7h10a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6z'/><circle cx='32' cy='38' r='11.5'/></g></svg>" />カメラ</button>
         <button id="composer-attach-btn" class="action" type="button"><img class="action-icon attach-icon" alt="添付" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19.4 10.6l-7.2 7.2a4.8 4.8 0 0 1-6.8-6.8l8.3-8.2a3.2 3.2 0 1 1 4.5 4.5L9.9 15.5a1.7 1.7 0 1 1-2.4-2.4l7.2-7.2' fill='none' stroke='%234b5d75' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/></svg>" />添付</button>
@@ -1013,9 +1015,10 @@
       <button id="report-reason-close" class="modal-close popup-close" type="button" aria-label="閉じる">×</button>
     </div>
     <ul id="report-reason-list" class="reader-list report-reason-list"></ul>
+    <div id="report-reason-error" class="report-reason-error"></div>
     <div class="report-reason-actions">
       <button id="report-reason-cancel" class="app-dialog-btn cancel" type="button">キャンセル</button>
-      <button id="report-reason-submit" class="app-dialog-btn ok" type="button" disabled>報告する</button>
+      <button id="report-reason-submit" class="app-dialog-btn ok" type="button">報告する</button>
     </div>
   </div>
 
@@ -1044,7 +1047,7 @@
     </div>
   </div>
   <input id="app-dialog-file-input" type="file" multiple hidden accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" />
-  <input id="app-dialog-camera-input" type="file" hidden accept="image/*,video/*" capture="environment" />
+  <input id="app-dialog-camera-input" type="file" hidden accept="image/*" capture="environment" />
 
   <div id="media-preview" class="media-preview" aria-hidden="true">
     <div class="media-preview-content">
@@ -2061,6 +2064,7 @@
     const reportReasonModal = document.getElementById('report-reason-modal');
     const reportReasonClose = document.getElementById('report-reason-close');
     const reportReasonList = document.getElementById('report-reason-list');
+    const reportReasonError = document.getElementById('report-reason-error');
     const reportReasonCancel = document.getElementById('report-reason-cancel');
     const reportReasonSubmit = document.getElementById('report-reason-submit');
     const timelineSearch = document.getElementById('timeline-search');
@@ -2102,6 +2106,9 @@
     let editingCommentIndex = null;
     let longPressTimer = null;
     let longPressOpened = false;
+    let longPressPointerId = null;
+    let longPressStartX = 0;
+    let longPressStartY = 0;
     let loadedPostCount = 0;
     let isLoadingMore = false;
     let currentSearchQuery = "";
@@ -2167,15 +2174,11 @@
     const adminPostReports = [];
 
     const REPORT_REASONS = [
-      '18歳未満の人物が関わる問題',
-      'いじめ、嫌がらせ、虐待',
-      '自殺または自傷行為',
-      '暴力的、不快、または悪意があるコンテンツ',
-      '制限された商品を販売または宣伝している',
-      '成人向けコンテンツ',
-      '詐欺または虚偽の情報',
-      '知的財産権',
-      'これを見たくない',
+      '特定の個人・職員への誹謗中傷',
+      'ハラスメントにつながる内容',
+      '患者情報・個人情報の不適切な共有',
+      '暴力的・攻撃的な内容',
+      '業務上不適切な投稿',
     ];
 
     function closeAppDialog(result) {
@@ -2303,7 +2306,7 @@
       reportReasonBackdrop.classList.remove('open');
       selectedReportReasonIndex = -1;
       reportReasonList.innerHTML = '';
-      reportReasonSubmit.disabled = true;
+      reportReasonError.textContent = '';
       if (reportReasonResolver) {
         const resolve = reportReasonResolver;
         reportReasonResolver = null;
@@ -2316,18 +2319,27 @@
         const selected = selectedReportReasonIndex === index;
         return `<li class="report-reason-item"><button class="report-reason-btn ${selected ? 'selected' : ''}" type="button" data-report-reason-index="${index}" aria-pressed="${selected ? 'true' : 'false'}">${escapeHtml(reason)}</button></li>`;
       }).join('');
-      reportReasonSubmit.disabled = selectedReportReasonIndex < 0;
     }
 
     function openReportReasonModal() {
       if (reportReasonResolver) closeReportReasonModal(null);
       selectedReportReasonIndex = -1;
+      reportReasonError.textContent = '';
       renderReportReasonList();
       reportReasonModal.classList.add('open');
       reportReasonBackdrop.classList.add('open');
       return new Promise((resolve) => {
         reportReasonResolver = resolve;
       });
+    }
+
+    function openFilePicker(input) {
+      if (!input) return;
+      if (typeof input.showPicker === 'function') {
+        input.showPicker();
+        return;
+      }
+      input.click();
     }
 
     function selectedDialogTargetValues() {
@@ -2418,11 +2430,11 @@
     });
     appDialogAttachBtn.addEventListener('click', () => {
       if (!appDialogMediaEnabled) return;
-      appDialogFileInput.click();
+      openFilePicker(appDialogFileInput);
     });
     appDialogCameraBtn.addEventListener('click', () => {
       if (!appDialogMediaEnabled) return;
-      appDialogCameraInput.click();
+      openFilePicker(appDialogCameraInput);
     });
     appDialogFileInput.addEventListener('change', async () => {
       await addAppDialogFiles(appDialogFileInput.files);
@@ -3732,6 +3744,9 @@
       adminReportsList.innerHTML = items.map((item) => {
         const postId = Number(item.post.id || 0);
         const reason = item.latestReason || '確認依頼';
+        const reporters = Array.isArray(item.reporters) ? item.reporters.filter(Boolean) : [];
+        const reporterText = reporters.length > 0 ? reporters.join('、') : '不明';
+        const reportedAtText = Number(item.latestAt || 0) > 0 ? formatDateTimeJa(new Date(item.latestAt)) : '不明';
         const authorName = item.post.author?.user || '不明';
         const postFeed = feedMetaById(item.post.feedId);
         return `<li class="admin-reports-item">
@@ -3745,7 +3760,11 @@
             </div>
           </div>
           <div class="admin-reports-post">${escapeHtml((item.post.content || '').slice(0, 120))}</div>
-          <div class="admin-reports-meta">理由: ${escapeHtml(reason)}</div>
+          <div class="admin-reports-meta">
+            <div class="admin-reports-meta-line">報告者: ${escapeHtml(reporterText)}</div>
+            <div class="admin-reports-meta-line">報告日時: ${escapeHtml(reportedAtText)}</div>
+            <div class="admin-reports-meta-line">報告理由: ${escapeHtml(reason)}</div>
+          </div>
           <div class="admin-reports-actions">
             <button class="admin-reports-btn delete" type="button" data-admin-report-action="delete" data-admin-report-post-id="${String(postId)}">削除する</button>
             <button class="admin-reports-btn ok" type="button" data-admin-report-action="no-issue" data-admin-report-post-id="${String(postId)}">問題なし</button>
@@ -3965,6 +3984,31 @@
       commentActionSheet.setAttribute('aria-hidden', 'false');
     }
 
+    function clearCommentLongPress() {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+      longPressPointerId = null;
+    }
+
+    function scheduleCommentLongPress(item, clientX, clientY, pointerId = null) {
+      if (!item || editingCommentIndex !== null) return;
+      const idx = Number(item.dataset.commentIndex);
+      const commentId = Number(item.dataset.commentId);
+      const isOwn = item.dataset.own === 'true';
+      clearCommentLongPress();
+      longPressOpened = false;
+      longPressPointerId = pointerId;
+      longPressStartX = Number(clientX) || 0;
+      longPressStartY = Number(clientY) || 0;
+      longPressTimer = setTimeout(() => {
+        longPressTimer = null;
+        longPressOpened = true;
+        openCommentActionMenu(idx, isOwn, Number.isFinite(commentId) ? commentId : null);
+      }, 450);
+    }
+
     function closeCommentActionMenu() {
       selectedOwnCommentIndex = null;
       selectedCommentIndex = null;
@@ -4171,7 +4215,7 @@
         id: nextAdminReportId++,
         postId: Number(reportPost.id || 0),
         feedId: String(reportPost.feedId || ''),
-        reason: 'いじめ・嫌がらせ・虐待',
+        reason: '業務上不適切な投稿',
         createdAt: Date.now() - (5 * 60 * 60 * 1000),
         reporter: 'さとう はなこ',
         status: 'pending',
@@ -4212,10 +4256,16 @@
         .map(({ post, group, reports }) => {
           reports.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
           const latest = reports[0] || null;
+          const reporters = Array.from(new Set(
+            reports
+              .map((report) => String(report.reporter || '').trim())
+              .filter(Boolean)
+          ));
           return {
             post,
             group,
             reports,
+            reporters,
             latestReason: latest?.reason || '',
             latestAt: Number(latest?.createdAt || 0),
           };
@@ -5207,26 +5257,53 @@
     postsRoot.addEventListener('click', handlePostAreaClick);
     commentBody.addEventListener('click', handlePostAreaClick);
 
-    commentBody.addEventListener('pointerdown', (event) => {
-      const item = event.target.closest('.comment-item[data-comment-index]');
-      if (!item || editingCommentIndex !== null) return;
-      const idx = Number(item.dataset.commentIndex);
-      const commentId = Number(item.dataset.commentId);
-      const isOwn = item.dataset.own === 'true';
-      longPressOpened = false;
-      longPressTimer = setTimeout(() => {
-        longPressOpened = true;
-        openCommentActionMenu(idx, isOwn, Number.isFinite(commentId) ? commentId : null);
-      }, 450);
-    });
-    ['pointerup', 'pointerleave', 'pointercancel', 'pointermove'].forEach((evt) => {
-      commentBody.addEventListener(evt, () => {
-        if (longPressTimer) {
-          clearTimeout(longPressTimer);
-          longPressTimer = null;
-        }
+    if (window.PointerEvent) {
+      commentBody.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        const item = event.target.closest('.comment-item[data-comment-index]');
+        scheduleCommentLongPress(item, event.clientX, event.clientY, event.pointerId);
       });
-    });
+      commentBody.addEventListener('pointermove', (event) => {
+        if (!longPressTimer) return;
+        if (longPressPointerId !== null && event.pointerId !== longPressPointerId) return;
+        const moveX = Math.abs(event.clientX - longPressStartX);
+        const moveY = Math.abs(event.clientY - longPressStartY);
+        if (moveX > 10 || moveY > 10) clearCommentLongPress();
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach((evt) => {
+        commentBody.addEventListener(evt, (event) => {
+          if (longPressPointerId !== null && event.pointerId !== longPressPointerId) return;
+          clearCommentLongPress();
+        });
+      });
+    } else {
+      commentBody.addEventListener('touchstart', (event) => {
+        const item = event.target.closest('.comment-item[data-comment-index]');
+        const touch = event.touches[0];
+        if (!touch) return;
+        scheduleCommentLongPress(item, touch.clientX, touch.clientY);
+      }, { passive: true });
+      commentBody.addEventListener('touchmove', (event) => {
+        if (!longPressTimer) return;
+        const touch = event.touches[0];
+        if (!touch) return clearCommentLongPress();
+        const moveX = Math.abs(touch.clientX - longPressStartX);
+        const moveY = Math.abs(touch.clientY - longPressStartY);
+        if (moveX > 10 || moveY > 10) clearCommentLongPress();
+      }, { passive: true });
+      ['touchend', 'touchcancel'].forEach((evt) => {
+        commentBody.addEventListener(evt, clearCommentLongPress);
+      });
+      commentBody.addEventListener('mousedown', (event) => {
+        if (event.button !== 0) return;
+        const item = event.target.closest('.comment-item[data-comment-index]');
+        scheduleCommentLongPress(item, event.clientX, event.clientY);
+      });
+      ['mouseup', 'mouseleave'].forEach((evt) => {
+        commentBody.addEventListener(evt, clearCommentLongPress);
+      });
+    }
     commentBody.addEventListener('click', (event) => {
       if (!longPressOpened) return;
       if (event.target.closest('.comment-item[data-comment-index]')) {
@@ -5916,8 +5993,8 @@
     feedTabs.addEventListener('click', handleFeedTabSwitch);
     feedTabs.addEventListener('pointerup', handleFeedTabSwitch);
 
-    composerAttachBtn.addEventListener('click', () => composerFileInput.click());
-    composerCameraBtn.addEventListener('click', () => composerCameraInput.click());
+    composerAttachBtn.addEventListener('click', () => openFilePicker(composerFileInput));
+    composerCameraBtn.addEventListener('click', () => openFilePicker(composerCameraInput));
     composerInput.addEventListener('input', renderComposerLinkPreview);
     composerInput.addEventListener('paste', () => { setTimeout(renderComposerLinkPreview, 0); });
 
@@ -6089,15 +6166,17 @@
       const idx = Number(reasonBtn.dataset.reportReasonIndex);
       if (!Number.isFinite(idx) || !REPORT_REASONS[idx]) return;
       selectedReportReasonIndex = idx;
+      reportReasonError.textContent = '';
       renderReportReasonList();
     });
     reportReasonSubmit.addEventListener('click', () => {
-      if (selectedReportReasonIndex < 0 || !REPORT_REASONS[selectedReportReasonIndex]) return;
+      if (selectedReportReasonIndex < 0 || !REPORT_REASONS[selectedReportReasonIndex]) {
+        reportReasonError.textContent = '報告理由を選択してください';
+        return;
+      }
       closeReportReasonModal(REPORT_REASONS[selectedReportReasonIndex]);
     });
     window.addEventListener('scroll', maybeLoadOlderPosts, { passive: true });
   </script>
 </body>
 </html>
-
-
