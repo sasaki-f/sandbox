@@ -186,7 +186,14 @@
     .group-item-main[data-group-open-detail="true"] { cursor: pointer; }
     .group-item.sortable { cursor: grab; }
     .group-item.sortable, .group-item.sortable * { user-select: none; -webkit-user-select: none; }
-    .group-item.sortable.dragging { opacity: .55; background: #f5f8ff; }
+    .group-item.sortable.dragging {
+      opacity: .92;
+      background: #f5f8ff;
+      position: relative;
+      z-index: 3;
+      box-shadow: 0 10px 20px rgba(63, 79, 103, .16);
+      transition: none;
+    }
     .group-icon { width: 36px; height: 36px; border-radius: 50%; background: #dbe3f5; color: #2f3e56; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; overflow: hidden; }
     .group-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .group-meta { min-width: 0; color: #20252b; font-size: 14px; font-weight: 600; }
@@ -2162,6 +2169,15 @@
     let isGroupSortMode = false;
     let activeGroupMenuId = '';
     let groupSortDragState = null;
+
+    function applyGroupSortDraggingVisual() {
+      if (!groupSortDragState || !groupSortDragState.dragging) return;
+      const activeItem = Array.from(joinedGroups.querySelectorAll('.group-item.sortable'))
+        .find((item) => item.dataset.groupId === groupSortDragState.sourceId);
+      if (!activeItem) return;
+      activeItem.classList.add('dragging');
+      activeItem.style.transform = `translateY(${groupSortDragState.currentY - groupSortDragState.startY}px)`;
+    }
     let currentFeedId = 'all';
     const seenGroupNewPostByFeed = {};
     const seenOwnCommentedByPostTs = {};
@@ -6086,12 +6102,13 @@
         lastSignature: '',
         startX: event.clientX,
         startY: event.clientY,
+        currentY: event.clientY,
         dragging: false,
       };
       if (handle.setPointerCapture) handle.setPointerCapture(event.pointerId);
     });
 
-    groupsView.addEventListener('pointermove', (event) => {
+    document.addEventListener('pointermove', (event) => {
       if (!groupSortDragState) return;
       if (groupSortDragState.pointerId !== event.pointerId) return;
       const deltaX = Math.abs(event.clientX - groupSortDragState.startX);
@@ -6099,10 +6116,9 @@
       if (!groupSortDragState.dragging) {
         if (Math.max(deltaX, deltaY) < 8) return;
         groupSortDragState.dragging = true;
-        const activeItem = Array.from(joinedGroups.querySelectorAll('.group-item.sortable'))
-          .find((item) => item.dataset.groupId === groupSortDragState.sourceId);
-        if (activeItem) activeItem.classList.add('dragging');
       }
+      groupSortDragState.currentY = event.clientY;
+      applyGroupSortDraggingVisual();
       event.preventDefault();
       const targetEl = document.elementFromPoint(event.clientX, event.clientY);
       const targetItem = targetEl ? targetEl.closest('.group-item.sortable') : null;
@@ -6118,16 +6134,17 @@
       renderGroupsView();
       renderComposerTargetOptions();
       rerenderTimeline();
-      const activeItem = Array.from(joinedGroups.querySelectorAll('.group-item.sortable'))
-        .find((item) => item.dataset.groupId === groupSortDragState.sourceId);
-      if (activeItem) activeItem.classList.add('dragging');
+      applyGroupSortDraggingVisual();
     });
 
     function endGroupSortDrag() {
       if (!groupSortDragState) return;
-      groupSortDragState = null;
       const draggingItem = joinedGroups.querySelector('.group-item.sortable.dragging');
-      if (draggingItem) draggingItem.classList.remove('dragging');
+      if (draggingItem) {
+        draggingItem.classList.remove('dragging');
+        draggingItem.style.transform = '';
+      }
+      groupSortDragState = null;
     }
 
     groupsView.addEventListener('pointerup', endGroupSortDrag);
