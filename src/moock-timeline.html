@@ -2550,6 +2550,10 @@
       window.scrollTo({ top: modalLockedScrollY, left: 0, behavior: 'auto' });
     }
 
+    function preventBackdropScroll(event) {
+      event.preventDefault();
+    }
+
     function openReportReasonModal() {
       if (reportReasonResolver) closeReportReasonModal(null);
       selectedReportReasonIndex = -1;
@@ -2657,6 +2661,11 @@
       if (appDialogType === 'confirm') closeAppDialog(false);
       else if (appDialogType === 'prompt') closeAppDialog(null);
       else closeAppDialog(undefined);
+    });
+    [appDialogBackdrop, backdrop, inviteBackdrop, manageUsersBackdrop, adminReportsBackdrop, groupRequestBackdrop, groupDetailBackdrop, reportReasonBackdrop, commentActionBackdrop].forEach((target) => {
+      if (!target) return;
+      target.addEventListener('wheel', preventBackdropScroll, { passive: false });
+      target.addEventListener('touchmove', preventBackdropScroll, { passive: false });
     });
     appDialogAttachBtn.addEventListener('click', () => {
       if (!appDialogMediaEnabled) return;
