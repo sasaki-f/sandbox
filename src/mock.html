@@ -7,6 +7,20 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>カカリンク</title>
+  <script>
+    (function ensureFreshMockDocument() {
+      const url = new URL(window.location.href);
+      const currentStamp = url.searchParams.get('_mockts') || '';
+      const navigationEntries = typeof performance.getEntriesByType === 'function'
+        ? performance.getEntriesByType('navigation')
+        : [];
+      const navigationType = navigationEntries[0] && navigationEntries[0].type ? navigationEntries[0].type : '';
+      const nextStamp = String(Date.now());
+      if (currentStamp && navigationType !== 'reload') return;
+      url.searchParams.set('_mockts', nextStamp);
+      window.location.replace(url.toString());
+    }());
+  </script>
   <style>
     :root {
       --page-bg: #d9d4dc;
