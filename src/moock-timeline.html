@@ -184,7 +184,7 @@
     .group-item:last-child { border-bottom: none; }
     .group-item-main { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .group-item-main[data-group-open-detail="true"] { cursor: pointer; }
-    .group-item.sortable { touch-action: none; cursor: grab; }
+    .group-item.sortable { cursor: grab; }
     .group-item.sortable, .group-item.sortable * { user-select: none; -webkit-user-select: none; }
     .group-item.sortable.dragging { opacity: .55; background: #f5f8ff; }
     .group-icon { width: 36px; height: 36px; border-radius: 50%; background: #dbe3f5; color: #2f3e56; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; overflow: hidden; }
@@ -273,6 +273,19 @@
     }
     .group-menu-item:hover { background: #f4f7fb; }
     .group-menu-item.danger { color: #b34040; }
+    .group-sort-handle {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+    }
     .group-sort-grip { color: #8a93a1; font-size: 18px; line-height: 1; padding: 2px 4px; user-select: none; }
     .mini-badge { font-size: 10px; color: #fff; background: var(--blue); border-radius: 999px; padding: 1px 5px; }
     .mini-admin-badge { font-size: 10px; color: #fff; background: #2f855a; border-radius: 999px; padding: 1px 5px; }
@@ -2148,7 +2161,6 @@
     let currentGroupSearchQuery = "";
     let isGroupSortMode = false;
     let activeGroupMenuId = '';
-    let groupSortPressTimer = null;
     let groupSortDragState = null;
     let currentFeedId = 'all';
     const seenGroupNewPostByFeed = {};
@@ -3190,7 +3202,7 @@
       const isGroupMenuOpen = activeGroupMenuId === group.id;
       let actionHtml = '';
       if (group.joined && isGroupSortMode) {
-        actionHtml = `<div class="group-actions"><span class="group-sort-grip" aria-hidden="true">≡</span></div>`;
+        actionHtml = `<div class="group-actions"><button class="group-sort-handle" type="button" data-group-sort-handle="true" aria-label="${escapeHtml(group.name)} を並び替える"><span class="group-sort-grip" aria-hidden="true">≡</span></button></div>`;
       } else if (canShowJoinedMenu) {
         const menuItems = [
           canManageUsers ? `<button class="group-menu-item" type="button" data-group-id="${escapeHtml(group.id || '')}" data-group-manage-users="true">メンバー管理</button>` : '',
@@ -6062,21 +6074,35 @@
 
     groupsView.addEventListener('pointerdown', (event) => {
       if (!isGroupSortMode) return;
+      const handle = event.target.closest('[data-group-sort-handle="true"]');
+      if (!handle) return;
       const item = event.target.closest('.group-item.sortable');
       if (!item) return;
+      event.preventDefault();
       const sourceId = item.dataset.groupId || '';
-      groupSortPressTimer = setTimeout(() => {
-        groupSortDragState = {
-          sourceId,
-          pointerId: event.pointerId,
-          lastSignature: '',
-        };
-        item.classList.add('dragging');
-      }, 350);
+      groupSortDragState = {
+        sourceId,
+        pointerId: event.pointerId,
+        lastSignature: '',
+        startX: event.clientX,
+        startY: event.clientY,
+        dragging: false,
+      };
+      if (handle.setPointerCapture) handle.setPointerCapture(event.pointerId);
     });
 
     groupsView.addEventListener('pointermove', (event) => {
       if (!groupSortDragState) return;
+      if (groupSortDragState.pointerId !== event.pointerId) return;
+      const deltaX = Math.abs(event.clientX - groupSortDragState.startX);
+      const deltaY = Math.abs(event.clientY - groupSortDragState.startY);
+      if (!groupSortDragState.dragging) {
+        if (Math.max(deltaX, deltaY) < 8) return;
+        groupSortDragState.dragging = true;
+        const activeItem = Array.from(joinedGroups.querySelectorAll('.group-item.sortable'))
+          .find((item) => item.dataset.groupId === groupSortDragState.sourceId);
+        if (activeItem) activeItem.classList.add('dragging');
+      }
       event.preventDefault();
       const targetEl = document.elementFromPoint(event.clientX, event.clientY);
       const targetItem = targetEl ? targetEl.closest('.group-item.sortable') : null;
@@ -6098,10 +6124,6 @@
     });
 
     function endGroupSortDrag() {
-      if (groupSortPressTimer) {
-        clearTimeout(groupSortPressTimer);
-        groupSortPressTimer = null;
-      }
       if (!groupSortDragState) return;
       groupSortDragState = null;
       const draggingItem = joinedGroups.querySelector('.group-item.sortable.dragging');
