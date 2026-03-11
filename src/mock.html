@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>カカリンク</title>
   <style>
     :root {
@@ -74,23 +77,6 @@
       vertical-align: top;
     }
 
-    .guide {
-      position: fixed;
-      left: 16px;
-      bottom: 16px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(32, 27, 35, 0.78);
-      color: #fff;
-      font-size: 12px;
-      line-height: 1.5;
-      backdrop-filter: blur(8px);
-    }
-
-    .guide code {
-      font-family: Consolas, monospace;
-    }
-
     @media (min-width: 768px) {
       body {
         display: flex;
@@ -105,37 +91,43 @@
         border-radius: 0;
       }
     }
-
-    @media (max-width: 767px) {
-      .guide {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
   <main class="device" aria-label="モックアプリ">
     <iframe
       class="mock-header"
-      src="./partials/mock-header.html"
+      data-src="./partials/mock-header.html"
       title="ヘッダー"
       loading="eager">
     </iframe>
     <iframe
       class="mock-content"
-      src="./moock-timeline.html"
+      data-src="./moock-timeline.html"
       title="コンテンツ"
       loading="eager">
     </iframe>
     <iframe
       class="mock-footer"
-      src="./partials/mock-footer.html"
+      data-src="./partials/mock-footer.html"
       title="フッター"
       loading="eager">
     </iframe>
   </main>
-  <aside class="guide">
-    コンテンツ差し替え先: <code>src="./moock-timeline.html"</code>
-  </aside>
+  <script>
+    function refreshMockFrames() {
+      const stamp = Date.now();
+      document.querySelectorAll('iframe[data-src]').forEach((frame) => {
+        const baseSrc = frame.dataset.src || '';
+        if (!baseSrc) return;
+        const url = new URL(baseSrc, window.location.href);
+        url.searchParams.set('_ts', String(stamp));
+        frame.src = url.toString();
+      });
+    }
+
+    refreshMockFrames();
+    window.addEventListener('pageshow', refreshMockFrames);
+  </script>
 </body>
 </html>
