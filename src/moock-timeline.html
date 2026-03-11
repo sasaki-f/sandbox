@@ -33,16 +33,22 @@
       height: 100%;
       overscroll-behavior: none;
     }
-    body.app-dialog-open {
+    .app-shell {
+      min-height: 100vh;
+    }
+    .app-shell.app-dialog-locked,
+    .app-shell.modal-locked {
       position: fixed;
-      inset: 0;
+      left: 0;
+      right: 0;
       width: 100%;
+      max-width: 430px;
+      margin-inline: auto;
+    }
+    .app-shell.app-dialog-locked {
       top: var(--app-dialog-lock-top, 0px);
     }
-    body.modal-open {
-      position: fixed;
-      inset: 0;
-      width: 100%;
+    .app-shell.modal-locked {
       top: var(--modal-lock-top, 0px);
     }
     .topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; }
@@ -777,6 +783,7 @@
   </style>
 </head>
 <body>
+  <div id="app-shell" class="app-shell">
   <header class="topbar">
     <nav class="top-menu" aria-label="上部メニュー">
       <button class="top-menu-item active" type="button" aria-label="ホーム"><span class="top-menu-icon work" aria-hidden="true"></span></button>
@@ -932,6 +939,7 @@
     </article>
     <section id="posts"></section>
   </main>
+  </div>
 
   <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
   <div id="readers-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -1232,7 +1240,7 @@
       { id: 'grp-product', name: 'ナレッジ共有ラボ', members: 34, joined: true, official: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'いとう ゆう', 'こばやし ゆうな'], joinRequests: ['たかはし みさき', 'よしだ あおい'] },
       { id: 'grp-sales', name: '品質改善タスクフォース', members: 20, joined: true, official: false, admin: false, adminUsers: ['すずき いちろう'], membersList: ['やまだ たろう', 'すずき いちろう', 'かとう まこと', 'さとう はなこ', 'よしだ あおい'] },
       { id: 'grp-pr', name: '社内イベント運営', members: 20, joined: true, official: false, admin: false, adminUsers: ['たかはし みさき'], membersList: ['やまだ たろう', 'たかはし みさき', 'よしだ あおい'] },
-      { id: 'grp-director-share', name: '部門責任者共有', members: 9, joined: true, official: false, secret: true, admin: true, adminUsers: ['やまだ たろう', 'たなか けん'], membersList: ['やまだ たろう', 'たなか けん'], joinRequests: ['すずき いちろう'] },
+      { id: 'grp-director-share', name: '部門責任者共有', members: 10, joined: true, official: false, secret: true, admin: true, adminUsers: ['やまだ たろう', 'たなか けん'], membersList: ['やまだ たろう', 'たなか けん', 'さとう はなこ'], joinRequests: ['すずき いちろう'] },
       { id: 'grp-festival', name: '病院祭実行委員会', members: 28, joined: false, official: false, requested: false, requestRejected: true, requestRejectedAt: Date.now() - (32 * 60 * 1000), adminUsers: ['あんどう りな'], membersList: ['あんどう りな', 'おおた しん', 'ふじた みお', 'すずき いちろう', 'こいずみ れん'] },
       { id: 'grp-ops-improve', name: '業務改善プロジェクト', members: 26, joined: false, official: false, requested: false, adminUsers: ['きむら なお', 'なかじま りく'], membersList: ['きむら なお', 'なかじま りく', 'さとう はなこ', 'おかだ えり', 'いしい さな'] },
       { id: 'grp-med-safety-up', name: '医療安全向向上チーム', members: 22, joined: false, official: false, requested: false, adminUsers: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい'], membersList: ['みやざき けい', 'はせがわ ゆい', 'しらいし めい', 'たなか けん', 'あおき るい'] },
@@ -2003,8 +2011,7 @@
       const feedAuthors = AUTHORS_BY_FEED[feedId] || authors;
       const author = feedAuthors[i % feedAuthors.length];
       const readCount = 3 + (i % 8);
-      const readers = Array.from({ length: readCount }, (__, j) => people[(i + j) % people.length])
-        .filter((name) => name !== CURRENT_USER);
+      const readers = seedReadersForFeed(feedId, author?.user, i, readCount);
       const forceBothZero = i % 17 === 0;
       const forceZeroComments = forceBothZero || i % 11 === 3;
       const forceZeroShares = forceBothZero || i % 13 === 5;
@@ -2166,6 +2173,7 @@
     const commentEdit = document.getElementById('comment-edit');
     const appDialogBackdrop = document.getElementById('app-dialog-backdrop');
     const appDialog = document.getElementById('app-dialog');
+    const appShell = document.getElementById('app-shell');
     const appDialogTitle = document.getElementById('app-dialog-title');
     const appDialogBody = document.getElementById('app-dialog-body');
     const appDialogTargetRow = document.getElementById('app-dialog-target-row');
@@ -2337,12 +2345,14 @@
       appDialogViewportMode = '';
       appDialog.classList.remove('open');
       appDialogBackdrop.classList.remove('open');
+      resetPopupScrollPosition(appDialog, appDialogTargetChecklist, appDialogAttachPreview, appDialogSharePreview);
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
       disableAppDialogViewportSync();
       if (appDialogScrollLocked) {
         document.documentElement.classList.remove('app-dialog-open');
         document.body.classList.remove('app-dialog-open');
-        document.body.style.removeProperty('--app-dialog-lock-top');
+        appShell?.classList.remove('app-dialog-locked');
+        appShell?.style.removeProperty('--app-dialog-lock-top');
         window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
         appDialogScrollLocked = false;
       }
@@ -2415,14 +2425,16 @@
       appDialogFileInput.value = '';
       appDialogCameraInput.value = '';
       appDialog.classList.toggle('mobile-input-mode', withInput && window.innerWidth <= 767);
+      resetPopupScrollPosition(appDialog, appDialogTargetChecklist, appDialogAttachPreview, appDialogSharePreview);
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
       if (withInput) {
         appDialogLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        document.body.style.setProperty('--app-dialog-lock-top', `${-appDialogLockedScrollY}px`);
+        appShell?.style.setProperty('--app-dialog-lock-top', `${-appDialogLockedScrollY}px`);
         document.documentElement.classList.add('app-dialog-open');
         document.body.classList.add('app-dialog-open');
+        appShell?.classList.add('app-dialog-locked');
         appDialogScrollLocked = true;
       } else {
         appDialogScrollLocked = false;
@@ -2517,6 +2529,7 @@
       reportReasonModal.classList.remove('open');
       reportReasonBackdrop.classList.remove('open');
       unlockModalScroll();
+      resetPopupScrollPosition(reportReasonModal, reportReasonList);
       selectedReportReasonIndex = -1;
       reportReasonList.innerHTML = '';
       reportReasonError.textContent = '';
@@ -2537,9 +2550,10 @@
     function lockModalScroll() {
       if (modalScrollLockCount === 0) {
         modalLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        document.body.style.setProperty('--modal-lock-top', `${-modalLockedScrollY}px`);
+        appShell?.style.setProperty('--modal-lock-top', `${-modalLockedScrollY}px`);
         document.documentElement.classList.add('modal-open');
         document.body.classList.add('modal-open');
+        appShell?.classList.add('modal-locked');
       }
       modalScrollLockCount += 1;
     }
@@ -2549,7 +2563,8 @@
       if (modalScrollLockCount > 0) return;
       document.documentElement.classList.remove('modal-open');
       document.body.classList.remove('modal-open');
-      document.body.style.removeProperty('--modal-lock-top');
+      appShell?.classList.remove('modal-locked');
+      appShell?.style.removeProperty('--modal-lock-top');
       window.scrollTo({ top: modalLockedScrollY, left: 0, behavior: 'auto' });
     }
 
@@ -2572,6 +2587,7 @@
       selectedReportReasonIndex = -1;
       reportReasonError.textContent = '';
       renderReportReasonList();
+      resetPopupScrollPosition(reportReasonModal, reportReasonList);
       reportReasonModal.classList.add('open');
       reportReasonBackdrop.classList.add('open');
       lockModalScroll();
@@ -2897,10 +2913,113 @@
       composerTarget.value = '';
     }
 
+    function pickDeterministicNames(pool, count, seed = 0) {
+      const source = uniqueNames(pool);
+      const targetCount = Math.max(0, Math.min(Number(count || 0), source.length));
+      if (targetCount <= 0 || source.length === 0) return [];
+      const picked = [];
+      const used = new Set();
+      let cursor = Math.abs(Number(seed || 0)) % source.length;
+      while (picked.length < targetCount && used.size < source.length) {
+        while (used.has(cursor) && used.size < source.length) {
+          cursor = (cursor + 1) % source.length;
+        }
+        if (used.has(cursor)) break;
+        used.add(cursor);
+        picked.push(source[cursor]);
+        cursor = (cursor + 3) % source.length;
+      }
+      return picked;
+    }
+
+    function seedReadersForFeed(feedId, authorUser, seed = 0, desiredCount = 0) {
+      const group = groupByFeedId(feedId);
+      const groupMembers = collectEligibleGroupMembers(group);
+      const eligible = (groupMembers.length > 0 ? groupMembers : people)
+        .filter((name) => name && name !== authorUser);
+      return pickDeterministicNames(eligible, desiredCount, seed);
+    }
+
+    function collectEligibleGroupMembers(group) {
+      if (!group) return [];
+      if (group.official) return buildGroupDetailMembers(group);
+      return uniqueNames(group.membersList);
+    }
+
+    function hasUnreadNewPostNotificationForPost(post) {
+      if (!post || !post.feedId || post.author?.user === CURRENT_USER) return false;
+      const feedPosts = posts.filter((item) => item.feedId === post.feedId);
+      if (feedPosts.length === 0) return false;
+      const latestPost = feedPosts.reduce((latest, item) => {
+        if (!latest) return item;
+        const latestAt = resolvePostCreatedAt(latest);
+        const nextAt = resolvePostCreatedAt(item);
+        if (nextAt !== latestAt) return nextAt > latestAt ? item : latest;
+        return Number(item.id || 0) > Number(latest.id || 0) ? item : latest;
+      }, null);
+      if (!latestPost || Number(latestPost.id || 0) !== Number(post.id || 0)) return false;
+      return Number(post.id || 0) > Number(seenGroupNewPostByFeed[post.feedId] || 0);
+    }
+
+    function collectReportReadersForPost(post) {
+      const postId = Number(post?.id || 0);
+      if (postId <= 0) return [];
+      return uniqueNames(
+        adminPostReports
+          .filter((report) => report && report.status === 'pending' && Number(report.postId || 0) === postId)
+          .map((report) => String(report.reporter || '').trim())
+          .filter(Boolean)
+      );
+    }
+
     function collectReadersForPost(post) {
       const baseReaders = Array.isArray(post.readers) ? post.readers : [];
       const commenters = Array.isArray(post.comments) ? post.comments.map((c) => c.user).filter(Boolean) : [];
-      return Array.from(new Set([...baseReaders, ...commenters]));
+      const group = groupByFeedId(post && post.feedId);
+      const groupMembers = collectEligibleGroupMembers(group);
+      const authorUser = String(post?.author?.user || '');
+      const eligibleReaders = groupMembers.filter((name) => name && name !== authorUser);
+      if (eligibleReaders.length === 0) return [];
+
+      const requiredReaders = uniqueNames([
+        ...commenters,
+        ...collectReportReadersForPost(post),
+        ...(hasUnreadNewPostNotificationForPost(post) ? [CURRENT_USER] : []),
+      ]).filter((name) => eligibleReaders.includes(name));
+
+      const preferredReaders = uniqueNames(baseReaders)
+        .filter((name) => eligibleReaders.includes(name) && !requiredReaders.includes(name));
+
+      const optionalReaders = eligibleReaders.filter((name) => !requiredReaders.includes(name) && !preferredReaders.includes(name));
+      const createdAt = resolvePostCreatedAt(post);
+      const ageHours = createdAt > 0 ? Math.max(0, (Date.now() - createdAt) / (60 * 60 * 1000)) : 12;
+      const content = String(post?.content || '');
+      let baselineRatio = 0.32;
+      if (group?.official) baselineRatio += 0.12;
+      if (/重要|至急|更新|共有|お知らせ|重点課題|意思決定/.test(content)) baselineRatio += 0.08;
+      if (ageHours <= 2) baselineRatio += 0.18;
+      else if (ageHours <= 6) baselineRatio += 0.10;
+      else if (ageHours <= 12) baselineRatio += 0.04;
+      else if (ageHours >= 24) baselineRatio -= 0.10;
+      const baselineCount = Math.max(requiredReaders.length, Math.round(eligibleReaders.length * Math.max(0.18, Math.min(0.78, baselineRatio))));
+      let targetCount = requiredReaders.length;
+      if (/重要|至急|更新|共有|お知らせ|重点課題|意思決定/.test(content)) targetCount += 1;
+      if (Array.isArray(post?.attachments) && post.attachments.length >= 3) targetCount += 1;
+      if (Number(post?.commentCount || 0) >= 3) targetCount += 1;
+      if (ageHours <= 2) targetCount += 2;
+      else if (ageHours <= 6) targetCount += 1;
+      else if (ageHours >= 12) targetCount -= 1;
+      targetCount = Math.max(targetCount, baselineCount);
+      const realisticCap = eligibleReaders.length <= 2
+        ? eligibleReaders.length
+        : Math.max(requiredReaders.length, Math.min(eligibleReaders.length - 1, Math.ceil(eligibleReaders.length * 0.75)));
+      targetCount = Math.max(requiredReaders.length, Math.min(realisticCap, targetCount));
+
+      const neededCount = Math.max(0, targetCount - requiredReaders.length);
+      const pickedPreferred = pickDeterministicNames(preferredReaders, neededCount, Number(post?.id || 0));
+      const remainingCount = Math.max(0, neededCount - pickedPreferred.length);
+      const pickedOptional = pickDeterministicNames(optionalReaders, remainingCount, Number(post?.id || 0) + 11);
+      return uniqueNames([...requiredReaders, ...pickedPreferred, ...pickedOptional]);
     }
 
     function attachmentName(item) {
@@ -3664,6 +3783,7 @@
       readerList.innerHTML = readers.map((name) => {
         return `<li class="reader-item">${avatarHtmlByName(name, 'reader-avatar')}<span>${escapeHtml(name)}</span></li>`;
       }).join('');
+      resetPopupScrollPosition(modal, readerList);
       modal.classList.add('open');
       backdrop.classList.add('open');
       lockModalScroll();
@@ -3673,6 +3793,7 @@
       modal.classList.remove('open');
       backdrop.classList.remove('open');
       unlockModalScroll();
+      resetPopupScrollPosition(modal, readerList);
     }
 
     function renderInviteUsersList() {
@@ -3708,20 +3829,15 @@
       inviteModalSearchQuery = '';
       inviteUserSearch.value = '';
       renderInviteUsersList();
-      inviteUserList.scrollTop = 0;
       inviteModalError.textContent = '';
       inviteModalTitle.textContent = inviteModalMode === 'add'
         ? `「${group.name}」にメンバーを追加`
         : `「${group.name}」に招待申請`;
       inviteModalSubmit.textContent = inviteModalMode === 'add' ? '追加する' : '招待申請する';
-      inviteModal.scrollTop = 0;
+      resetPopupScrollPosition(inviteModal, inviteUserList);
       inviteModal.classList.add('open');
       inviteBackdrop.classList.add('open');
       lockModalScroll();
-      requestAnimationFrame(() => {
-        inviteModal.scrollTop = 0;
-        inviteUserList.scrollTop = 0;
-      });
       setTimeout(() => inviteUserSearch.focus(), 0);
       return new Promise((resolve) => {
         inviteModalResolver = resolve;
@@ -3729,11 +3845,10 @@
     }
 
     function closeInviteUsersModal(result = null) {
-      inviteModal.scrollTop = 0;
       inviteModal.classList.remove('open');
       inviteBackdrop.classList.remove('open');
       unlockModalScroll();
-      inviteUserList.scrollTop = 0;
+      resetPopupScrollPosition(inviteModal, inviteUserList);
       inviteUserList.innerHTML = '';
       inviteUserSearch.value = '';
       inviteModalError.textContent = '';
@@ -3752,6 +3867,15 @@
 
     function uniqueNames(names) {
       return Array.from(new Set((Array.isArray(names) ? names : []).filter(Boolean)));
+    }
+
+    function resetPopupScrollPosition(...elements) {
+      const targets = elements.filter((element) => element && typeof element.scrollTop === 'number');
+      if (targets.length === 0) return;
+      targets.forEach((element) => { element.scrollTop = 0; });
+      requestAnimationFrame(() => {
+        targets.forEach((element) => { element.scrollTop = 0; });
+      });
     }
 
     function ensureGroupManageData(group) {
@@ -3918,20 +4042,17 @@
       groupDetailModalGroup = group;
       groupDetailExpanded = false;
       renderGroupDetailModal();
+      resetPopupScrollPosition(groupDetailModal, groupDetailBody);
       groupDetailModal.classList.add('open');
       groupDetailBackdrop.classList.add('open');
       lockModalScroll();
-      if (groupDetailBody) {
-        groupDetailBody.scrollTop = 0;
-        requestAnimationFrame(() => { groupDetailBody.scrollTop = 0; });
-      }
     }
 
     function closeGroupDetailModal() {
       groupDetailModal.classList.remove('open');
       groupDetailBackdrop.classList.remove('open');
       unlockModalScroll();
-      if (groupDetailBody) groupDetailBody.scrollTop = 0;
+      resetPopupScrollPosition(groupDetailModal, groupDetailBody);
       groupDetailHead.innerHTML = '';
       groupDetailDescription.textContent = '';
       if (groupDetailNotifyRow) groupDetailNotifyRow.hidden = true;
@@ -3991,6 +4112,7 @@
     function openManageUsersModal(group) {
       manageUsersModalGroup = group;
       renderManageUsersModal();
+      resetPopupScrollPosition(manageUsersModal);
       manageUsersModal.classList.add('open');
       manageUsersBackdrop.classList.add('open');
       lockModalScroll();
@@ -4000,6 +4122,7 @@
       manageUsersModal.classList.remove('open');
       manageUsersBackdrop.classList.remove('open');
       unlockModalScroll();
+      resetPopupScrollPosition(manageUsersModal);
       manageUsersMembers.innerHTML = '';
       manageUsersRequests.innerHTML = '';
       manageUsersMembersEmpty.textContent = '';
@@ -4055,6 +4178,7 @@
     function openAdminReportsModal(feedId = '') {
       adminReportsModalFeedId = feedId || '';
       renderAdminReportsModal();
+      resetPopupScrollPosition(adminReportsModal, adminReportsList);
       adminReportsModal.classList.add('open');
       adminReportsBackdrop.classList.add('open');
       lockModalScroll();
@@ -4064,6 +4188,7 @@
       adminReportsModal.classList.remove('open');
       adminReportsBackdrop.classList.remove('open');
       unlockModalScroll();
+      resetPopupScrollPosition(adminReportsModal, adminReportsList);
       adminReportsModalFeedId = '';
       adminReportsList.innerHTML = '';
       adminReportsEmpty.textContent = '';
@@ -4126,6 +4251,7 @@
       groupRequestIconPreview.innerHTML = '未設定';
       groupRequestIconInput.value = '';
       renderGroupRequestMemberList();
+      resetPopupScrollPosition(groupRequestModal, groupRequestMemberList);
       groupRequestModal.classList.add('open');
       groupRequestBackdrop.classList.add('open');
       lockModalScroll();
@@ -4136,6 +4262,7 @@
       groupRequestModal.classList.remove('open');
       groupRequestBackdrop.classList.remove('open');
       unlockModalScroll();
+      resetPopupScrollPosition(groupRequestModal, groupRequestMemberList);
       clearGroupRequestErrors();
       groupRequestMemberList.innerHTML = '';
       groupRequestMemberSearch.value = '';
