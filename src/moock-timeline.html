@@ -830,8 +830,8 @@
         <ul id="notifications-panel-list" class="panel-list">
           <li class="panel-list-item notification-link" role="button" tabindex="0" hidden data-notification-template="own-commented" data-notification-action="open-post" data-post-keyword="週次" data-post-scope="own-commented"><span>「グループ名」の投稿にコメントがありました</span><span class="panel-list-meta">3分前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" hidden data-notification-template="group-new-post" data-notification-action="open-group-timeline" data-group-name="グループ名"><span>「グループ名」に新しい投稿があります</span><span class="panel-list-meta">12分前</span></li>
-          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="院内DX推進チーム"><span>「院内DX推進チーム」への参加申請が承認されました</span><span class="panel-list-meta">36分前</span></li>
-          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="業務改善プロジェクト"><span>「業務改善プロジェクト」に追加されました</span><span class="panel-list-meta">1時間前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-id="grp-pr" data-group-name="社内イベント運営"><span>「社内イベント運営」への参加申請が承認されました</span><span class="panel-list-meta">36分前</span></li>
+          <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-id="grp-sales" data-group-name="品質改善タスクフォース"><span>「品質改善タスクフォース」に追加されました</span><span class="panel-list-meta">1時間前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-manage-group" data-group-name="ナレッジ共有ラボ"><span>「ナレッジ共有ラボ」への招待申請があります</span><span class="panel-list-meta">1時間前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-group" data-group-name="部門責任者共有"><span>「部門責任者共有」の管理者に設定されました</span><span class="panel-list-meta">2時間前</span></li>
           <li class="panel-list-item notification-link" role="button" tabindex="0" data-notification-action="open-post" data-feed-id="director-share" data-post-keyword="重点課題"><span>「部門責任者共有」の投稿に報告がありました（理由：業務上不適切な投稿）</span><span class="panel-list-meta">4時間前</span></li>
@@ -986,6 +986,13 @@
         </div>
         <ul id="manage-users-requests" class="manage-users-list"></ul>
         <div id="manage-users-requests-empty" class="manage-users-empty"></div>
+      </section>
+      <section class="manage-users-section">
+        <div class="manage-users-section-head">
+          <div class="manage-users-section-title">招待申請</div>
+        </div>
+        <ul id="manage-users-invite-requests" class="manage-users-list"></ul>
+        <div id="manage-users-invite-requests-empty" class="manage-users-empty"></div>
       </section>
     </div>
   </div>
@@ -1237,7 +1244,7 @@
     ];
     const GROUP_DIRECTORY = [
       { id: 'grp-hr', name: '看護部', members: 68, joined: true, official: true, admin: true, adminUsers: ['さとう はなこ', 'やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'すずき いちろう', 'たかはし みさき'] },
-      { id: 'grp-product', name: 'ナレッジ共有ラボ', members: 34, joined: true, official: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'いとう ゆう', 'こばやし ゆうな'], joinRequests: ['たかはし みさき', 'よしだ あおい'] },
+      { id: 'grp-product', name: 'ナレッジ共有ラボ', members: 34, joined: true, official: false, admin: true, adminUsers: ['やまだ たろう'], membersList: ['やまだ たろう', 'さとう はなこ', 'いとう ゆう', 'こばやし ゆうな'], inviteRequests: ['たかはし みさき', 'よしだ あおい'], inviteRequestAt: { 'たかはし みさき': Date.now() - (65 * 60 * 1000), 'よしだ あおい': Date.now() - (55 * 60 * 1000) }, inviteRequestedBy: { 'たかはし みさき': 'さとう はなこ', 'よしだ あおい': 'いとう ゆう' } },
       { id: 'grp-sales', name: '品質改善タスクフォース', members: 20, joined: true, official: false, admin: false, adminUsers: ['すずき いちろう'], membersList: ['やまだ たろう', 'すずき いちろう', 'かとう まこと', 'さとう はなこ', 'よしだ あおい'] },
       { id: 'grp-pr', name: '社内イベント運営', members: 20, joined: true, official: false, admin: false, adminUsers: ['たかはし みさき'], membersList: ['やまだ たろう', 'たかはし みさき', 'よしだ あおい'] },
       { id: 'grp-director-share', name: '部門責任者共有', members: 10, joined: true, official: false, secret: true, admin: true, adminUsers: ['やまだ たろう', 'たなか けん'], membersList: ['やまだ たろう', 'たなか けん', 'さとう はなこ'], joinRequests: ['すずき いちろう'] },
@@ -2015,15 +2022,20 @@
       const forceBothZero = i % 17 === 0;
       const forceZeroComments = forceBothZero || i % 11 === 3;
       const forceZeroShares = forceBothZero || i % 13 === 5;
-      const comments = Array.from({ length: 2 + (i % 4) }, (__, c) => {
-        const item = commentSamples[(i + c) % commentSamples.length];
+      const commentSeeds = seedCommentsForFeed(feedId, author?.user, i, 2 + (i % 4));
+      const comments = commentSeeds.map((item, c) => {
         const hoursAgo = 2 + c + (i % 2 === 0 ? 0 : 26);
         const createdAt = Date.now() - (hoursAgo * 60 * 60 * 1000);
         return { ...item, createdAt, edited: false };
       });
       if (!forceZeroComments && i % 5 === 0) {
-        const ownHoursAgo = 1 + (i % 3);
-        comments.unshift({ user: CURRENT_USER, text: '（自分）確認しました。必要なら追って詳細を追記します。', createdAt: Date.now() - (ownHoursAgo * 60 * 60 * 1000), edited: false });
+        const oldestCommentAt = comments.reduce((minTs, comment) => Math.min(minTs, Number(comment.createdAt || Date.now())), Date.now());
+        comments.unshift({
+          user: CURRENT_USER,
+          text: '補足です。必要なら追って詳細を追記します。',
+          createdAt: oldestCommentAt - (60 * 1000),
+          edited: false
+        });
       }
       const finalComments = forceZeroComments ? [] : comments;
       finalComments.forEach((c, idx) => { c.commentId = idx + 1; });
@@ -2104,6 +2116,8 @@
     const manageUsersMembersEmpty = document.getElementById('manage-users-members-empty');
     const manageUsersRequests = document.getElementById('manage-users-requests');
     const manageUsersRequestsEmpty = document.getElementById('manage-users-requests-empty');
+    const manageUsersInviteRequests = document.getElementById('manage-users-invite-requests');
+    const manageUsersInviteRequestsEmpty = document.getElementById('manage-users-invite-requests-empty');
     const adminReportsBackdrop = document.getElementById('admin-reports-backdrop');
     const adminReportsModal = document.getElementById('admin-reports-modal');
     const adminReportsTitle = document.getElementById('admin-reports-title');
@@ -2946,6 +2960,20 @@
       return uniqueNames(group.membersList);
     }
 
+    function seedCommentsForFeed(feedId, authorUser, seed = 0, desiredCount = 0) {
+      const group = groupByFeedId(feedId);
+      const eligible = collectEligibleGroupMembers(group)
+        .filter((name) => name && name !== authorUser);
+      const commenters = pickDeterministicNames(eligible, desiredCount, seed + 5);
+      return commenters.map((user, index) => {
+        const sample = commentSamples[(seed + index) % commentSamples.length];
+        return {
+          user,
+          text: sample?.text || '確認しました。',
+        };
+      });
+    }
+
     function hasUnreadNewPostNotificationForPost(post) {
       if (!post || !post.feedId || post.author?.user === CURRENT_USER) return false;
       const feedPosts = posts.filter((item) => item.feedId === post.feedId);
@@ -3320,7 +3348,6 @@
     async function showShareDialog(sourcePost) {
       const targets = shareTargetOptions();
       if (targets.length === 0) {
-        await showAlert('シェアできる投稿先グループがありません');
         return null;
       }
       const defaultTarget = targets.some((item) => item.id === sourcePost.feedId)
@@ -3798,13 +3825,16 @@
 
     function renderInviteUsersList() {
       const pendingInvites = inviteModalMode === 'invite'
-        ? new Set(Array.isArray(inviteModalGroup?.pendingInvites) ? inviteModalGroup.pendingInvites : [])
+        ? new Set(Array.isArray(inviteModalGroup?.inviteRequests) ? inviteModalGroup.inviteRequests : [])
         : new Set();
       const joinedMembers = new Set(Array.isArray(inviteModalGroup?.membersList) ? inviteModalGroup.membersList : []);
       const q = inviteModalSearchQuery.trim().toLowerCase();
-      const visibleUsers = q
-        ? inviteModalUsers.filter((name) => name.toLowerCase().includes(q))
+      const candidateUsers = inviteModalMode === 'invite'
+        ? inviteModalUsers.filter((name) => !joinedMembers.has(name))
         : inviteModalUsers.slice();
+      const visibleUsers = q
+        ? candidateUsers.filter((name) => name.toLowerCase().includes(q))
+        : candidateUsers.slice();
       if (visibleUsers.length === 0) {
         inviteUserList.innerHTML = '<li class="reader-item">該当するユーザーがいません</li>';
         return;
@@ -3888,10 +3918,16 @@
       const seededAdmins = [...(Array.isArray(group.adminUsers) ? group.adminUsers : [])];
       if (group.admin) seededAdmins.push(CURRENT_USER);
       group.adminUsers = uniqueNames(seededAdmins).filter((name) => group.membersList.includes(name));
-      group.joinRequests = uniqueNames([...(group.joinRequests || []), ...(group.pendingInvites || [])])
+      group.joinRequests = uniqueNames(group.joinRequests || [])
         .filter((name) => !group.membersList.includes(name));
+      group.inviteRequests = uniqueNames([...(group.inviteRequests || []), ...(group.pendingInvites || [])])
+        .filter((name) => !group.membersList.includes(name) && !group.joinRequests.includes(name));
       const requestTimeMap = (group.joinRequestAt && typeof group.joinRequestAt === 'object') ? group.joinRequestAt : {};
       group.joinRequestAt = requestTimeMap;
+      const inviteRequestTimeMap = (group.inviteRequestAt && typeof group.inviteRequestAt === 'object') ? group.inviteRequestAt : {};
+      group.inviteRequestAt = inviteRequestTimeMap;
+      const inviteRequestedByMap = (group.inviteRequestedBy && typeof group.inviteRequestedBy === 'object') ? group.inviteRequestedBy : {};
+      group.inviteRequestedBy = inviteRequestedByMap;
       const now = Date.now();
       group.joinRequests.forEach((name, idx) => {
         const ts = Number(group.joinRequestAt[name]);
@@ -3899,10 +3935,28 @@
           group.joinRequestAt[name] = now - ((idx + 1) * 60 * 60 * 1000);
         }
       });
+      const nonAdminMembers = group.membersList.filter((name) => name && !group.adminUsers.includes(name));
+      const fallbackInviter = nonAdminMembers[0] || '';
+      group.inviteRequests.forEach((name, idx) => {
+        const ts = Number(group.inviteRequestAt[name]);
+        if (!Number.isFinite(ts) || ts <= 0) {
+          group.inviteRequestAt[name] = now - ((idx + 1) * 60 * 60 * 1000);
+        }
+        const inviter = String(group.inviteRequestedBy[name] || '');
+        if (!inviter || !group.membersList.includes(inviter) || group.adminUsers.includes(inviter)) {
+          group.inviteRequestedBy[name] = fallbackInviter;
+        }
+      });
       Object.keys(group.joinRequestAt).forEach((name) => {
         if (!group.joinRequests.includes(name)) delete group.joinRequestAt[name];
       });
-      group.pendingInvites = group.joinRequests.slice();
+      Object.keys(group.inviteRequestAt).forEach((name) => {
+        if (!group.inviteRequests.includes(name)) delete group.inviteRequestAt[name];
+      });
+      Object.keys(group.inviteRequestedBy).forEach((name) => {
+        if (!group.inviteRequests.includes(name)) delete group.inviteRequestedBy[name];
+      });
+      group.pendingInvites = group.inviteRequests.slice();
       group.admin = group.adminUsers.includes(CURRENT_USER);
     }
 
@@ -4107,6 +4161,19 @@
       }).join('');
       manageUsersRequests.innerHTML = requestRows;
       manageUsersRequestsEmpty.textContent = group.joinRequests.length > 0 ? '' : '現在、参加申請はありません';
+
+      const inviteRequestRows = group.inviteRequests.map((name) => {
+        const requestAt = Number(group.inviteRequestAt && group.inviteRequestAt[name]) || Date.now();
+        const inviter = String(group.inviteRequestedBy && group.inviteRequestedBy[name] || '') || '不明';
+        return `<li class="manage-users-item">
+          ${avatarHtmlByName(name, 'reader-avatar')}
+          <span class="manage-users-meta"><span class="manage-users-name">${escapeHtml(name)}</span><span class="manage-users-request-time">申請: ${escapeHtml(formatDateTimeJa(new Date(requestAt)))}</span><span class="manage-users-request-time">招待者: ${escapeHtml(inviter)}</span></span>
+          <button class="manage-users-item-btn approve" type="button" data-manage-approve-invite-user="${escapeHtml(name)}">承認</button>
+          <button class="manage-users-item-btn reject" type="button" data-manage-reject-invite-user="${escapeHtml(name)}">拒否</button>
+        </li>`;
+      }).join('');
+      manageUsersInviteRequests.innerHTML = inviteRequestRows;
+      manageUsersInviteRequestsEmpty.textContent = group.inviteRequests.length > 0 ? '' : '現在、招待申請はありません';
     }
 
     function openManageUsersModal(group) {
@@ -4125,8 +4192,10 @@
       resetPopupScrollPosition(manageUsersModal);
       manageUsersMembers.innerHTML = '';
       manageUsersRequests.innerHTML = '';
+      manageUsersInviteRequests.innerHTML = '';
       manageUsersMembersEmpty.textContent = '';
       manageUsersRequestsEmpty.textContent = '';
+      manageUsersInviteRequestsEmpty.textContent = '';
       manageUsersModalGroup = null;
     }
 
@@ -4285,7 +4354,7 @@
         .sort((a, b) => a.c.createdAt - b.c.createdAt);
       const commentsHtml = orderedComments.map(({ c, idx }) => {
         const isOwn = c.user === CURRENT_USER;
-        const displayName = isOwn ? `${c.user}（自分）` : c.user;
+        const displayName = c.user;
 
         if (isOwn && editingCommentIndex === idx) {
           return `
@@ -4558,16 +4627,20 @@
       return GROUP_DIRECTORY.find((group) => group.name === name) || null;
     }
 
+    function groupById(groupId) {
+      return GROUP_DIRECTORY.find((group) => String(group.id || '') === String(groupId || '')) || null;
+    }
+
     function collectOwnCommentedPosts(feedId = '') {
       return posts
         .map((post) => {
           if (feedId && post.feedId !== feedId) return false;
           const isOwn = post.author && post.author.user === CURRENT_USER;
-          const hasComments = (Array.isArray(post.comments) && post.comments.length > 0) || Number(post.commentCount || 0) > 0;
-          if (!isOwn || !hasComments) return null;
-          const latestCommentAt = Array.isArray(post.comments) && post.comments.length > 0
-            ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
-            : 0;
+          const commentsByOthers = Array.isArray(post.comments)
+            ? post.comments.filter((comment) => String(comment?.user || '') && String(comment.user) !== CURRENT_USER)
+            : [];
+          if (!isOwn || commentsByOthers.length === 0) return null;
+          const latestCommentAt = Math.max(...commentsByOthers.map((c) => Number(c.createdAt || 0)));
           const postId = Number(post.id || 0);
           const seenTs = Number(seenOwnCommentedByPostTs[postId] || 0);
           if (latestCommentAt > 0 && latestCommentAt <= seenTs) return null;
@@ -4596,8 +4669,8 @@
           };
         });
       return [
-        { text: '「院内DX推進チーム」への参加申請が承認されました', meta: '36分前', rank: 36, action: 'open-group', groupName: '院内DX推進チーム', settingKey: 'join-request-result' },
-        { text: '「業務改善プロジェクト」に追加されました', meta: '1時間前', rank: 60, action: 'open-group', groupName: '業務改善プロジェクト', settingKey: 'group-join' },
+        { text: '「社内イベント運営」への参加申請が承認されました', meta: '36分前', rank: 36, action: 'open-group', groupId: 'grp-pr', groupName: '社内イベント運営', settingKey: 'join-request-result' },
+        { text: '「品質改善タスクフォース」に追加されました', meta: '1時間前', rank: 60, action: 'open-group', groupId: 'grp-sales', groupName: '品質改善タスクフォース', settingKey: 'group-join' },
         { text: '「品質改善タスクフォース」への招待申請（かとう まこと、他2名）が承認されました', meta: '42分前', rank: 42, action: 'open-group-detail-dismiss', groupName: '品質改善タスクフォース', notificationId: 'invite-request-approved-quality', settingKey: 'invite-request-result' },
         { text: '「社内イベント運営」への招待申請（さとう はなこ、他1名）は承認されませんでした', meta: '48分前', rank: 48, action: 'dismiss-notification', groupName: '社内イベント運営', notificationId: 'invite-request-rejected-pr', settingKey: 'invite-request-result' },
         ...(!hasSeenAdminAssignedDirectorShareNotification
@@ -4610,27 +4683,51 @@
     function collectAdminInviteRequestNotifications() {
       return GROUP_DIRECTORY
         .filter((group) => group && group.joined && isCurrentUserGroupAdmin(group))
-        .map((group) => {
+        .flatMap((group) => {
           ensureGroupManageData(group);
-          const requests = Array.isArray(group.joinRequests) ? group.joinRequests : [];
-          if (requests.length === 0) return null;
-          const latestRequestAt = requests.reduce((maxTs, name) => {
-            const ts = Number(group.joinRequestAt?.[name] || 0);
-            return Math.max(maxTs, ts);
-          }, 0);
-          const rank = latestRequestAt > 0
-            ? Math.max(0, Math.floor((Date.now() - latestRequestAt) / 60000))
-            : 999999;
-          return {
-            text: `「${group.name}」への招待申請があります`,
-            meta: latestRequestAt > 0 ? formatRelativeCommentTimestamp(latestRequestAt) : '',
-            rank,
-            action: 'open-manage-group',
-            groupName: group.name,
-            settingKey: 'invite-request-result',
-          };
+          const items = [];
+          const joinRequests = Array.isArray(group.joinRequests) ? group.joinRequests : [];
+          const inviteRequests = Array.isArray(group.inviteRequests) ? group.inviteRequests : [];
+          if (joinRequests.length > 0) {
+            const latestJoinRequestAt = joinRequests.reduce((maxTs, name) => {
+              const ts = Number(group.joinRequestAt?.[name] || 0);
+              return Math.max(maxTs, ts);
+            }, 0);
+            const rank = latestJoinRequestAt > 0
+              ? Math.max(0, Math.floor((Date.now() - latestJoinRequestAt) / 60000))
+              : 999999;
+            items.push({
+              text: `「${group.name}」への参加申請があります`,
+              meta: latestJoinRequestAt > 0 ? formatRelativeCommentTimestamp(latestJoinRequestAt) : '',
+              rank,
+              action: 'open-manage-group',
+              groupName: group.name,
+              groupId: group.id,
+              notificationId: `join-request-admin-${group.id}`,
+              settingKey: 'invite-request-result',
+            });
+          }
+          if (inviteRequests.length > 0) {
+            const latestInviteRequestAt = inviteRequests.reduce((maxTs, name) => {
+              const ts = Number(group.inviteRequestAt?.[name] || 0);
+              return Math.max(maxTs, ts);
+            }, 0);
+            const rank = latestInviteRequestAt > 0
+              ? Math.max(0, Math.floor((Date.now() - latestInviteRequestAt) / 60000))
+              : 999999;
+            items.push({
+              text: `「${group.name}」への招待申請があります`,
+              meta: latestInviteRequestAt > 0 ? formatRelativeCommentTimestamp(latestInviteRequestAt) : '',
+              rank,
+              action: 'open-manage-group',
+              groupName: group.name,
+              groupId: group.id,
+              notificationId: `invite-request-admin-${group.id}`,
+              settingKey: 'invite-request-result',
+            });
+          }
+          return items;
         })
-        .filter(Boolean)
         .sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
     }
 
@@ -4662,6 +4759,10 @@
         reporter: String(reporter || CURRENT_USER),
         status: 'pending',
       });
+    }
+
+    function buildPostReportAlertMessage(reason) {
+      return `投稿を「${reason}」としてグループ管理者に報告しました`;
     }
 
     function collectPendingAdminReportItems(feedId = '') {
@@ -4968,7 +5069,9 @@
         const notificationKey = notificationKeyFromItemData(item);
         const attrs = [
           `data-notification-action="${escapeHtml(item.action || '')}"`,
+          item.groupId ? `data-group-id="${escapeHtml(item.groupId)}"` : '',
           item.groupName ? `data-group-name="${escapeHtml(item.groupName)}"` : '',
+          item.settingKey ? `data-setting-key="${escapeHtml(item.settingKey)}"` : '',
           item.feedId ? `data-feed-id="${escapeHtml(item.feedId)}"` : '',
           item.postKeyword ? `data-post-keyword="${escapeHtml(item.postKeyword)}"` : '',
           item.postId ? `data-post-id="${escapeHtml(item.postId)}"` : '',
@@ -5000,12 +5103,13 @@
     function notificationKeyFromItemData(item) {
       if (item && item.notificationId) return `id:${String(item.notificationId)}`;
       const action = String(item?.action || '');
+      const groupId = String(item?.groupId || '');
       const groupName = String(item?.groupName || '');
       const feedId = String(item?.feedId || '');
       const postId = String(item?.postId || '');
       const postScope = String(item?.postScope || '');
       const postKeyword = String(item?.postKeyword || '');
-      return `act:${action}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
+      return `act:${action}|gid:${groupId}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
     }
 
     function notificationKeyFromElement(item) {
@@ -5015,12 +5119,13 @@
       const notificationId = String(item.dataset.notificationId || '');
       if (notificationId) return `id:${notificationId}`;
       const action = String(item.dataset.notificationAction || '');
+      const groupId = String(item.dataset.groupId || '');
       const groupName = String(item.dataset.groupName || '');
       const feedId = String(item.dataset.feedId || '');
       const postId = String(item.dataset.postId || '');
       const postScope = String(item.dataset.postScope || '');
       const postKeyword = String(item.dataset.postKeyword || '');
-      return `act:${action}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
+      return `act:${action}|gid:${groupId}|grp:${groupName}|feed:${feedId}|post:${postId}|scope:${postScope}|kw:${postKeyword}`;
     }
 
     function dismissNotificationItem(item) {
@@ -5216,11 +5321,11 @@
         if (feedId && post.feedId !== feedId) return false;
         if (scope === 'own-commented') {
           const isOwn = post.author && post.author.user === CURRENT_USER;
-          const hasComments = (Array.isArray(post.comments) && post.comments.length > 0) || Number(post.commentCount || 0) > 0;
-          if (!isOwn || !hasComments) return false;
-          const latestCommentAt = Array.isArray(post.comments) && post.comments.length > 0
-            ? Math.max(...post.comments.map((c) => Number(c.createdAt || 0)))
-            : 0;
+          const commentsByOthers = Array.isArray(post.comments)
+            ? post.comments.filter((comment) => String(comment?.user || '') && String(comment.user) !== CURRENT_USER)
+            : [];
+          if (!isOwn || commentsByOthers.length === 0) return false;
+          const latestCommentAt = Math.max(...commentsByOthers.map((c) => Number(c.createdAt || 0)));
           const seenTs = Number(seenOwnCommentedByPostTs[Number(post.id || 0)] || 0);
           return latestCommentAt > seenTs;
         }
@@ -5235,20 +5340,20 @@
       return scoped[0];
     }
 
-    async function resolveNotificationGroup(groupName, { requireJoined = true, requireAdmin = false, notificationItem = null } = {}) {
-      const group = groupByName(groupName);
+    async function resolveNotificationGroup(groupName, { groupId = '', requireJoined = true, requireAdmin = false, notificationItem = null } = {}) {
+      const group = groupById(groupId) || groupByName(groupName);
       if (!group) {
-        await showAlert(`「${groupName || '対象のルーム'}」が見つかりません。既に削除された可能性があります`);
+        await showAlert('対象のグループが見つかりません。既に削除された可能性があります', 'エラー');
         dismissNotificationItem(notificationItem);
         return null;
       }
       if (requireJoined && !group.joined) {
-        await showAlert(`「${group.name}」に参加していないため、閲覧できません`);
+        await showAlert(`「${group.name}」に参加していないため、閲覧できません`, 'エラー');
         dismissNotificationItem(notificationItem);
         return null;
       }
       if (requireAdmin && !isCurrentUserGroupAdmin(group)) {
-        await showAlert(`「${group.name}」の管理者ではないため開けません`);
+        await showAlert(`「${group.name}」の管理者ではないため閲覧できません`, 'エラー');
         dismissNotificationItem(notificationItem);
         return null;
       }
@@ -5318,17 +5423,17 @@
         let targetCommentAt = 0;
         const post = (postId > 0 ? posts.find((p) => p.id === postId) : null) || findNotificationPost(feedId, keyword, scope);
         if (!post) {
-          await showAlert('対象の投稿が見つかりません。既に削除された可能性があります');
+          await showAlert('対象の投稿が見つかりません。既に削除された可能性があります', 'エラー');
           return;
         }
         const group = groupByFeedId(post.feedId);
         if (!group) {
-          await showAlert('対象のルームが見つかりません。既に削除された可能性があります');
+          await showAlert('対象のグループが見つかりません。既に削除された可能性があります', 'エラー');
           dismissNotificationItem(item);
           return;
         }
         if (!group.joined) {
-          await showAlert(`「${group.name}」には参加していないため投稿を開けません`);
+          await showAlert(`「${group.name}」に参加していないため、閲覧できません`, 'エラー');
           dismissNotificationItem(item);
           return;
         }
@@ -5356,15 +5461,19 @@
           hasSeenAdminAssignedDirectorShareNotification = true;
           dismissNotificationItem(item);
         }
-        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: false, notificationItem: item });
         if (!group) return;
+        const settingKey = String(item.dataset.settingKey || '');
+        if (settingKey === 'join-request-result' || settingKey === 'group-join') {
+          dismissNotificationItem(item);
+        }
         activateGroupsView();
         openGroupDetailModal(group);
         return;
       }
       if (action === 'open-group-detail-dismiss') {
         const notificationId = String(item.dataset.notificationId || '');
-        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: false, notificationItem: item });
         if (!group) return;
         syncInviteDecisionMembers(notificationId, group.name, true);
         dismissNotificationItem(item);
@@ -5374,12 +5483,12 @@
       }
       if (action === 'open-group-detail') {
         const notificationId = String(item.dataset.notificationId || '');
-        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: false, notificationItem: item });
         if (!group) return;
         if (!isCurrentUserGroupAdmin(group)) {
           const linkedFeedId = feedIdByGroup(group);
           if (!linkedFeedId) {
-            await showAlert(`「${group.name}」のタイムラインが見つかりません`);
+            await showAlert('対象のグループが見つかりません。既に削除された可能性があります', 'エラー');
             return;
           }
           removeGroupCreateDecisionNotice(notificationId);
@@ -5399,22 +5508,22 @@
       if (action === 'open-group-timeline') {
         const feedId = item.dataset.feedId || '';
         const latestPostId = Number(item.dataset.latestPostId || 0);
-        const group = feedId ? groupByFeedId(feedId) : await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: false, notificationItem: item });
+        const group = feedId ? groupByFeedId(feedId) : await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: false, notificationItem: item });
         if (!group) {
           if (feedId) {
-            await showAlert('対象のルームが見つかりません。既に削除された可能性があります');
+            await showAlert('対象のグループが見つかりません。既に削除された可能性があります', 'エラー');
             dismissNotificationItem(item);
           }
           return;
         }
         if (!group.joined) {
-          await showAlert(`「${group.name}」に参加していないため、閲覧できません`);
+          await showAlert(`「${group.name}」に参加していないため、閲覧できません`, 'エラー');
           dismissNotificationItem(item);
           return;
         }
         const linkedFeedId = feedId || feedIdByGroup(group);
         if (!linkedFeedId) {
-          await showAlert(`「${group.name}」のタイムラインが見つかりません`);
+          await showAlert('対象のグループが見つかりません。既に削除された可能性があります', 'エラー');
           return;
         }
         if (latestPostId > 0) {
@@ -5427,12 +5536,12 @@
         return;
       }
       if (action === 'open-manage-group') {
-        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: true, notificationItem: item });
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: true, notificationItem: item });
         if (!group) return;
         ensureGroupManageData(group);
-        if ((group.joinRequests || []).length === 0) {
+        if ((group.joinRequests || []).length === 0 && (group.inviteRequests || []).length === 0) {
           dismissNotificationItem(item);
-          await showAlert(`「${group.name}」の参加申請はありません`);
+          await showAlert(`「${group.name}」の申請はありません`, '注意');
           return;
         }
         activateGroupsView();
@@ -5440,13 +5549,13 @@
         return;
       }
       if (action === 'open-admin-reports') {
-        const group = await resolveNotificationGroup(item.dataset.groupName || '', { requireJoined: true, requireAdmin: true, notificationItem: item });
+        const group = await resolveNotificationGroup(item.dataset.groupName || '', { groupId: item.dataset.groupId || '', requireJoined: true, requireAdmin: true, notificationItem: item });
         if (!group) return;
         const feedId = item.dataset.feedId || feedIdByGroup(group);
         const pending = collectPendingAdminReportItems(feedId);
         if (pending.length === 0) {
           dismissNotificationItem(item);
-          await showAlert(`「${group.name}」で対応が必要な報告はありません`);
+          await showAlert(`「${group.name}」で対応が必要な報告はありません`, '注意');
           return;
         }
         openAdminReportsModal(feedId);
@@ -5574,7 +5683,7 @@
           registerPostReport(targetPost, reason);
           rerenderTimeline();
         }
-        await showAlert(`投稿 #${reportAction.dataset.reportId} を「${reason}」としてグループ管理者に報告しました`);
+        await showAlert(buildPostReportAlertMessage(reason), '完了');
         return;
       }
 
@@ -5653,7 +5762,7 @@
         const targetFeedId = (next && typeof next === 'object' && next.targetFeedId) ? next.targetFeedId : (implicitShareTargetId || sourceSnapshot.feedId);
         const validTargets = new Set(availableTargets.map((feed) => feed.id));
         if (!validTargets.has(targetFeedId)) {
-          await showAlert('投稿先グループを選択してください');
+          await showAlert('投稿先のグループを選択してください', '注意');
           return;
         }
         const selectedFeed = feedMetaById(targetFeedId);
@@ -5852,7 +5961,7 @@
       const commentId = Number.isFinite(selectedCommentId) ? selectedCommentId : (Number.isFinite(target.commentId) ? target.commentId : selectedCommentIndex + 1);
       const reason = await openReportReasonModal();
       if (!reason) return;
-      await showAlert(`コメント #${commentId} を「${reason}」としてグループ管理者に報告しました`);
+      await showAlert(`コメント #${commentId} を「${reason}」としてグループ管理者に報告しました`, '完了');
     });
     commentDelete.addEventListener('click', async () => {
       const post = findCurrentPost();
@@ -5895,7 +6004,7 @@
         if (!post || !input) return;
         const nextText = input.value.trim();
         if (!nextText) {
-          await showAlert('コメント内容を入力してください');
+          await showAlert('コメント内容を入力してください', '注意');
           return;
         }
         post.comments[idx].text = nextText;
@@ -5956,7 +6065,7 @@
       }
       group.requested = true;
       renderGroupsView();
-      await showAlert(`「${group.name}」に参加申請しました`);
+      await showAlert(`「${group.name}」に参加申請しました`, '完了');
     });
     groupDetailNotifyMute?.addEventListener('change', () => {
       const group = groupDetailModalGroup;
@@ -6023,7 +6132,7 @@
         return;
       }
       closeGroupRequestModal();
-      await showAlert(`「${title}」の${isSecretGroup ? '秘密グループとしての' : ''}グループ作成申請をチャンネル管理者に送信しました`);
+      await showAlert(`「${title}」の${isSecretGroup ? '秘密グループとしての' : ''}グループ作成申請をチャンネル管理者に送信しました`, '完了');
     });
     manageUsersClose.addEventListener('click', closeManageUsersModal);
     manageUsersBackdrop.addEventListener('click', closeManageUsersModal);
@@ -6049,9 +6158,9 @@
       const group = manageUsersModalGroup;
       if (!group) return;
       ensureGroupManageData(group);
-      const candidateUsers = people.filter((name) => !group.membersList.includes(name) && !group.joinRequests.includes(name));
+      const candidateUsers = people.filter((name) => !group.membersList.includes(name) && !group.joinRequests.includes(name) && !group.inviteRequests.includes(name));
       if (candidateUsers.length === 0) {
-        await showAlert('追加できるユーザーがいません');
+        await showAlert('追加できるユーザーはいません', '注意');
         return;
       }
       closeManageUsersModal();
@@ -6071,7 +6180,7 @@
         renderComposerTargetOptions();
         rerenderTimeline();
         openManageUsersModal(group);
-        await showAlert(`「${group.name}」に ${addedCount}名のメンバーを追加しました`);
+        await showAlert(`「${group.name}」に ${addedCount}名を追加しました`, '完了');
         return;
       }
       openManageUsersModal(group);
@@ -6090,13 +6199,18 @@
         } else {
           const nextAdmins = manageUsersModalGroup.adminUsers.filter((item) => item !== name);
           if (nextAdmins.length === 0) {
-            await showAlert('管理者は最低1名必要です');
+            await showAlert('管理者は最低1名必要です', '注意');
             return;
+          }
+          if (name === CURRENT_USER) {
+            if (!await showConfirm('管理者権限を解除すると、この管理者設定は利用できなくなります', '管理者権限の解除', { okText: '解除する', cancelText: 'キャンセル', okClass: 'danger' })) return;
           }
           manageUsersModalGroup.adminUsers = nextAdmins;
         }
         manageUsersModalGroup.admin = manageUsersModalGroup.adminUsers.includes(CURRENT_USER);
-        renderManageUsersModal();
+        const removedOwnAdmin = !setAdmin && name === CURRENT_USER;
+        if (removedOwnAdmin) closeManageUsersModal();
+        else renderManageUsersModal();
         renderGroupsView();
         renderComposerTargetOptions();
         rerenderTimeline();
@@ -6109,7 +6223,7 @@
       ensureGroupManageData(manageUsersModalGroup);
       const isRemovingAdmin = manageUsersModalGroup.adminUsers.includes(name);
       if (isRemovingAdmin && manageUsersModalGroup.adminUsers.length === 1) {
-        await showAlert('管理者がいなくなるため退出できません。先に他のメンバーを管理者にしてください');
+        await showAlert('管理者がいなくなるため退出できません。先に他のメンバーを管理者にしてください', '注意');
         return;
       }
       const isSelfRemove = name === CURRENT_USER;
@@ -6149,7 +6263,6 @@
         if (manageUsersModalGroup.joinRequestAt && typeof manageUsersModalGroup.joinRequestAt === 'object') {
           delete manageUsersModalGroup.joinRequestAt[name];
         }
-        manageUsersModalGroup.pendingInvites = manageUsersModalGroup.joinRequests.slice();
         if (!manageUsersModalGroup.membersList.includes(name)) {
           manageUsersModalGroup.membersList.push(name);
           manageUsersModalGroup.members = Number(manageUsersModalGroup.members || 0) + 1;
@@ -6168,13 +6281,37 @@
         if (manageUsersModalGroup.joinRequestAt && typeof manageUsersModalGroup.joinRequestAt === 'object') {
           delete manageUsersModalGroup.joinRequestAt[name];
         }
-        manageUsersModalGroup.pendingInvites = manageUsersModalGroup.joinRequests.slice();
         renderManageUsersModal();
         renderGroupsView();
         renderComposerTargetOptions();
         rerenderTimeline();
         return;
       }
+    });
+    manageUsersInviteRequests.addEventListener('click', async (event) => {
+      const approveBtn = event.target.closest('[data-manage-approve-invite-user]');
+      const rejectBtn = event.target.closest('[data-manage-reject-invite-user]');
+      if (!manageUsersModalGroup) return;
+      if (!approveBtn && !rejectBtn) return;
+      const name = approveBtn?.dataset.manageApproveInviteUser || rejectBtn?.dataset.manageRejectInviteUser;
+      if (!name) return;
+      ensureGroupManageData(manageUsersModalGroup);
+      manageUsersModalGroup.inviteRequests = manageUsersModalGroup.inviteRequests.filter((item) => item !== name);
+      manageUsersModalGroup.pendingInvites = (manageUsersModalGroup.pendingInvites || []).filter((item) => item !== name);
+      if (manageUsersModalGroup.inviteRequestAt && typeof manageUsersModalGroup.inviteRequestAt === 'object') {
+        delete manageUsersModalGroup.inviteRequestAt[name];
+      }
+      if (manageUsersModalGroup.inviteRequestedBy && typeof manageUsersModalGroup.inviteRequestedBy === 'object') {
+        delete manageUsersModalGroup.inviteRequestedBy[name];
+      }
+      if (approveBtn && !manageUsersModalGroup.membersList.includes(name)) {
+        manageUsersModalGroup.membersList.push(name);
+        manageUsersModalGroup.members = Number(manageUsersModalGroup.members || 0) + 1;
+      }
+      renderManageUsersModal();
+      renderGroupsView();
+      renderComposerTargetOptions();
+      rerenderTimeline();
     });
 
     timelineSearch.addEventListener('input', () => {
@@ -6303,20 +6440,23 @@
         if (target) {
           const candidateUsers = people.filter((name) => name !== CURRENT_USER);
           if (candidateUsers.length === 0) {
-            await showAlert('招待できるユーザーがいません');
+            await showAlert('招待できるユーザーはいません', '注意');
             event.preventDefault();
             return;
           }
           const selectedUsers = await openInviteUsersModal(target, candidateUsers);
           if (Array.isArray(selectedUsers) && selectedUsers.length > 0) {
-            const pending = new Set(Array.isArray(target.pendingInvites) ? target.pendingInvites : []);
-            if (!target.joinRequestAt || typeof target.joinRequestAt !== 'object') target.joinRequestAt = {};
+            ensureGroupManageData(target);
+            const pending = new Set(Array.isArray(target.inviteRequests) ? target.inviteRequests : []);
+            if (!target.inviteRequestAt || typeof target.inviteRequestAt !== 'object') target.inviteRequestAt = {};
+            if (!target.inviteRequestedBy || typeof target.inviteRequestedBy !== 'object') target.inviteRequestedBy = {};
             selectedUsers.forEach((name) => {
               pending.add(name);
-              if (!target.joinRequestAt[name]) target.joinRequestAt[name] = Date.now();
+              if (!target.inviteRequestAt[name]) target.inviteRequestAt[name] = Date.now();
+              target.inviteRequestedBy[name] = CURRENT_USER;
             });
-            target.pendingInvites = Array.from(pending);
-            await showAlert(`「${target.name}」へ ${selectedUsers.length}名の招待申請をグループ管理者に送信しました`);
+            target.inviteRequests = Array.from(pending);
+            await showAlert(`「${target.name}」へ ${selectedUsers.length}名の招待申請をグループ管理者に送信しました`, '完了');
           }
         }
         event.preventDefault();
@@ -6368,7 +6508,7 @@
           ensureGroupManageData(target);
           const isCurrentUserAdmin = target.adminUsers.includes(CURRENT_USER);
           if (isCurrentUserAdmin && target.adminUsers.length === 1) {
-            await showAlert('管理者がいなくなるため退出できません。先に他のメンバーを管理者にしてください');
+          await showAlert('管理者がいなくなるため退出できません。先に他のメンバーを管理者にしてください', '注意');
             event.preventDefault();
             return;
           }
@@ -6382,7 +6522,7 @@
         } else if (action === 'delete') {
           ensureGroupManageData(target);
           if (target.official || !target.joined || !isCurrentUserGroupAdmin(target)) {
-            await showAlert('このグループは削除できません');
+            await showAlert('このグループは削除できません', '注意');
             event.preventDefault();
             return;
           }
@@ -6581,7 +6721,7 @@
     composerPostBtn.addEventListener('click', async () => {
       const text = composerInput.value.trim();
       if (!text && composerAttachments.length === 0) {
-        await showAlert('投稿内容または添付ファイルを入力してください');
+        await showAlert('投稿内容を入力するか、ファイルを添付してください', '注意');
         return;
       }
       const targets = shareableFeeds();
@@ -6590,12 +6730,12 @@
         ? (composerTarget.value || implicitFeedId)
         : currentFeedId;
       if (!targetFeedId) {
-        await showAlert('投稿先のグループを選択してください');
+        await showAlert('投稿先のグループを選択してください', '注意');
         return;
       }
       const selectedFeed = feedMetaById(targetFeedId);
       if (!selectedFeed) {
-        await showAlert('投稿先のグループが見つかりません');
+        await showAlert('投稿先のグループが見つかりません', 'エラー');
         return;
       }
       const newId = posts.length ? Math.max(...posts.map((post) => post.id)) + 1 : 1;
@@ -6673,7 +6813,7 @@
         if (!reason) return;
         registerPostReport(post, reason);
         rerenderTimeline();
-        await showAlert(`投稿 #${post.id} を「${reason}」としてグループ管理者に報告しました`);
+        await showAlert(buildPostReportAlertMessage(reason));
         return;
       }
 
