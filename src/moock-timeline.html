@@ -710,6 +710,9 @@
       justify-content: center;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
     }
     .popup-close:hover { background: #e4e9f1; }
     .popup-close:focus { outline: none; }
@@ -5449,6 +5452,14 @@
     commentActionClose.addEventListener('focus', () => {
       commentActionClose.blur();
     });
+    commentActionClose.addEventListener('touchstart', (event) => {
+      event.preventDefault();
+    }, { passive: false });
+    commentActionClose.addEventListener('touchend', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      closeCommentActionMenu();
+    }, { passive: false });
     commentActionClose.addEventListener('click', closeCommentActionMenu);
     commentActionSheet.addEventListener('click', (event) => {
       event.stopPropagation();
