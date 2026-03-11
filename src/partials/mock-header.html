@@ -65,6 +65,8 @@
       align-items: center;
       align-self: end;
       margin-bottom: 6px;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .logo {
@@ -77,6 +79,28 @@
       width: 100%;
       height: 100%;
       display: block;
+    }
+
+    .version-popup {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(19, 33, 42, 0.9);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .16s ease;
+    }
+
+    .version-popup.show {
+      opacity: 1;
     }
   </style>
 </head>
@@ -108,8 +132,66 @@
 </svg>
 
       </div>
+      <div id="version-popup" class="version-popup" aria-hidden="true"></div>
     </div>
     <div></div>
   </header>
+  <script>
+    const logoWrap = document.querySelector('.logo-wrap');
+    const versionPopup = document.getElementById('version-popup');
+    const version = new URLSearchParams(window.location.search).get('v') || 'unknown';
+    let versionPressTimer = null;
+    let versionPopupTimer = null;
+
+    function hideVersionPopup() {
+      if (versionPopupTimer) {
+        clearTimeout(versionPopupTimer);
+        versionPopupTimer = null;
+      }
+      versionPopup.classList.remove('show');
+      versionPopup.setAttribute('aria-hidden', 'true');
+    }
+
+    function showVersionPopup() {
+      versionPopup.textContent = `v${version}`;
+      versionPopup.classList.add('show');
+      versionPopup.setAttribute('aria-hidden', 'false');
+      if (versionPopupTimer) clearTimeout(versionPopupTimer);
+      versionPopupTimer = setTimeout(hideVersionPopup, 1800);
+    }
+
+    function clearVersionLongPress() {
+      if (!versionPressTimer) return;
+      clearTimeout(versionPressTimer);
+      versionPressTimer = null;
+    }
+
+    function startVersionLongPress() {
+      clearVersionLongPress();
+      versionPressTimer = setTimeout(() => {
+        versionPressTimer = null;
+        showVersionPopup();
+      }, 550);
+    }
+
+    if (window.PointerEvent) {
+      logoWrap.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary) return;
+        startVersionLongPress();
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'pointermove'].forEach((eventName) => {
+        logoWrap.addEventListener(eventName, clearVersionLongPress);
+      });
+    } else {
+      logoWrap.addEventListener('touchstart', startVersionLongPress, { passive: true });
+      ['touchend', 'touchcancel', 'touchmove'].forEach((eventName) => {
+        logoWrap.addEventListener(eventName, clearVersionLongPress, { passive: true });
+      });
+      logoWrap.addEventListener('mousedown', startVersionLongPress);
+      ['mouseup', 'mouseleave'].forEach((eventName) => {
+        logoWrap.addEventListener(eventName, clearVersionLongPress);
+      });
+    }
+  </script>
 </body>
 </html>

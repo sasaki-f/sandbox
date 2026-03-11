@@ -48,7 +48,10 @@
       text-decoration: none;
       color: inherit;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 400;
+      cursor: default;
+      pointer-events: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .label {
@@ -124,7 +127,7 @@
 <body>
   <footer class="footer">
     <nav class="nav" aria-label="下部メニュー">
-      <a class="item" href="#">
+      <div class="item" aria-hidden="true">
         <span class="icon icon-home" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
             <g transform="translate(-29 -15)">
@@ -158,8 +161,8 @@
           </svg>
         </span>
         <span class="label">ホーム</span>
-      </a>
-      <a class="item" href="#">
+      </div>
+      <div class="item" aria-hidden="true">
         <span class="icon icon-chat" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
             <g transform="translate(5 7)">
@@ -169,8 +172,8 @@
           </svg>
         </span>
         <span class="label">チャット</span>
-      </a>
-      <a class="item active" href="#">
+      </div>
+      <div class="item active" aria-hidden="true">
         <span class="icon icon-timeline" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
             <g transform="translate(1.5 1.5)">
@@ -183,8 +186,8 @@
             </svg>
         </span>
         <span class="label">タイムライン</span>
-      </a>
-      <a class="item" href="#">
+      </div>
+      <div class="item" aria-hidden="true">
         <span class="icon icon-notice" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
             <g transform="translate(-308 -16)">
@@ -200,7 +203,7 @@
           </svg>
         </span>
         <span class="label">お知らせ</span>
-      </a>
+      </div>
     </nav>
   </footer>
 </body>

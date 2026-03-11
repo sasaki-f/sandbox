@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>カカリンク</title>
+  <title>カカリンク v1.0.0</title>
   <style>
     :root {
       --page-bg: #d9d4dc;
@@ -93,7 +93,7 @@
     }
   </style>
 </head>
-<body>
+<body data-mock-version="1.0.0">
   <main class="device" aria-label="モックアプリ">
     <iframe
       class="mock-header"
@@ -117,10 +117,12 @@
   <script>
     function refreshMockFrames() {
       const stamp = Date.now();
+      const version = document.body.dataset.mockVersion || '';
       document.querySelectorAll('iframe[data-src]').forEach((frame) => {
         const baseSrc = frame.dataset.src || '';
         if (!baseSrc) return;
         const url = new URL(baseSrc, window.location.href);
+        if (version) url.searchParams.set('v', version);
         url.searchParams.set('_ts', String(stamp));
         frame.src = url.toString();
       });
