@@ -2292,11 +2292,15 @@
       enableAppDialogViewportSync();
       setTimeout(() => {
         if (withInput) {
-          appDialogInput.focus();
+          try {
+            appDialogInput.focus({ preventScroll: true });
+          } catch {
+            appDialogInput.focus();
+          }
           appDialogInput.setSelectionRange(appDialogInput.value.length, appDialogInput.value.length);
           setTimeout(() => {
             updateAppDialogViewportLayout();
-            appDialogInput.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            scrollAppDialogInputIntoView();
           }, 250);
         } else {
           appDialogOk.focus();
@@ -2334,6 +2338,22 @@
       const maxHeight = Math.max(220, viewport.height - 24);
       appDialog.style.top = `${top}px`;
       appDialog.style.maxHeight = `${maxHeight}px`;
+    }
+
+    function scrollAppDialogInputIntoView() {
+      if (!appDialog.classList.contains('open')) return;
+      const inputTop = appDialogInput.offsetTop;
+      const inputBottom = inputTop + appDialogInput.offsetHeight;
+      const viewTop = appDialog.scrollTop;
+      const viewBottom = viewTop + appDialog.clientHeight;
+      const padding = 16;
+      if (inputTop - padding < viewTop) {
+        appDialog.scrollTo({ top: Math.max(0, inputTop - padding), behavior: 'smooth' });
+        return;
+      }
+      if (inputBottom + padding > viewBottom) {
+        appDialog.scrollTo({ top: inputBottom - appDialog.clientHeight + padding, behavior: 'smooth' });
+      }
     }
 
     function enableAppDialogViewportSync() {
@@ -2498,7 +2518,7 @@
     appDialogInput.addEventListener('focus', () => {
       setTimeout(() => {
         updateAppDialogViewportLayout();
-        appDialogInput.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        scrollAppDialogInputIntoView();
       }, 250);
     });
     appDialogAttachPreview.addEventListener('click', (event) => {
