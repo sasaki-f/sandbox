@@ -2269,6 +2269,7 @@
     let appDialogViewportSyncEnabled = false;
     let appDialogViewportMode = '';
     let appDialogLockedScrollY = 0;
+    let appDialogScrollLocked = false;
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -2325,10 +2326,13 @@
       appDialogBackdrop.classList.remove('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
       disableAppDialogViewportSync();
-      document.documentElement.classList.remove('app-dialog-open');
-      document.body.classList.remove('app-dialog-open');
-      document.body.style.removeProperty('--app-dialog-lock-top');
-      window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
+      if (appDialogScrollLocked) {
+        document.documentElement.classList.remove('app-dialog-open');
+        document.body.classList.remove('app-dialog-open');
+        document.body.style.removeProperty('--app-dialog-lock-top');
+        window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
+        appDialogScrollLocked = false;
+      }
       if (appDialogResolver) {
         const resolve = appDialogResolver;
         appDialogResolver = null;
@@ -2401,10 +2405,15 @@
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
-      appDialogLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-      document.body.style.setProperty('--app-dialog-lock-top', `${-appDialogLockedScrollY}px`);
-      document.documentElement.classList.add('app-dialog-open');
-      document.body.classList.add('app-dialog-open');
+      if (withInput) {
+        appDialogLockedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        document.body.style.setProperty('--app-dialog-lock-top', `${-appDialogLockedScrollY}px`);
+        document.documentElement.classList.add('app-dialog-open');
+        document.body.classList.add('app-dialog-open');
+        appDialogScrollLocked = true;
+      } else {
+        appDialogScrollLocked = false;
+      }
       enableAppDialogViewportSync();
       setTimeout(() => {
         if (withInput) {
@@ -2441,7 +2450,7 @@
 
     function updateAppDialogViewportLayout() {
       if (!appDialogViewportSyncEnabled || !appDialog.classList.contains('open')) return;
-      if ((window.scrollY || window.pageYOffset || 0) !== appDialogLockedScrollY) {
+      if (appDialogScrollLocked && (window.scrollY || window.pageYOffset || 0) !== appDialogLockedScrollY) {
         window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
       }
       const viewport = window.visualViewport;
