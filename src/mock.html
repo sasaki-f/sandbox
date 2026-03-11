@@ -104,6 +104,7 @@
       loading="eager">
     </iframe>
     <iframe
+      id="mock-content-frame"
       class="mock-content"
       data-src="./moock-timeline.html"
       title="コンテンツ"
@@ -117,6 +118,10 @@
     </iframe>
   </main>
   <script>
+    const APP_HISTORY_ROOT = '__mock_root__';
+    const APP_HISTORY_COMMENT = '__mock_comment__';
+    let mockCommentOpen = false;
+
     function refreshMockFrames() {
       const stamp = Date.now();
       const version = document.body.dataset.mockVersion || '';
@@ -130,7 +135,39 @@
       });
     }
 
+    function ensureMockHistoryState(stateName) {
+      const currentState = window.history.state && window.history.state.mockState;
+      if (currentState === stateName) return;
+      window.history.pushState({ mockState: stateName }, '', window.location.href);
+    }
+
+    function syncMockHistoryState() {
+      ensureMockHistoryState(APP_HISTORY_ROOT);
+      if (mockCommentOpen) ensureMockHistoryState(APP_HISTORY_COMMENT);
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) return;
+      const data = event.data || {};
+      if (data.type === 'mock-comment-view-change') {
+        mockCommentOpen = !!data.open;
+        syncMockHistoryState();
+      }
+    });
+
+    window.addEventListener('popstate', () => {
+      const contentFrame = document.getElementById('mock-content-frame');
+      if (mockCommentOpen && contentFrame && contentFrame.contentWindow) {
+        contentFrame.contentWindow.postMessage({ type: 'mock-close-comment-view' }, window.location.origin);
+        mockCommentOpen = false;
+        ensureMockHistoryState(APP_HISTORY_ROOT);
+        return;
+      }
+      ensureMockHistoryState(APP_HISTORY_ROOT);
+    });
+
     refreshMockFrames();
+    syncMockHistoryState();
     window.addEventListener('pageshow', refreshMockFrames);
   </script>
 </body>

@@ -4131,6 +4131,9 @@
 
       commentView.classList.add('open');
       commentView.setAttribute('aria-hidden', 'false');
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'mock-comment-view-change', open: true }, window.location.origin);
+      }
       const bottomNav = document.querySelector('.bottom-nav');
       if (bottomNav) bottomNav.style.display = 'none';
     }
@@ -4139,6 +4142,9 @@
       commentView.classList.remove('open');
       commentView.setAttribute('aria-hidden', 'true');
       commentView.style.transform = '';
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'mock-comment-view-change', open: false }, window.location.origin);
+      }
       const bottomNav = document.querySelector('.bottom-nav');
       if (bottomNav) bottomNav.style.display = '';
       commentInput.value = '';
@@ -5569,6 +5575,14 @@
         }
         resetEdgeSwipeState();
       });
+    });
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) return;
+      const data = event.data || {};
+      if (data.type === 'mock-close-comment-view' && commentView.classList.contains('open')) {
+        closeCommentView();
+      }
     });
 
     commentActionBackdrop.addEventListener('click', closeCommentActionMenu);
