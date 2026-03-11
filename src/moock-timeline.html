@@ -3397,10 +3397,7 @@
       }
       feedTabs.innerHTML = visibleFeeds.map((feed) => `
         <button class="feed-tab ${feed.id === currentFeedId ? 'active' : ''}" type="button" data-feed-id="${feed.id}">
-          ${feedTabIconHtml(feed)}${escapeHtml(feed.name)}${feed.official ? ' <span class="mini-badge">公式</span>' : ''}${(() => {
-            const group = groupByFeedId(feed.id);
-            return group && isCurrentUserGroupAdmin(group) ? ' <span class="mini-admin-badge">管理者</span>' : '';
-          })()}${feed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}
+          ${feedTabIconHtml(feed)}${escapeHtml(feed.name)}${groupStatusBadgesHtml(groupByFeedId(feed.id), { mini: true })}
         </button>
       `).join('');
     }
@@ -3459,6 +3456,22 @@
       return `<img class="inline-group-icon" src="${iconSrc}" alt="" aria-hidden="true" />`;
     }
 
+    function groupStatusBadgesHtml(group, { mini = false, includeOfficial = true, includeSecret = true, includeAdmin = true } = {}) {
+      if (!group) return '';
+      const officialBadge = includeOfficial && group.official
+        ? (mini ? ' <span class="mini-badge">公式</span>' : ' <span class="badge">公式</span>')
+        : '';
+      const secretBadge = includeSecret && group.secret
+        ? (mini
+          ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>'
+          : ' <span class="group-secret"><span class="secret-lock-icon" aria-label="秘密グループ"></span></span>')
+        : '';
+      const adminBadge = includeAdmin && isCurrentUserGroupAdmin(group)
+        ? (mini ? ' <span class="mini-admin-badge">管理者</span>' : ' <span class="group-admin">管理者</span>')
+        : '';
+      return `${officialBadge}${secretBadge}${adminBadge}`;
+    }
+
     function groupIconHtml(group, initials) {
       if (group && (group.id === 'grp-hr' || group.name === '看護部')) {
         return `<img src="${NURSING_GROUP_ICON}" alt="看護部アイコン" />`;
@@ -3505,8 +3518,8 @@
           <div class="group-meta">
             <span class="group-name">${escapeHtml(group.name)}</span>
             ${group.official ? '<span class="group-official">公式</span>' : ''}
-            ${showAdminBadge ? '<span class="group-admin">管理者</span>' : ''}
             ${group.secret ? '<span class="group-secret"><span class="secret-lock-icon" aria-label="秘密グループ"></span></span>' : ''}
+            ${showAdminBadge ? '<span class="group-admin">管理者</span>' : ''}
             <span class="group-count">(${group.members})</span>
           </div>
         </div>
@@ -3589,7 +3602,7 @@
           <div class="post-header-main">
             ${avatarHtmlByName(post.author.user, "avatar")}
             <div class="post-meta">
-              <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}</b>
+              <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${groupStatusBadgesHtml(groupByFeedId(post.feedId), { includeSecret: true, includeAdmin: false })}</b>
               <small>${formatPostMetaLine(post)}</small>
             </div>
           </div>
@@ -4038,7 +4051,6 @@
       const iconSrc = iconSrcForGroup(group);
       const badges = [
         group.official ? '<span class="group-official">公式</span>' : '',
-        isCurrentUserGroupAdmin(group) ? '<span class="group-admin">管理者</span>' : '',
         group.secret ? '<span class="group-secret"><span class="secret-lock-icon" aria-label="秘密グループ"></span></span>' : '',
       ].filter(Boolean).join('');
       groupDetailHead.innerHTML = `
@@ -4225,7 +4237,7 @@
             <div class="post-header-main">
               ${avatarHtmlByName(authorName, 'avatar')}
               <div class="post-meta">
-                <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}</b>
+                <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${groupStatusBadgesHtml(groupByFeedId(item.post.feedId), { includeSecret: true, includeAdmin: true })}</b>
                 <small>${escapeHtml(formatPostMetaLine(item.post))}</small>
               </div>
             </div>
@@ -4399,7 +4411,7 @@
 
       applyAvatarToElement(commentHeaderAvatar, post.author.user);
       const postFeed = feedMetaById(post.feedId);
-      commentHeaderTitle.innerHTML = `${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${postFeed.official ? ' <span class="badge">公式</span>' : ''}${postFeed.secret ? ' <span class="feed-lock-icon" aria-label="秘密グループ"></span>' : ''}`;
+      commentHeaderTitle.innerHTML = `${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${groupStatusBadgesHtml(groupByFeedId(post.feedId), { includeSecret: true, includeAdmin: false })}`;
       commentHeaderMeta.textContent = formatPostMetaLine(post);
 
       const fullCard = makePostCard(post);
