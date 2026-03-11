@@ -623,7 +623,7 @@
 
     .app-dialog-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; z-index: 100; }
     .app-dialog-backdrop.open { display: block; }
-    .app-dialog { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(360px, calc(100% - 24px)); background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 14px 28px rgba(0,0,0,.2); display: none; z-index: 101; padding: 14px; }
+    .app-dialog { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(360px, calc(100% - 24px)); max-height: calc(100dvh - 24px); overflow: auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 14px 28px rgba(0,0,0,.2); display: none; z-index: 101; padding: 14px; }
     .app-dialog.open { display: block; }
     .app-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
     .app-dialog-title { font-size: 15px; font-weight: 700; margin: 0; }
@@ -682,8 +682,11 @@
       align-items: center;
       justify-content: center;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     .popup-close:hover { background: #e4e9f1; }
+    .popup-close:focus { outline: none; }
+    .popup-close:focus-visible { outline: 2px solid #8fb2e0; outline-offset: 2px; }
   </style>
 </head>
 <body>
@@ -2155,6 +2158,7 @@
     let mediaPreviewIndex = 0;
     let reportReasonResolver = null;
     let selectedReportReasonIndex = -1;
+    let appDialogViewportSyncEnabled = false;
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -2208,6 +2212,7 @@
       appDialog.classList.remove('open');
       appDialogBackdrop.classList.remove('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
+      disableAppDialogViewportSync();
       if (appDialogResolver) {
         const resolve = appDialogResolver;
         appDialogResolver = null;
@@ -2276,10 +2281,15 @@
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
+      enableAppDialogViewportSync();
       setTimeout(() => {
         if (withInput) {
           appDialogInput.focus();
           appDialogInput.setSelectionRange(appDialogInput.value.length, appDialogInput.value.length);
+          setTimeout(() => {
+            updateAppDialogViewportLayout();
+            appDialogInput.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          }, 250);
         } else {
           appDialogOk.focus();
         }
@@ -2299,6 +2309,36 @@
 
     function showPrompt(message, defaultValue = '', title = '入力', options = {}) {
       return openAppDialog({ type: 'prompt', title, message, defaultValue, okText: '保存', cancelText: 'キャンセル', ...options });
+    }
+
+    function updateAppDialogViewportLayout() {
+      if (!appDialogViewportSyncEnabled || !appDialog.classList.contains('open')) return;
+      const viewport = window.visualViewport;
+      if (!viewport) {
+        appDialog.style.top = '';
+        appDialog.style.maxHeight = '';
+        return;
+      }
+      const top = Math.max(12, viewport.offsetTop + (viewport.height / 2));
+      const maxHeight = Math.max(220, viewport.height - 24);
+      appDialog.style.top = `${top}px`;
+      appDialog.style.maxHeight = `${maxHeight}px`;
+    }
+
+    function enableAppDialogViewportSync() {
+      if (appDialogViewportSyncEnabled) return;
+      appDialogViewportSyncEnabled = true;
+      updateAppDialogViewportLayout();
+      window.visualViewport?.addEventListener('resize', updateAppDialogViewportLayout);
+      window.visualViewport?.addEventListener('scroll', updateAppDialogViewportLayout);
+    }
+
+    function disableAppDialogViewportSync() {
+      appDialogViewportSyncEnabled = false;
+      window.visualViewport?.removeEventListener('resize', updateAppDialogViewportLayout);
+      window.visualViewport?.removeEventListener('scroll', updateAppDialogViewportLayout);
+      appDialog.style.top = '';
+      appDialog.style.maxHeight = '';
     }
 
     function closeReportReasonModal(selectedReason = null) {
@@ -2443,6 +2483,12 @@
     appDialogCameraInput.addEventListener('change', async () => {
       await addAppDialogFiles(appDialogCameraInput.files);
       appDialogCameraInput.value = '';
+    });
+    appDialogInput.addEventListener('focus', () => {
+      setTimeout(() => {
+        updateAppDialogViewportLayout();
+        appDialogInput.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }, 250);
     });
     appDialogAttachPreview.addEventListener('click', (event) => {
       const removeBtn = event.target.closest('[data-dialog-attach-remove]');
@@ -3982,6 +4028,9 @@
       commentActionBackdrop.classList.add('open');
       commentActionSheet.classList.add('open');
       commentActionSheet.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        if (document.activeElement === commentActionClose) commentActionClose.blur();
+      });
     }
 
     function clearCommentLongPress() {
