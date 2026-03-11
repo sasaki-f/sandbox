@@ -667,7 +667,7 @@
     .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; transition: transform .18s ease; will-change: transform; }
     .comment-view.open { display: flex; }
     .comment-header { min-height: 72px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; gap: 8px; }
-    .comment-back, .comment-more { border: none; background: transparent; color: var(--text); font-size: 22px; line-height: 1; }
+    .comment-back, .comment-more { border: none; background: transparent; color: var(--text); font-size: 32px; line-height: 1; }
     .comment-header-main { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
     .comment-header-meta b { font-size: 14px; }
     .comment-header-meta small { color: var(--subtle); font-size: 12px; display: block; margin-top: 2px; }
@@ -2554,6 +2554,16 @@
       event.preventDefault();
     }
 
+    function preventOverlayScrollBleed(event) {
+      const scrollHost = event.currentTarget;
+      if (!(scrollHost instanceof HTMLElement)) {
+        event.preventDefault();
+        return;
+      }
+      const canScroll = scrollHost.scrollHeight > scrollHost.clientHeight + 1 || scrollHost.scrollWidth > scrollHost.clientWidth + 1;
+      if (!canScroll) event.preventDefault();
+    }
+
     function openReportReasonModal() {
       if (reportReasonResolver) closeReportReasonModal(null);
       selectedReportReasonIndex = -1;
@@ -2666,6 +2676,11 @@
       if (!target) return;
       target.addEventListener('wheel', preventBackdropScroll, { passive: false });
       target.addEventListener('touchmove', preventBackdropScroll, { passive: false });
+    });
+    [appDialog, commentActionSheet].forEach((target) => {
+      if (!target) return;
+      target.addEventListener('wheel', preventOverlayScrollBleed, { passive: false });
+      target.addEventListener('touchmove', preventOverlayScrollBleed, { passive: false });
     });
     appDialogAttachBtn.addEventListener('click', () => {
       if (!appDialogMediaEnabled) return;
@@ -3696,9 +3711,14 @@
         ? `「${group.name}」にメンバーを追加`
         : `「${group.name}」に招待申請`;
       inviteModalSubmit.textContent = inviteModalMode === 'add' ? '追加する' : '招待申請する';
+      inviteModal.scrollTop = 0;
       inviteModal.classList.add('open');
       inviteBackdrop.classList.add('open');
       lockModalScroll();
+      requestAnimationFrame(() => {
+        inviteModal.scrollTop = 0;
+        inviteUserList.scrollTop = 0;
+      });
       setTimeout(() => inviteUserSearch.focus(), 0);
       return new Promise((resolve) => {
         inviteModalResolver = resolve;
@@ -3706,6 +3726,7 @@
     }
 
     function closeInviteUsersModal(result = null) {
+      inviteModal.scrollTop = 0;
       inviteModal.classList.remove('open');
       inviteBackdrop.classList.remove('open');
       unlockModalScroll();
@@ -5468,7 +5489,10 @@
       const commentBtn = event.target.closest('.comment-action, .comment-count-link');
       if (commentBtn) {
         const post = posts.find((p) => String(p.id) === commentBtn.dataset.postId);
-        if (post) renderCommentView(post);
+        if (post) {
+          renderCommentView(post);
+          scrollCommentBodyToBottom(true);
+        }
         return;
       }
 
