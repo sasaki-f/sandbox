@@ -25,6 +25,10 @@
       margin-inline: auto;
       min-height: 100vh;
     }
+    body.app-dialog-open {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
     .topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; }
     .topbar.no-search { padding-bottom: 0; }
     .top-menu { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
@@ -2161,6 +2165,7 @@
     let selectedReportReasonIndex = -1;
     let appDialogViewportSyncEnabled = false;
     let appDialogViewportMode = '';
+    let appDialogLockedScrollY = 0;
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -2217,6 +2222,8 @@
       appDialogBackdrop.classList.remove('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
       disableAppDialogViewportSync();
+      document.body.classList.remove('app-dialog-open');
+      window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
       if (appDialogResolver) {
         const resolve = appDialogResolver;
         appDialogResolver = null;
@@ -2289,6 +2296,8 @@
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
+      appDialogLockedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.classList.add('app-dialog-open');
       enableAppDialogViewportSync();
       setTimeout(() => {
         if (withInput) {
@@ -2325,6 +2334,9 @@
 
     function updateAppDialogViewportLayout() {
       if (!appDialogViewportSyncEnabled || !appDialog.classList.contains('open')) return;
+      if ((window.scrollY || window.pageYOffset || 0) !== appDialogLockedScrollY) {
+        window.scrollTo({ top: appDialogLockedScrollY, left: 0, behavior: 'auto' });
+      }
       const viewport = window.visualViewport;
       const isMobileInputMode = appDialog.classList.contains('mobile-input-mode');
       if (!viewport) {
