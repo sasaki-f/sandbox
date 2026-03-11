@@ -128,7 +128,9 @@
     .settings-section { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
     .settings-section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
     .settings-section-title { font-size: 13px; font-weight: 700; color: #334155; margin: 0 0 6px; }
+    .settings-section-title.is-child { margin-left: 18px; }
     .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .settings-row.is-child { padding-left: 18px; }
     .settings-row:last-child { border-bottom: none; }
     .settings-row.space-after { margin-bottom: 16px; }
     .settings-row.quiet-hours-toggle-row {
@@ -146,6 +148,11 @@
       border-bottom: none;
       border-radius: 0 0 10px 10px;
       background: #f7faff;
+    }
+    .settings-row.is-child.quiet-hours-toggle-row,
+    .settings-row.is-child.quiet-hours-time-row {
+      margin-left: 18px;
+      padding-left: 12px;
     }
     .settings-row-label { font-size: 13px; color: #1f2937; line-height: 1.4; }
     .settings-row-sub { display: block; font-size: 11px; color: #6b7280; margin-top: 3px; }
@@ -478,6 +485,13 @@
       width: min(360px, calc(100% - 24px)); background: var(--card); border-radius: 12px; border: 1px solid var(--border);
       box-shadow: 0 12px 24px rgba(0,0,0,.18); display: none; z-index: 81; max-height: 70vh;
     }
+    @media (max-width: 767px) {
+      .modal {
+        top: 12px;
+        transform: translateX(-50%);
+        max-height: calc(100dvh - 24px);
+      }
+    }
     .modal.open { display: block; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); }
     .modal-title { font-size: 14px; font-weight: 700; }
@@ -757,61 +771,61 @@
         </ul>
       </article>
     </section>
-    <section id="settings-view" class="panel-view" aria-label="設定項目">
+    <section id="settings-view" class="panel-view" aria-label="設定">
       <article class="card panel-card">
-        <h3 class="panel-title">設定項目</h3>
-        <section class="settings-section" aria-label="通知設定">
-          <h4 class="settings-section-title">通知設定</h4>
-          <div class="settings-row">
+        <h3 class="panel-title">設定</h3>
+        <section class="settings-section" aria-label="通知">
+          <h4 class="settings-section-title is-child">通知</h4>
+          <div class="settings-row is-child">
             <div class="settings-row-label">すべて</div>
             <label class="settings-switch" aria-label="すべて">
               <input id="settings-notify-all" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row">
+          <div class="settings-row is-child">
             <div class="settings-row-label">管理者設定通知</div>
             <label class="settings-switch" aria-label="管理者設定通知">
               <input id="settings-notify-admin-settings" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row">
+          <div class="settings-row is-child">
             <div class="settings-row-label">参加申請結果通知</div>
             <label class="settings-switch" aria-label="参加申請結果通知">
               <input id="settings-notify-join-request-result" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row">
+          <div class="settings-row is-child">
             <div class="settings-row-label">招待申請結果通知</div>
             <label class="settings-switch" aria-label="招待申請結果通知">
               <input id="settings-notify-invite-request-result" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row">
+          <div class="settings-row is-child">
             <div class="settings-row-label">グループ参加通知</div>
             <label class="settings-switch" aria-label="グループ参加通知">
               <input id="settings-notify-group-join" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row">
+          <div class="settings-row is-child">
             <div class="settings-row-label">新規投稿通知</div>
             <label class="settings-switch" aria-label="新規投稿通知">
               <input id="settings-notify-group-posts" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row space-after">
+          <div class="settings-row is-child space-after">
             <div class="settings-row-label">コメント通知</div>
             <label class="settings-switch" aria-label="コメント通知">
               <input id="settings-notify-comments" type="checkbox" />
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div class="settings-row quiet-hours-toggle-row">
+          <div class="settings-row is-child quiet-hours-toggle-row">
             <div class="settings-row-label">
               通知オフ時間
             </div>
@@ -820,7 +834,7 @@
               <span class="settings-slider" aria-hidden="true"></span>
             </label>
           </div>
-          <div id="settings-quiet-hours-row" class="settings-row quiet-hours-time-row">
+          <div id="settings-quiet-hours-row" class="settings-row is-child quiet-hours-time-row">
             <div class="settings-row-label"></div>
             <div class="quiet-hours-range">
               <input id="settings-quiet-hours-start" class="settings-select" type="time" aria-label="通知停止開始時刻" value="22:00" />
