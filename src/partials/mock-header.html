@@ -142,6 +142,9 @@
     const version = new URLSearchParams(window.location.search).get('v') || 'unknown';
     let versionPressTimer = null;
     let versionPopupTimer = null;
+    let versionPointerId = null;
+    let versionStartX = 0;
+    let versionStartY = 0;
 
     function hideVersionPopup() {
       if (versionPopupTimer) {
@@ -161,15 +164,21 @@
     }
 
     function clearVersionLongPress() {
-      if (!versionPressTimer) return;
-      clearTimeout(versionPressTimer);
-      versionPressTimer = null;
+      if (versionPressTimer) {
+        clearTimeout(versionPressTimer);
+        versionPressTimer = null;
+      }
+      versionPointerId = null;
     }
 
-    function startVersionLongPress() {
+    function startVersionLongPress(clientX, clientY, pointerId = null) {
       clearVersionLongPress();
+      versionPointerId = pointerId;
+      versionStartX = Number(clientX) || 0;
+      versionStartY = Number(clientY) || 0;
       versionPressTimer = setTimeout(() => {
         versionPressTimer = null;
+        versionPointerId = null;
         showVersionPopup();
       }, 550);
     }
@@ -177,17 +186,41 @@
     if (window.PointerEvent) {
       logoWrap.addEventListener('pointerdown', (event) => {
         if (!event.isPrimary) return;
-        startVersionLongPress();
+        startVersionLongPress(event.clientX, event.clientY, event.pointerId);
       });
-      ['pointerup', 'pointerleave', 'pointercancel', 'pointermove'].forEach((eventName) => {
-        logoWrap.addEventListener(eventName, clearVersionLongPress);
+      logoWrap.addEventListener('pointermove', (event) => {
+        if (!versionPressTimer) return;
+        if (versionPointerId !== null && event.pointerId !== versionPointerId) return;
+        const moveX = Math.abs(event.clientX - versionStartX);
+        const moveY = Math.abs(event.clientY - versionStartY);
+        if (moveX > 10 || moveY > 10) clearVersionLongPress();
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach((eventName) => {
+        logoWrap.addEventListener(eventName, (event) => {
+          if (versionPointerId !== null && event.pointerId !== versionPointerId) return;
+          clearVersionLongPress();
+        });
       });
     } else {
-      logoWrap.addEventListener('touchstart', startVersionLongPress, { passive: true });
-      ['touchend', 'touchcancel', 'touchmove'].forEach((eventName) => {
+      logoWrap.addEventListener('touchstart', (event) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        startVersionLongPress(touch.clientX, touch.clientY);
+      }, { passive: true });
+      logoWrap.addEventListener('touchmove', (event) => {
+        if (!versionPressTimer) return;
+        const touch = event.touches[0];
+        if (!touch) return clearVersionLongPress();
+        const moveX = Math.abs(touch.clientX - versionStartX);
+        const moveY = Math.abs(touch.clientY - versionStartY);
+        if (moveX > 10 || moveY > 10) clearVersionLongPress();
+      }, { passive: true });
+      ['touchend', 'touchcancel'].forEach((eventName) => {
         logoWrap.addEventListener(eventName, clearVersionLongPress, { passive: true });
       });
-      logoWrap.addEventListener('mousedown', startVersionLongPress);
+      logoWrap.addEventListener('mousedown', (event) => {
+        startVersionLongPress(event.clientX, event.clientY);
+      });
       ['mouseup', 'mouseleave'].forEach((eventName) => {
         logoWrap.addEventListener(eventName, clearVersionLongPress);
       });
