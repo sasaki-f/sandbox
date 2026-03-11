@@ -625,6 +625,7 @@
     .app-dialog-backdrop.open { display: block; }
     .app-dialog { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(360px, calc(100% - 24px)); max-height: calc(100dvh - 24px); overflow: auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 14px 28px rgba(0,0,0,.2); display: none; z-index: 101; padding: 14px; }
     .app-dialog.open { display: block; }
+    .app-dialog.mobile-input-mode { transform: translateX(-50%); }
     .app-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
     .app-dialog-title { font-size: 15px; font-weight: 700; margin: 0; }
     .app-dialog-body { font-size: 14px; color: #333; line-height: 1.45; white-space: pre-wrap; margin-bottom: 12px; }
@@ -2159,6 +2160,7 @@
     let reportReasonResolver = null;
     let selectedReportReasonIndex = -1;
     let appDialogViewportSyncEnabled = false;
+    let appDialogViewportMode = '';
     const appSettings = {
       notifyAll: true,
       notifyAdminSettings: true,
@@ -2209,6 +2211,8 @@
       appDialogTargetChecklist.innerHTML = '';
       appDialogSharePreview.classList.remove('show');
       appDialogSharePreview.innerHTML = '';
+      appDialog.classList.remove('mobile-input-mode');
+      appDialogViewportMode = '';
       appDialog.classList.remove('open');
       appDialogBackdrop.classList.remove('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'true');
@@ -2230,6 +2234,9 @@
       appDialogCancel.textContent = cancelText;
       const withInput = showInput === null ? type === 'prompt' : !!showInput;
       const withCancel = type !== 'alert';
+      appDialogViewportMode = withInput
+        ? (sharePreviewHtml ? 'share' : 'edit')
+        : '';
       appDialogMediaEnabled = withInput && showMediaTools;
       appDialogTargetEnabled = !!showTargetSelect;
       appDialogTargetMultiEnabled = appDialogTargetEnabled && !!targetMultiSelect;
@@ -2278,6 +2285,7 @@
       renderAppDialogAttachments();
       appDialogFileInput.value = '';
       appDialogCameraInput.value = '';
+      appDialog.classList.toggle('mobile-input-mode', withInput && window.innerWidth <= 767);
       appDialog.classList.add('open');
       appDialogBackdrop.classList.add('open');
       appDialogBackdrop.setAttribute('aria-hidden', 'false');
@@ -2314,12 +2322,15 @@
     function updateAppDialogViewportLayout() {
       if (!appDialogViewportSyncEnabled || !appDialog.classList.contains('open')) return;
       const viewport = window.visualViewport;
+      const isMobileInputMode = appDialog.classList.contains('mobile-input-mode');
       if (!viewport) {
         appDialog.style.top = '';
         appDialog.style.maxHeight = '';
         return;
       }
-      const top = Math.max(12, viewport.offsetTop + (viewport.height / 2));
+      const top = isMobileInputMode
+        ? viewport.offsetTop + (appDialogViewportMode === 'share' ? 56 : 12)
+        : Math.max(12, viewport.offsetTop + (viewport.height / 2));
       const maxHeight = Math.max(220, viewport.height - 24);
       appDialog.style.top = `${top}px`;
       appDialog.style.maxHeight = `${maxHeight}px`;
