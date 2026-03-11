@@ -645,7 +645,7 @@
     .group-detail-join-btn { border: 1px solid #cfd5de; background: #fff; color: #324a6a; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 12px; }
     .group-detail-join-btn.requested { border-color: #d4d8de; background: #f3f4f6; color: #7a828e; }
 
-    .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; }
+    .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; transition: transform .18s ease; will-change: transform; }
     .comment-view.open { display: flex; }
     .comment-header { min-height: 72px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; gap: 8px; }
     .comment-back, .comment-more { border: none; background: transparent; color: var(--text); font-size: 22px; line-height: 1; }
@@ -2180,6 +2180,7 @@
     let longPressPointerId = null;
     let longPressStartX = 0;
     let longPressStartY = 0;
+    let edgeSwipeState = null;
     let loadedPostCount = 0;
     let isLoadingMore = false;
     let currentSearchQuery = "";
@@ -4137,6 +4138,7 @@
     function closeCommentView() {
       commentView.classList.remove('open');
       commentView.setAttribute('aria-hidden', 'true');
+      commentView.style.transform = '';
       const bottomNav = document.querySelector('.bottom-nav');
       if (bottomNav) bottomNav.style.display = '';
       commentInput.value = '';
@@ -4148,6 +4150,13 @@
       editingCommentIndex = null;
       commentActionSheet.classList.remove('open');
       commentActionBackdrop.classList.remove('open');
+    }
+
+    function resetEdgeSwipeState() {
+      edgeSwipeState = null;
+      if (!commentView.classList.contains('open')) {
+        commentView.style.transform = '';
+      }
     }
 
 
@@ -5515,6 +5524,67 @@
         event.preventDefault();
       }
     }, true);
+
+    document.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) {
+        resetEdgeSwipeState();
+        return;
+      }
+      const touch = event.touches[0];
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+      const edgeSize = 28;
+      const fromLeftEdge = touch.clientX <= edgeSize;
+      const fromRightEdge = touch.clientX >= Math.max(edgeSize, viewportWidth - edgeSize);
+      edgeSwipeState = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        currentX: touch.clientX,
+        currentY: touch.clientY,
+        fromLeftEdge,
+        fromRightEdge,
+        lockedAxis: '',
+      };
+    }, { passive: true, capture: true });
+
+    document.addEventListener('touchmove', (event) => {
+      if (!edgeSwipeState || event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      edgeSwipeState.currentX = touch.clientX;
+      edgeSwipeState.currentY = touch.clientY;
+      const deltaX = touch.clientX - edgeSwipeState.startX;
+      const deltaY = touch.clientY - edgeSwipeState.startY;
+      if (!edgeSwipeState.lockedAxis) {
+        if (Math.abs(deltaX) < 8 && Math.abs(deltaY) < 8) return;
+        edgeSwipeState.lockedAxis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+      }
+      if (edgeSwipeState.lockedAxis !== 'x') return;
+      const commentSwipe = commentView.classList.contains('open') && edgeSwipeState.fromLeftEdge && deltaX > 0;
+      const browserEdgeSwipe = (!commentView.classList.contains('open') && (edgeSwipeState.fromLeftEdge || edgeSwipeState.fromRightEdge))
+        || (commentView.classList.contains('open') && (edgeSwipeState.fromLeftEdge || edgeSwipeState.fromRightEdge));
+      if (!commentSwipe && !browserEdgeSwipe) return;
+      event.preventDefault();
+      if (commentSwipe) {
+        const offset = Math.max(0, Math.min(deltaX, window.innerWidth || 0));
+        commentView.style.transform = `translateX(${offset}px)`;
+      }
+    }, { passive: false, capture: true });
+
+    ['touchend', 'touchcancel'].forEach((evt) => {
+      document.addEventListener(evt, () => {
+        if (!edgeSwipeState) return;
+        const deltaX = edgeSwipeState.currentX - edgeSwipeState.startX;
+        const shouldCloseComment = commentView.classList.contains('open')
+          && edgeSwipeState.fromLeftEdge
+          && edgeSwipeState.lockedAxis === 'x'
+          && deltaX > 72;
+        if (shouldCloseComment) {
+          closeCommentView();
+        } else if (commentView.classList.contains('open')) {
+          commentView.style.transform = '';
+        }
+        resetEdgeSwipeState();
+      }, { capture: true });
+    });
 
     commentActionBackdrop.addEventListener('click', closeCommentActionMenu);
     commentActionClose.addEventListener('focus', () => {
