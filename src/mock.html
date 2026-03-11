@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>カカリンク v1.0.0</title>
+  <title>カカリンク</title>
   <style>
     :root {
       --page-bg: #d9d4dc;
@@ -95,7 +95,7 @@
     }
   </style>
 </head>
-<body data-mock-version="1.0.0">
+<body data-mock-version="">
   <main class="device" aria-label="モックアプリ">
     <iframe
       class="mock-header"
@@ -120,7 +120,47 @@
   <script>
     const APP_HISTORY_ROOT = '__mock_root__';
     const APP_HISTORY_COMMENT = '__mock_comment__';
+    const MOCK_APP_NAME = 'カカリンク';
     let mockCommentOpen = false;
+
+    function parseLastModified(value) {
+      const time = Date.parse(value || '');
+      return Number.isFinite(time) ? time : 0;
+    }
+
+    function formatMockVersion(timestamp) {
+      if (!timestamp) return 'unknown';
+      const date = new Date(timestamp);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      const hh = String(date.getHours()).padStart(2, '0');
+      const mm = String(date.getMinutes()).padStart(2, '0');
+      const ss = String(date.getSeconds()).padStart(2, '0');
+      return `${y}.${m}.${d}-${hh}${mm}${ss}`;
+    }
+
+    function applyMockVersion(version) {
+      document.body.dataset.mockVersion = version;
+      document.title = `${MOCK_APP_NAME} v${version}`;
+      const headerFrame = document.querySelector('.mock-header');
+      if (headerFrame && headerFrame.contentWindow) {
+        headerFrame.contentWindow.postMessage({ type: 'mock-version-update', version }, window.location.origin);
+      }
+    }
+
+    function refreshMockVersionFromDocuments() {
+      const timestamps = [parseLastModified(document.lastModified)];
+      document.querySelectorAll('iframe[data-src]').forEach((frame) => {
+        try {
+          const frameDoc = frame.contentDocument;
+          if (frameDoc) timestamps.push(parseLastModified(frameDoc.lastModified));
+        } catch (error) {
+          // same-origin iframe only; ignore transient access errors during load
+        }
+      });
+      applyMockVersion(formatMockVersion(Math.max(...timestamps, 0)));
+    }
 
     function refreshMockFrames() {
       const stamp = Date.now();
@@ -155,6 +195,10 @@
       }
     });
 
+    document.querySelectorAll('iframe[data-src]').forEach((frame) => {
+      frame.addEventListener('load', refreshMockVersionFromDocuments);
+    });
+
     window.addEventListener('popstate', () => {
       const contentFrame = document.getElementById('mock-content-frame');
       if (mockCommentOpen && contentFrame && contentFrame.contentWindow) {
@@ -166,6 +210,7 @@
       ensureMockHistoryState(APP_HISTORY_ROOT);
     });
 
+    applyMockVersion(formatMockVersion(parseLastModified(document.lastModified)));
     refreshMockFrames();
     syncMockHistoryState();
     window.addEventListener('pageshow', refreshMockFrames);

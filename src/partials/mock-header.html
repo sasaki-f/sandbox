@@ -143,7 +143,7 @@
   <script>
     const logoWrap = document.querySelector('.logo-wrap');
     const versionPopup = document.getElementById('version-popup');
-    const version = new URLSearchParams(window.location.search).get('v') || 'unknown';
+    let version = new URLSearchParams(window.location.search).get('v') || 'unknown';
     let versionPressTimer = null;
     let versionPopupTimer = null;
     let versionPointerId = null;
@@ -166,6 +166,14 @@
       if (versionPopupTimer) clearTimeout(versionPopupTimer);
       versionPopupTimer = setTimeout(hideVersionPopup, 1800);
     }
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) return;
+      const data = event.data || {};
+      if (data.type === 'mock-version-update' && typeof data.version === 'string' && data.version) {
+        version = data.version;
+      }
+    });
 
     function clearVersionLongPress() {
       if (versionPressTimer) {
