@@ -3573,6 +3573,37 @@
         : '<li class="group-empty">該当するグループがありません</li>';
     }
 
+    function replaceGroupItem(groupId) {
+      const normalizedGroupId = String(groupId || '');
+      if (!normalizedGroupId) return false;
+      const group = GROUP_DIRECTORY.find((item) => String(item.id || '') === normalizedGroupId);
+      const currentItem = groupsView.querySelector(`.group-item[data-group-id="${CSS.escape(normalizedGroupId)}"]`);
+      if (!group || !currentItem) return false;
+      const template = document.createElement('template');
+      template.innerHTML = groupItemHtml(group).trim();
+      const nextItem = template.content.firstElementChild;
+      if (!(nextItem instanceof HTMLElement)) return false;
+      currentItem.replaceWith(nextItem);
+      return true;
+    }
+
+    function syncGroupMenuDom(previousGroupId = '', nextGroupId = '') {
+      const previousId = String(previousGroupId || '');
+      const nextId = String(nextGroupId || '');
+      const idsToRefresh = uniqueNames([previousId, nextId]).filter(Boolean);
+      if (idsToRefresh.length === 0) return;
+      const replacedAll = idsToRefresh.every((groupId) => replaceGroupItem(groupId));
+      if (!replacedAll) renderGroupsView();
+    }
+
+    function setActiveGroupMenu(nextGroupId = '') {
+      const previousGroupId = activeGroupMenuId;
+      const normalizedNextGroupId = String(nextGroupId || '');
+      if (previousGroupId === normalizedNextGroupId) return;
+      activeGroupMenuId = normalizedNextGroupId;
+      syncGroupMenuDom(previousGroupId, normalizedNextGroupId);
+    }
+
     function renderComposerAttachments() {
       composerAttachPreview.innerHTML = composerAttachments.map((item) => {
         let body = `<div class="attach-fallback">${escapeHtml(item.file.name)}</div>`;
@@ -6460,8 +6491,7 @@
       if (menuToggleBtn) {
         if (isGroupSortMode) exitGroupSortMode();
         const targetGroupId = menuToggleBtn.dataset.groupId || '';
-        activeGroupMenuId = activeGroupMenuId === targetGroupId ? '' : targetGroupId;
-        renderGroupsView();
+        setActiveGroupMenu(activeGroupMenuId === targetGroupId ? '' : targetGroupId);
         event.preventDefault();
         return;
       }
@@ -6469,8 +6499,7 @@
       if (inviteBtn) {
         if (isGroupSortMode) exitGroupSortMode();
         if (activeGroupMenuId) {
-          activeGroupMenuId = '';
-          renderGroupsView();
+          setActiveGroupMenu('');
         }
         const target = GROUP_DIRECTORY.find((item) => item.id === inviteBtn.dataset.groupId);
         if (target) {
@@ -6502,8 +6531,7 @@
       if (manageUsersBtn) {
         if (isGroupSortMode) exitGroupSortMode();
         if (activeGroupMenuId) {
-          activeGroupMenuId = '';
-          renderGroupsView();
+          setActiveGroupMenu('');
         }
         const target = GROUP_DIRECTORY.find((item) => item.id === manageUsersBtn.dataset.groupId);
         if (target) {
@@ -6519,8 +6547,7 @@
           return;
         }
         if (activeGroupMenuId) {
-          activeGroupMenuId = '';
-          renderGroupsView();
+          setActiveGroupMenu('');
         }
         const row = openDetailTrigger.closest('.group-item');
         const groupId = row ? row.dataset.groupId : '';
@@ -6533,8 +6560,7 @@
       if (actionBtn && !actionBtn.disabled) {
         if (isGroupSortMode) exitGroupSortMode();
         if (activeGroupMenuId) {
-          activeGroupMenuId = '';
-          renderGroupsView();
+          setActiveGroupMenu('');
         }
         const groupId = actionBtn.dataset.groupId;
         const action = actionBtn.dataset.groupAction;
@@ -6890,8 +6916,7 @@
         commentHeaderPopup.classList.remove('open');
       }
       if (!event.target.closest('.group-actions.menu') && activeGroupMenuId) {
-        activeGroupMenuId = '';
-        renderGroupsView();
+        setActiveGroupMenu('');
       }
     });
 
