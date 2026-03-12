@@ -2597,7 +2597,9 @@
     }
 
     function preventOverlayScrollBleed(event) {
-      const scrollHost = event.currentTarget;
+      const eventTarget = event.target instanceof Element ? event.target : null;
+      const scrollHost = eventTarget?.closest('textarea, [data-allow-overlay-scroll], .app-dialog-target-checklist, .app-dialog-attach-preview, .reader-list, .group-request-member-list')
+        || event.currentTarget;
       if (!(scrollHost instanceof HTMLElement)) {
         event.preventDefault();
         return;
