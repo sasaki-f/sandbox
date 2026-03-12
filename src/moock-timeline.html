@@ -33,7 +33,9 @@
     html.app-dialog-open,
     body.app-dialog-open,
     html.modal-open,
-    body.modal-open {
+    body.modal-open,
+    html.comment-view-open,
+    body.comment-view-open {
       overflow: hidden;
       height: 100%;
       overscroll-behavior: none;
@@ -678,14 +680,14 @@
     .group-detail-join-btn { border: 1px solid #cfd5de; background: #fff; color: #324a6a; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 12px; }
     .group-detail-join-btn.requested { border-color: #d4d8de; background: #f3f4f6; color: #7a828e; }
 
-    .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; transition: transform .18s ease; will-change: transform; }
+    .comment-view { position: fixed; inset: 0; background: var(--card); z-index: 60; display: none; flex-direction: column; overflow: hidden; transition: transform .18s ease; will-change: transform; }
     .comment-view.open { display: flex; }
     .comment-header { min-height: 72px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; gap: 8px; }
     .comment-back, .comment-more { border: none; background: transparent; color: var(--text); font-size: 32px; line-height: 1; }
     .comment-header-main { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
     .comment-header-meta b { font-size: 14px; }
     .comment-header-meta small { color: var(--subtle); font-size: 12px; display: block; margin-top: 2px; }
-    .comment-body { flex: 1; overflow: auto; padding-bottom: 76px; }
+    .comment-body { flex: 1; min-height: 0; overflow: auto; padding-bottom: calc(76px + var(--safe-bottom)); }
     .single-post { border-bottom: 1px solid var(--border); }
     .single-post.post { padding: 12px; }
     .comment-list { padding: 10px 10px 10px; }
@@ -696,7 +698,7 @@
     .comment-meta { color: var(--subtle); font-size: 12px; padding: 4px 2px 0; }
     .comment-input-wrap { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(430px, 100%); background: var(--card); border-top: 1px solid var(--border); padding: 8px 10px calc(8px + var(--safe-bottom)); display: flex; gap: 8px; align-items: center; }
     .comment-input { flex: 1; border: none; background: var(--bg); border-radius: 999px; padding: 10px 12px; font-size: 14px; }
-    .send-btn { width: 34px; height: 34px; border: none; border-radius: 50%; background: #1b74e4; color: #fff; font-size: 16px; display: none; align-items: center; justify-content: center; }
+    .send-btn { width: 34px; height: 34px; border: none; border-radius: 50%; background: #1b74e4; color: #fff; font-size: 16px; display: none; align-items: center; justify-content: center; text-indent: 3px; }
     .send-btn.show { display: inline-flex; }
     .comment-edit-box { width: 100%; border: 1px solid #cfd2d8; border-radius: 12px; padding: 10px; font-size: 14px; line-height: 1.4; min-height: 88px; resize: vertical; background: #fff; }
     .comment-edit-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
@@ -3642,21 +3644,70 @@
       renderComposerAttachments();
     }
 
-    function makePostCard(post) {
-      const card = document.createElement('article');
-      card.className = 'card post';
-      card.dataset.postId = String(post.id);
-      const isOwnPost = post.author && post.author.user === CURRENT_USER;
-      const isAdminPost = isCurrentUserPostAdmin(post);
+    function buildPostRenderState(post) {
       const visibleReaders = collectReadersForPost(post);
       const postFeed = feedMetaById(post.feedId);
       const shareCount = computedShareCount(post);
+      const signature = JSON.stringify({
+        id: Number(post?.id || 0),
+        feedId: String(post?.feedId || ''),
+        author: String(post?.author?.user || ''),
+        content: String(post?.content || ''),
+        createdAt: Number(resolvePostCreatedAt(post) || 0),
+        hoursAgo: Number(post?.hoursAgo || 0),
+        edited: !!post?.edited,
+        commentCount: Number(post?.commentCount || 0),
+        shareCount,
+        visibleReaders,
+        attachments: Array.isArray(post?.attachments)
+          ? post.attachments.map((item) => ({
+              name: attachmentName(item),
+              type: attachmentType(item),
+            }))
+          : [],
+        comments: Array.isArray(post?.comments)
+          ? post.comments.map((comment) => ({
+              id: Number(comment?.commentId || 0),
+              user: String(comment?.user || ''),
+              createdAt: Number(comment?.createdAt || 0),
+              edited: !!comment?.edited,
+            }))
+          : [],
+        linkPreview: post?.linkPreview || null,
+        sharedFrom: post?.sharedFrom
+          ? {
+              id: Number(post.sharedFrom.id || 0),
+              feedId: String(post.sharedFrom.feedId || ''),
+              author: String(post.sharedFrom.author?.user || ''),
+              content: String(post.sharedFrom.content || ''),
+              attachments: Array.isArray(post.sharedFrom.attachments)
+                ? post.sharedFrom.attachments.map((item) => ({
+                    name: attachmentName(item),
+                    type: attachmentType(item),
+                  }))
+                : [],
+            }
+          : null,
+        postFeedName: String(postFeed?.name || ''),
+      });
+      return { visibleReaders, postFeed, shareCount, signature };
+    }
+
+    function makePostCard(post, renderState = null) {
+      const state = renderState || buildPostRenderState(post);
+      const postFeedName = state.postFeed?.name || '';
+      const card = document.createElement('article');
+      card.className = 'card post';
+      card.dataset.postId = String(post.id);
+      card.dataset.renderSignature = state.signature;
+      const isOwnPost = post.author && post.author.user === CURRENT_USER;
+      const isAdminPost = isCurrentUserPostAdmin(post);
       card.innerHTML = `
         <div class="post-header">
           <div class="post-header-main">
             ${avatarHtmlByName(post.author.user, "avatar")}
             <div class="post-meta">
-              <b>${inlineFeedIconHtml(postFeed)}${escapeHtml(postFeed.name)}${groupStatusBadgesHtml(groupByFeedId(post.feedId), { includeSecret: true, includeAdmin: false })}</b>
+              <b>${inlineFeedIconHtml(state.postFeed)}${escapeHtml(postFeedName)}${groupStatusBadgesHtml(groupByFeedId(post.feedId), { includeSecret: true, includeAdmin: false })}</b>
               <small>${formatPostMetaLine(post)}</small>
             </div>
           </div>
@@ -3679,11 +3730,11 @@
         ${renderPostMedia(post)}
         <div class="engagement-row">
           <div class="read-status">
-            ${visibleReaders.length > 0 ? `<button type="button" class="read-count-btn" data-readers="${escapeHtml(JSON.stringify(visibleReaders))}">既読 ${visibleReaders.length}</button>` : ''}
+            ${state.visibleReaders.length > 0 ? `<button type="button" class="read-count-btn" data-readers="${escapeHtml(JSON.stringify(state.visibleReaders))}">既読 ${state.visibleReaders.length}</button>` : ''}
           </div>
           <div class="engagement-right">
             ${post.commentCount > 0 ? `<button type="button" class="engagement-link comment-count-link" data-post-id="${post.id}">コメント ${post.commentCount}件</button>` : ''}
-            ${shareCount > 0 ? `<button type="button" class="engagement-link share-count-link" data-post-id="${post.id}">シェア ${shareCount}件</button>` : ''}
+            ${state.shareCount > 0 ? `<button type="button" class="engagement-link share-count-link" data-post-id="${post.id}">シェア ${state.shareCount}件</button>` : ''}
           </div>
         </div>
         <div class="row-actions post-actions">
@@ -4150,7 +4201,7 @@
         : '<li class="reader-item">メンバー情報がありません</li>';
       const remain = Math.max(0, allMembers.length - members.length);
       if (remain > 0) {
-        groupDetailMembersMore.innerHTML = `<button type="button" class="group-detail-members-more-btn" data-group-detail-expand="1">ほか ${remain} 名</button>`;
+        groupDetailMembersMore.innerHTML = `<button type="button" class="group-detail-members-more-btn" data-group-detail-expand="1">他 ${remain} 名</button>`;
       } else if (allMembers.length > 12) {
         groupDetailMembersMore.innerHTML = `<button type="button" class="group-detail-members-more-btn" data-group-detail-expand="0">表示をたたむ</button>`;
       } else {
@@ -4489,6 +4540,8 @@
 
       commentView.classList.add('open');
       commentView.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('comment-view-open');
+      document.body.classList.add('comment-view-open');
       if (window.parent && window.parent !== window) {
         window.parent.postMessage({ type: 'mock-comment-view-change', open: true }, window.location.origin);
       }
@@ -4500,6 +4553,8 @@
       commentView.classList.remove('open');
       commentView.setAttribute('aria-hidden', 'true');
       commentView.style.transform = '';
+      document.documentElement.classList.remove('comment-view-open');
+      document.body.classList.remove('comment-view-open');
       if (window.parent && window.parent !== window) {
         window.parent.postMessage({ type: 'mock-comment-view-change', open: false }, window.location.origin);
       }
@@ -4645,12 +4700,21 @@
     function rerenderTimeline() {
       renderFeedTabs();
       renderComposerTargetOptions();
-      postsRoot.innerHTML = '';
+      const existingCards = new Map(
+        Array.from(postsRoot.querySelectorAll('article.post[data-post-id]')).map((card) => [String(card.dataset.postId || ''), card])
+      );
+      const fragment = document.createDocumentFragment();
       getFilteredPosts().forEach((post) => {
-        const card = makePostCard(post);
-        postsRoot.appendChild(card);
-        applyMoreToggle(card);
+        const postId = String(post.id || '');
+        const renderState = buildPostRenderState(post);
+        const existingCard = existingCards.get(postId);
+        const nextCard = existingCard && existingCard.dataset.renderSignature === renderState.signature
+          ? existingCard
+          : makePostCard(post, renderState);
+        if (nextCard !== existingCard) applyMoreToggle(nextCard);
+        fragment.appendChild(nextCard);
       });
+      postsRoot.replaceChildren(fragment);
       renderNotificationsPanel();
     }
 
