@@ -2954,6 +2954,14 @@
       return picked;
     }
 
+    function deterministicRange(seed = 0, min = 0, max = 0) {
+      const lower = Math.min(Number(min || 0), Number(max || 0));
+      const upper = Math.max(Number(min || 0), Number(max || 0));
+      if (lower === upper) return lower;
+      const normalizedSeed = Math.abs(Number(seed || 0));
+      return lower + (normalizedSeed % (upper - lower + 1));
+    }
+
     function seedReadersForFeed(feedId, authorUser, seed = 0, desiredCount = 0) {
       const group = groupByFeedId(feedId);
       const groupMembers = collectEligibleGroupMembers(group);
@@ -3046,6 +3054,13 @@
       else if (ageHours <= 6) targetCount += 1;
       else if (ageHours >= 12) targetCount -= 1;
       targetCount = Math.max(targetCount, baselineCount);
+      if (post?.readAudienceMode === 'new-post-limited') {
+        const groupMemberCount = groupMembers.length;
+        const configuredCap = groupMemberCount <= 20
+          ? Math.floor(groupMemberCount * 0.6)
+          : deterministicRange((Number(post?.id || 0) * 7) + Number(createdAt || 0), 5, 10);
+        targetCount = Math.min(targetCount, Math.max(requiredReaders.length, configuredCap));
+      }
       const realisticCap = eligibleReaders.length <= 2
         ? eligibleReaders.length
         : Math.max(requiredReaders.length, Math.min(eligibleReaders.length - 1, Math.ceil(eligibleReaders.length * 0.75)));
@@ -5801,6 +5816,7 @@
           media: '',
           attachments: attachmentPayload,
           sharedFrom,
+          readAudienceMode: 'new-post-limited',
           readers: [],
           commentCount: 0,
           shareCount: 0,
@@ -6770,6 +6786,7 @@
         linkPreview: buildLinkPreviewFromText(text || ''),
         media: '',
         attachments: attachmentPayload,
+        readAudienceMode: 'new-post-limited',
         readers: [],
         commentCount: 0,
         shareCount: 0,
