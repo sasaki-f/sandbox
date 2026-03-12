@@ -1,0 +1,122 @@
+[
+  {
+    "file": "01-timeline.png",
+    "label": "タイムライン",
+    "pathLabel": "タイムライン初期表示"
+  },
+  {
+    "file": "02-post-menu.png",
+    "label": "投稿メニュー",
+    "pathLabel": "投稿カード -> メニュー"
+  },
+  {
+    "file": "03-media-preview.png",
+    "label": "メディアプレビュー",
+    "pathLabel": "投稿カード -> 画像/動画"
+  },
+  {
+    "file": "04-readers-modal.png",
+    "label": "既読者モーダル",
+    "pathLabel": "投稿カード -> 既読人数"
+  },
+  {
+    "file": "05-comment-view.png",
+    "label": "コメントビュー",
+    "pathLabel": "投稿カード -> コメント"
+  },
+  {
+    "file": "06-comment-header-menu.png",
+    "label": "コメントヘッダーメニュー",
+    "pathLabel": "コメントビュー -> ヘッダーメニュー"
+  },
+  {
+    "file": "07-comment-action-sheet.png",
+    "label": "コメントアクションシート",
+    "pathLabel": "コメント長押し"
+  },
+  {
+    "file": "08-comment-editing.png",
+    "label": "コメント編集中",
+    "pathLabel": "コメントアクションシート -> 編集"
+  },
+  {
+    "file": "09-groups-view.png",
+    "label": "グループ一覧",
+    "pathLabel": "上部タブ -> グループ"
+  },
+  {
+    "file": "10-group-detail.png",
+    "label": "グループ詳細モーダル",
+    "pathLabel": "グループ一覧 -> グループ行"
+  },
+  {
+    "file": "11-group-menu.png",
+    "label": "グループ行メニュー",
+    "pathLabel": "グループ一覧 -> ･･･"
+  },
+  {
+    "file": "12-manage-users.png",
+    "label": "メンバー管理モーダル",
+    "pathLabel": "グループ一覧 -> メンバー管理"
+  },
+  {
+    "file": "13-invite-users.png",
+    "label": "招待申請モーダル",
+    "pathLabel": "グループ一覧 -> 招待"
+  },
+  {
+    "file": "14-group-request.png",
+    "label": "グループ作成申請モーダル",
+    "pathLabel": "グループ一覧 -> グループ作成"
+  },
+  {
+    "file": "15-notifications-general.png",
+    "label": "通知ビュー",
+    "pathLabel": "上部タブ -> 通知"
+  },
+  {
+    "file": "16-notifications-admin.png",
+    "label": "管理者向け通知ビュー",
+    "pathLabel": "通知 -> 管理者向け通知タブ"
+  },
+  {
+    "file": "17-settings-view.png",
+    "label": "設定ビュー",
+    "pathLabel": "上部タブ -> 設定"
+  },
+  {
+    "file": "18-report-reason.png",
+    "label": "報告理由モーダル",
+    "pathLabel": "投稿/コメント -> 通報"
+  },
+  {
+    "file": "19-app-dialog-alert.png",
+    "label": "お知らせダイアログ",
+    "pathLabel": "showAlert 系"
+  },
+  {
+    "file": "20-app-dialog-confirm.png",
+    "label": "確認ダイアログ",
+    "pathLabel": "showConfirm 系"
+  },
+  {
+    "file": "21-edit-post-dialog.png",
+    "label": "投稿編集ダイアログ",
+    "pathLabel": "投稿メニュー -> 編集"
+  },
+  {
+    "file": "22-share-dialog.png",
+    "label": "シェア投稿ダイアログ",
+    "pathLabel": "投稿カード -> シェア"
+  },
+  {
+    "file": "23-admin-reports.png",
+    "label": "管理者向け報告一覧モーダル",
+    "pathLabel": "通知 or 管理導線 -> 報告一覧"
+  },
+  {
+    "file": "24-header-version-popup.png",
+    "label": "ヘッダーバージョンポップアップ",
+    "pathLabel": "ヘッダー -> ロゴ長押し"
+  }
+]
