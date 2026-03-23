@@ -18,10 +18,10 @@
       --radius-md: 18px;
       --safe-bottom: max(16px, env(safe-area-inset-bottom));
       --hero-band-height: 132px;
-      --sidebar-width: clamp(180px, 20vw, 324px);
-      --drawer-avatar-size: clamp(56px, 4.8vw, 74px);
-      --drawer-avatar-edit-size: clamp(20px, 1.7vw, 24px);
-      --drawer-user-name-size: clamp(14px, 1.45vw, 16px);
+      --sidebar-width: 324px;
+      --drawer-avatar-size: 74px;
+      --drawer-avatar-edit-size: 24px;
+      --drawer-user-name-size: 16px;
     }
 
     * { box-sizing: border-box; }
@@ -56,6 +56,8 @@
       color: #fff;
       padding: 9px 32px 11px;
       min-height: 132px;
+      display: flex;
+      align-items: center;
     }
 
     .header-row {
@@ -63,6 +65,7 @@
       grid-template-columns: 1fr;
       align-items: center;
       min-height: 74px;
+      width: 100%;
     }
 
     .icon-btn {
@@ -376,7 +379,7 @@
       color: #1a66c8;
       display: grid;
       place-items: center;
-      font-size: clamp(26px, 2.3vw, 34px);
+      font-size: 34px;
       font-weight: 800;
       line-height: 1;
     }
@@ -394,7 +397,7 @@
       display: grid;
       place-items: center;
       color: #7d848b;
-      font-size: clamp(10px, 0.8vw, 11px);
+      font-size: 11px;
       line-height: 1;
       padding-bottom: 4px;
     }
@@ -603,37 +606,24 @@
       .nav-item { padding: 8px 4px 6px; flex-direction: column; gap: 5px; }
       .nav-icon { width: 26px; height: 26px; }
       .nav-label { font-size: 11px; }
-      :root {
-        --sidebar-width: 220px;
-      }
       .drawer { padding-left: 0; }
       .drawer-panel {
         width: 100%;
         height: 100dvh;
-        padding: 22px 14px 16px;
+        padding: 0 18px 18px;
         border-radius: 0;
       }
     }
 
     @media (max-width: 560px) {
-      :root {
-        --sidebar-width: 184px;
-        --drawer-avatar-size: 56px;
-        --drawer-avatar-edit-size: 20px;
-        --drawer-user-name-size: 14px;
-      }
       .drawer { padding-left: 0; }
       .drawer-panel {
         width: 100%;
-        padding-inline: 12px;
+        padding-inline: 18px;
       }
       .main { padding-inline: 14px; }
       .quick-grid { grid-template-columns: 1fr; }
       .header-row { grid-template-columns: 1fr; }
-      .drawer-user {
-        align-items: flex-start;
-        gap: 10px;
-      }
       .facility-item {
         gap: 10px;
         padding: 12px 8px;
