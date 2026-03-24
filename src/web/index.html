@@ -146,6 +146,18 @@
       font-weight: 700;
     }
 
+    .clinic-mark.is-logo {
+      border-radius: 0;
+      background: transparent !important;
+      color: inherit !important;
+    }
+
+    .clinic-mark-logo {
+      width: 50px;
+      height: 50px;
+      display: block;
+    }
+
     .profile-title { margin: 0; font-size: 17px; font-weight: 800; }
     .profile-meta { margin-top: 6px; color: var(--muted); font-size: 13px; }
 
@@ -454,13 +466,14 @@
     }
 
     .facility-item {
+      position: relative;
       border-radius: 18px;
       border: 1px solid transparent;
       background: transparent;
       width: 100%;
-      padding: 14px 12px;
+      padding: 14px 32px 14px 4px;
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       gap: 14px;
       align-items: center;
       text-align: left;
@@ -486,6 +499,42 @@
       flex: 0 0 auto;
     }
 
+    .facility-logo {
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .facility-logo-hdi {
+      width: 188px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .facility-item-hdi {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+    .facility-hdi-block {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      justify-self: start;
+      width: max-content;
+      max-width: 100%;
+    }
+
+    .facility-sub-hdi {
+      margin-top: 0;
+      padding-left: 58px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: normal;
+      color: #2d343a;
+      line-height: 1.4;
+    }
+
     .facility-name {
       font-size: 15px;
       font-weight: 800;
@@ -493,17 +542,34 @@
       line-height: 1.4;
     }
 
+    .facility-copy {
+      min-width: 0;
+    }
+
     .facility-sub {
       margin-top: 4px;
-      color: #677682;
-      font-size: 12px;
-      line-height: 1.5;
+      color: #2d343a;
+      font-size: 15px;
+      line-height: 1.4;
     }
 
     .facility-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 28px;
+      flex: 0 0 28px;
       color: #19b6bd;
       font-size: 28px;
       line-height: 1;
+    }
+
+    .facility-item .facility-arrow {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
     }
 
     .facility-notice {
@@ -518,7 +584,7 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 800;
-      margin-right: 2px;
+      margin-right: -12px;
     }
 
     .add-facility {
@@ -630,7 +696,7 @@
       .header-row { grid-template-columns: 1fr; }
       .facility-item {
         gap: 10px;
-        padding: 12px 8px;
+        padding: 12px 32px 12px 8px;
       }
       .facility-badge {
         width: 36px;
@@ -641,6 +707,9 @@
       .facility-sub { font-size: 11px; }
       .facility-arrow {
         font-size: 20px;
+      }
+      .facility-item .facility-arrow {
+        font-size: 22px;
       }
       .facility-notice {
         min-width: 24px;
@@ -973,6 +1042,28 @@
         </g>
       </svg>
     `;
+    const hdiMarkMarkup = `
+      <svg class="clinic-mark-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 72" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+        <circle fill="#ea5514" cx="13.46" cy="6.56" r="4"/>
+        <circle fill="#e1d320" cx="71.52" cy="32.25" r="4"/>
+        <circle fill="#124098" cx="21.45" cy="65.84" r="4"/>
+        <path fill="#9fa0a0" d="M47.21,31.16v6.24c0,.2.11.39.28.49l17.21,9.94c.17.1.39.1.56,0l5.41-3.12c.37-.22.37-.76,0-.97l-22.62-13.06c-.37-.22-.84.05-.84.49Z"/>
+        <path fill="#9fa0a0" d="M23.47,16.47l-3.2-1.85c-.17-.1-.39-.1-.56,0l-5.41,3.12c-.37.22-.37.76,0,.97l8.6,4.97c.37.22.84-.05.84-.49v-6.24c0-.2-.11-.39-.28-.49Z"/>
+        <path fill="#9fa0a0" d="M19.16,30.17l-12.91-7.45c-.17-.1-.39-.1-.56,0L.28,25.84c-.37.22-.37.76,0,.97l12.91,7.45c.17.1.39.1.56,0l5.41-3.12c.37-.22.37-.76,0-.97Z"/>
+        <path fill="#9fa0a0" d="M25.48,59.26l5.41,3.12c.37.22.84-.05.84-.49v-9.93c0-.43-.47-.7-.84-.49l-5.41,3.12c-.17.1-.28.29-.28.49v3.69c0,.2.11.39.28.49Z"/>
+        <path fill="#9fa0a0" d="M31.74,23.56V3.69c0-.2-.11-.39-.28-.49L26.05.08c-.37-.22-.84.05-.84.49v26.12c0,.43.47.7.84.49l5.41-3.12c.17-.1.28-.29.28-.49Z"/>
+        <path fill="#9fa0a0" d="M29.17,36.28l-5.41,3.12c-.37.22-.37.76,0,.97l26.93,15.55c.17.1.39.1.56,0l5.41-3.12c.37-.22.37-.76,0-.97l-26.93-15.55c-.17-.1-.39-.1-.56,0Z"/>
+        <path fill="#9fa0a0" d="M39.5,67.35l5.41,3.12c.37.22.84-.05.84-.49v-14.91c0-.2-.11-.39-.28-.49l-5.41-3.12c-.37-.22-.84.05-.84.49v14.91c0,.2.11.39.28.49Z"/>
+        <path fill="#9fa0a0" d="M60.4,9.02l-12.91,7.45c-.17.1-.28.29-.28.49v6.25c0,.43.47.7.84.49l12.91-7.45c.17-.1.28-.29.28-.49v-6.25c0-.43-.47-.7-.84-.49Z"/>
+        <path fill="#9fa0a0" d="M9.71,38.61v6.25c0,.43.47.7.84.49l26.93-15.55c.17-.1.28-.29.28-.49v-6.25c0-.43-.47-.7-.84-.49l-26.93,15.55c-.17.1-.28.29-.28.49Z"/>
+        <path fill="#9fa0a0" d="M45.75,42.87V11.78c0-.2-.11-.39-.28-.49l-5.41-3.12c-.37-.22-.84.05-.84.49v31.09c0,.2.11.39.28.49l5.41,3.12c.37.22.84-.05.84-.49Z"/>
+        <path fill="#9fa0a0" d="M61.25,31.94v-6.25c0-.43-.47-.7-.84-.49l-8.6,4.97c-.37.22-.37.76,0,.97l5.41,3.12c.17.1.39.1.56,0l3.19-1.84c.17-.1.28-.29.28-.49Z"/>
+        <path fill="#9fa0a0" d="M27.21,44.37l-17.22,9.94c-.17.1-.28.29-.28.49v6.25c0,.43.47.7.84.49l22.62-13.06c.37-.22.37-.76,0-.97l-5.41-3.12c-.17-.1-.39-.1-.56,0Z"/>
+      </svg>
+    `;
+    const hdiDrawerLogoMarkup = hdiBrandMarkup
+      .replace('class="brand-logo" id="facilityBrandLogo"', 'class="facility-logo facility-logo-hdi"')
+      .replace(' role="img" aria-labelledby="hdiLogoTitle hdiLogoDesc"', ' aria-hidden="true"');
 
     const iconTemplates = [
       {
@@ -1563,6 +1654,7 @@
         heroEnd: "#14b2b7",
         brandLogo: "🐢",
         brandName: "KAKALINK",
+        drawerCount: 3,
         navItems: ["home", "chat", "timeline", "notice"],
         iconIndexes: [0, 1, 2, 3, 4, 5],
         notices: [
@@ -1582,6 +1674,7 @@
         heroEnd: "#6277f4",
         brandLogo: "✚",
         brandName: "TEST CENTER",
+        drawerCount: 5,
         navItems: ["home", "timeline", "notice"],
         iconIndexes: [6, 7, 8, 9],
         notices: [
@@ -1600,6 +1693,7 @@
         heroEnd: "#f14fb8",
         brandLogo: "✦",
         brandName: "STAFF PORTAL",
+        drawerCount: 11,
         navItems: ["home", "chat", "notice"],
         iconIndexes: [8, 9, 4, 5, 6],
         notices: [
@@ -1615,6 +1709,7 @@
         markTextColor: "#4b5563",
         title: "病院デザイン研究所",
         meta: "医療機関職員専用 / Hospital Design Institute",
+        drawerSub: "医療機関職員専用",
         heroStart: "#f7f8f9",
         heroEnd: "#eef1f3",
         brandLogo: "✺",
@@ -1688,11 +1783,14 @@
           <h2 class="drawer-section-title">登録病院</h2>
           <div class="facility-list">
             ${facilities.map((facility) => `
-              <button class="facility-item${facility.id === activeFacilityId ? " active" : ""}" type="button" data-facility-id="${facility.id}">
-                <span class="facility-badge" style="background:${facility.markColor};color:${facility.markTextColor || "#ffffff"}">${facility.mark}</span>
-                <span>
+              <button class="facility-item${facility.id === activeFacilityId ? " active" : ""}${facility.id === "hdi" ? " facility-item-hdi" : ""}" type="button" data-facility-id="${facility.id}">
+                ${facility.id === "hdi"
+                  ? `<span class="facility-hdi-block">${hdiDrawerLogoMarkup}<span class="facility-sub facility-sub-hdi">${facility.drawerSub || ""}</span></span>`
+                  : `<span class="facility-badge" style="background:${facility.markColor};color:${facility.markTextColor || "#ffffff"}">${facility.mark}</span>
+                <span class="facility-copy">
                   <span class="facility-name">${facility.title}</span>
-                </span>
+                  ${facility.drawerSub ? `<span class="facility-sub">${facility.drawerSub}</span>` : ""}
+                </span>`}
                 ${facility.drawerCount ? `<span class="facility-notice">${facility.drawerCount}</span>` : ""}
                 <span class="facility-arrow" aria-hidden="true">›</span>
               </button>
@@ -1779,9 +1877,15 @@
             : facility.id === "hdi"
               ? hdiBrandMarkup
               : defaultBrandMarkup;
-      facilityMark.textContent = facility.mark;
-      facilityMark.style.background = facility.markColor;
-      facilityMark.style.color = facility.markTextColor || "#ffffff";
+      if (facility.id === "hdi") {
+        facilityMark.classList.add("is-logo");
+        facilityMark.innerHTML = hdiMarkMarkup;
+      } else {
+        facilityMark.classList.remove("is-logo");
+        facilityMark.textContent = facility.mark;
+        facilityMark.style.background = facility.markColor;
+        facilityMark.style.color = facility.markTextColor || "#ffffff";
+      }
       facilityTitle.textContent = facility.title;
       facilityMeta.textContent = facility.meta;
 
