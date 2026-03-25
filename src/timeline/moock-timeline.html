@@ -4713,10 +4713,10 @@
         const nextCard = existingCard && existingCard.dataset.renderSignature === renderState.signature
           ? existingCard
           : makePostCard(post, renderState);
-        if (nextCard !== existingCard) applyMoreToggle(nextCard);
         fragment.appendChild(nextCard);
       });
       postsRoot.replaceChildren(fragment);
+      postsRoot.querySelectorAll('article.post').forEach((card) => applyMoreToggle(card));
       renderNotificationsPanel();
     }
 
