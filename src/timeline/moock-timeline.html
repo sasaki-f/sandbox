@@ -61,7 +61,8 @@
     .app-shell.modal-locked {
       top: var(--modal-lock-top, 0px);
     }
-    .topbar { position: -webkit-sticky; position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; }
+    .topbar { position: -webkit-sticky; position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 12px 10px; transition: transform .2s ease; will-change: transform; }
+    .topbar.is-collapsed { transform: translateY(calc(-100% - 2px)); }
     .topbar.no-search { padding-bottom: 0; }
     .top-menu { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
     .topbar.no-search .top-menu { margin-bottom: 0; }
@@ -2196,6 +2197,7 @@
     const reportReasonError = document.getElementById('report-reason-error');
     const reportReasonCancel = document.getElementById('report-reason-cancel');
     const reportReasonSubmit = document.getElementById('report-reason-submit');
+    const topbar = document.querySelector('.topbar');
     const timelineSearchSlot = document.getElementById('timeline-search-slot');
     const timelineSearch = document.getElementById('timeline-search');
     const timelineSearchClear = document.getElementById('timeline-search-clear');
@@ -2683,10 +2685,40 @@
       if (showSettings) renderSettingsPanel();
     }
 
+    let lastWindowScrollY = window.scrollY;
+    let isTopbarCollapsed = false;
+
+    function setTopbarCollapsed(collapsed) {
+      if (!topbar || isTopbarCollapsed === collapsed) return;
+      isTopbarCollapsed = collapsed;
+      topbar.classList.toggle('is-collapsed', collapsed);
+    }
+
+    function handleTopbarScrollVisibility() {
+      const activeMenuIndex = topMenuItems.findIndex((item) => item.classList.contains('active'));
+      if (activeMenuIndex !== 0) {
+        setTopbarCollapsed(false);
+        lastWindowScrollY = window.scrollY;
+        return;
+      }
+      const currentY = window.scrollY;
+      const delta = currentY - lastWindowScrollY;
+      if (currentY <= 8) {
+        setTopbarCollapsed(false);
+      } else if (delta > 8) {
+        setTopbarCollapsed(true);
+      } else if (delta < -8) {
+        setTopbarCollapsed(false);
+      }
+      lastWindowScrollY = currentY;
+    }
+
     function scrollPageTop() {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
+      setTopbarCollapsed(false);
+      lastWindowScrollY = 0;
     }
 
     appDialogOk.addEventListener('click', () => {
@@ -7022,6 +7054,7 @@
       }
       closeReportReasonModal(REPORT_REASONS[selectedReportReasonIndex]);
     });
+    window.addEventListener('scroll', handleTopbarScrollVisibility, { passive: true });
     window.addEventListener('scroll', maybeLoadOlderPosts, { passive: true });
   </script>
 </body>
