@@ -65,8 +65,11 @@
     .topbar.no-search { padding-bottom: 0; }
     .top-menu { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
     .topbar.no-search .top-menu { margin-bottom: 0; }
+    .timeline-search-slot { margin: 0 0 10px; }
+    .timeline-search-slot.hidden { display: none; }
     .search-wrap { position: relative; }
-    .search { width: 100%; border: none; border-radius: 999px; background: var(--bg); padding: 10px 42px 10px 14px; font-size: 14px; margin: 0; }
+    .search { width: 100%; border: 1px solid #d7dde6; border-radius: 999px; background: #fff; padding: 10px 42px 10px 14px; font-size: 14px; margin: 0; color: var(--text); box-shadow: 0 1px 2px rgba(28, 44, 63, 0.05); }
+    .search::placeholder { color: #748295; }
     .search.hidden { display: none; }
     .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border: none; border-radius: 50%; background: #666c74; color: #fff; font-size: 13px; line-height: 1; display: none; align-items: center; justify-content: center; padding: 0; }
     .search-clear.show { display: inline-flex; }
@@ -129,7 +132,7 @@
       border: 1px solid rgba(0, 0, 0, .08);
       background: #e6ebf3;
     }
-    .groups-view { display: none; margin-top: 2px; }
+    .groups-view { display: none; margin-top: 0; }
     .groups-view.show { display: block; }
     .panel-view { display: none; margin-top: 2px; }
     .panel-view.show { display: block; }
@@ -189,8 +192,9 @@
     .settings-select { border: 1px solid #cfd5de; border-radius: 8px; background: #fff; color: #334155; font-size: 12px; padding: 6px 8px; min-width: 132px; }
     .quiet-hours-range { display: flex; align-items: center; gap: 10px; }
     .settings-row.quiet-hours-time-row.is-disabled { opacity: 0.45; }
-    .group-search-wrap { margin-bottom: 8px; }
-    .group-search { width: 100%; border: 1px solid var(--border); border-radius: 999px; background: #fff; padding: 9px 12px; font-size: 13px; color: var(--text); }
+    .group-search-wrap { position: relative; margin-bottom: 10px; }
+    .group-search { width: 100%; border: 1px solid #d7dde6; border-radius: 999px; background: #fff; padding: 10px 42px 10px 14px; font-size: 14px; color: var(--text); box-shadow: 0 1px 2px rgba(28, 44, 63, 0.05); }
+    .group-search::placeholder { color: #748295; }
     .group-create-wrap { display: flex; justify-content: flex-end; margin: 0 0 8px; }
     .group-create-btn { border: none; background: #3f6fcc; color: #fff; border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 12px; display: inline-flex; align-items: center; gap: 7px; }
     .group-create-btn::before { content: '+'; font-size: 20px; line-height: 1; font-weight: 500; transform: translateY(-1px); }
@@ -794,24 +798,27 @@
 </head>
 <body>
   <div id="app-shell" class="app-shell">
-  <header class="topbar">
+  <header class="topbar no-search">
     <nav class="top-menu" aria-label="上部メニュー">
       <button class="top-menu-item active" type="button" aria-label="ホーム"><span class="top-menu-icon work" aria-hidden="true"></span></button>
       <button class="top-menu-item" type="button" aria-label="チーム"><span class="top-menu-icon team" aria-hidden="true"></span></button>
       <button class="top-menu-item notify" type="button" aria-label="通知"><span class="top-menu-icon bell" aria-hidden="true"></span><span class="top-badge" aria-label="未読通知 7件">7</span></button>
       <button class="top-menu-item" type="button" aria-label="設定"><span class="top-menu-icon settings" aria-hidden="true"></span></button>
     </nav>
-    <div class="search-wrap">
-      <input id="timeline-search" class="search" type="text" placeholder="タイムラインを検索" />
-      <button id="timeline-search-clear" class="search-clear" type="button" aria-label="検索文字をクリア">✕</button>
-    </div>
   </header>
 
   <main class="feed">
+    <div id="timeline-search-slot" class="timeline-search-slot">
+      <div class="search-wrap">
+        <input id="timeline-search" class="search" type="text" placeholder="タイムラインを検索" />
+        <button id="timeline-search-clear" class="search-clear" type="button" aria-label="検索文字をクリア">✕</button>
+      </div>
+    </div>
     <section id="feed-tabs" class="feed-tabs" aria-label="フィード切替"></section>
     <section id="groups-view" class="groups-view" aria-label="グループ一覧">
       <div class="group-search-wrap">
         <input id="group-search" class="group-search" type="text" placeholder="グループ名を検索" aria-label="グループ名を検索" />
+        <button id="group-search-clear" class="search-clear" type="button" aria-label="グループ検索文字をクリア">✕</button>
       </div>
       <div class="group-create-wrap">
         <button id="group-create-request-btn" class="group-create-btn" type="button">グループ作成申請</button>
@@ -2089,6 +2096,7 @@
     const settingsQuietHoursStart = document.getElementById('settings-quiet-hours-start');
     const settingsQuietHoursEnd = document.getElementById('settings-quiet-hours-end');
     const groupSearch = document.getElementById('group-search');
+    const groupSearchClear = document.getElementById('group-search-clear');
     const groupCreateRequestBtn = document.getElementById('group-create-request-btn');
     const groupSortCancel = document.getElementById('group-sort-cancel');
     const joinedGroups = document.getElementById('joined-groups');
@@ -2188,9 +2196,9 @@
     const reportReasonError = document.getElementById('report-reason-error');
     const reportReasonCancel = document.getElementById('report-reason-cancel');
     const reportReasonSubmit = document.getElementById('report-reason-submit');
+    const timelineSearchSlot = document.getElementById('timeline-search-slot');
     const timelineSearch = document.getElementById('timeline-search');
     const timelineSearchClear = document.getElementById('timeline-search-clear');
-    const topbar = document.querySelector('.topbar');
     const commentCopy = document.getElementById('comment-copy');
     const commentReport = document.getElementById('comment-report');
     const commentDelete = document.getElementById('comment-delete');
@@ -2659,8 +2667,7 @@
     function syncTopbarSearchVisibility() {
       const activeMenuIndex = topMenuItems.findIndex((item) => item.classList.contains('active'));
       const showSearch = activeMenuIndex === 0;
-      timelineSearch.classList.toggle('hidden', !showSearch);
-      topbar.classList.toggle('no-search', !showSearch);
+      timelineSearchSlot.classList.toggle('hidden', !showSearch);
       const showGroups = activeMenuIndex === 1;
       const showNotifications = activeMenuIndex === 2;
       const showSettings = activeMenuIndex === 3;
@@ -6467,10 +6474,20 @@
 
     groupSearch.addEventListener('input', () => {
       currentGroupSearchQuery = groupSearch.value;
+      groupSearchClear.classList.toggle('show', groupSearch.value.length > 0);
       clearTimeout(groupSearchRenderTimer);
       groupSearchRenderTimer = setTimeout(() => {
         renderGroupsView();
       }, 80);
+    });
+
+    groupSearchClear.addEventListener('click', () => {
+      clearTimeout(groupSearchRenderTimer);
+      groupSearch.value = '';
+      currentGroupSearchQuery = '';
+      groupSearchClear.classList.remove('show');
+      renderGroupsView();
+      groupSearch.focus();
     });
 
     notificationsTabGeneral?.addEventListener('click', () => {
