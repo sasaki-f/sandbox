@@ -2706,9 +2706,9 @@
       if (currentY <= 8) {
         setTopbarCollapsed(false);
       } else if (delta > 8) {
-        setTopbarCollapsed(true);
-      } else if (delta < -8) {
         setTopbarCollapsed(false);
+      } else if (delta < -8) {
+        setTopbarCollapsed(true);
       }
       lastWindowScrollY = currentY;
     }
