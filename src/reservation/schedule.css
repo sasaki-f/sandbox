@@ -25,8 +25,10 @@
 .calendar .event{display:block;align-self:stretch;width:100%;min-width:0;max-width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .calendar{grid-template-columns:repeat(7,minmax(0,1fr))}.calendar .day{min-width:0;overflow:hidden}
 .app>header:has(+ .tabs:not([hidden])) #back{display:none}
-.schedule-scroll{scroll-snap-type:x mandatory;scroll-padding-left:70px}.schedule-scroll .equipment-column{scroll-snap-align:start;scroll-snap-stop:always}.schedule-scroll .time-column{z-index:4}.schedule-table::after{content:"";grid-row:1;width:var(--snap-tail-width,0px);height:1px;pointer-events:none}
-.schedule-table::after{grid-column:-1}
+.schedule-scroll{scroll-snap-type:x mandatory;scroll-padding-left:70px}.schedule-scroll .equipment-column{scroll-snap-align:start;scroll-snap-stop:always}.schedule-scroll .time-column{z-index:4}
+
 .schedule-scroll{scroll-snap-type:both mandatory;scroll-padding-top:125px}.weekly-page .schedule-scroll{scroll-padding-top:70px}.schedule-scroll .equipment-column{scroll-snap-align:none start}.schedule-scroll .time-label{scroll-snap-align:start none}
 .schedule-scroll{scroll-snap-type:x mandatory}
 .picker-weekdays span:first-child{color:#748195}.picker-weekdays span.saturday{color:#267bdf}.picker-weekdays span.sunday{color:#db5050}
+
+.schedule-scroll .equipment-column:last-child{scroll-snap-align:none end}

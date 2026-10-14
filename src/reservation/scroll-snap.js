@@ -1,7 +1,7 @@
-// Leave enough trailing space for the final column to align beside the fixed time axis.
+// Snap between columns without adding space past the right edge of the table.
 for(const scroller of document.querySelectorAll('.schedule-scroll')){
   const table=scroller.querySelector('.schedule-table');
-  const update=()=>{const columns=table.querySelectorAll('.equipment-column'),column=columns[0];if(!column||!scroller.clientWidth)return;const weekly=column.classList.contains('weekly-column');const minimum=weekly?(innerWidth<600?125:145):(innerWidth<600?190:210);const width=innerWidth>=900?Math.max(minimum,(scroller.clientWidth-70)/columns.length):minimum;table.style.setProperty('--responsive-column-width',width+'px');const tail=Math.max(0,scroller.clientWidth-70-column.offsetWidth);table.style.setProperty('--snap-tail-width',tail+'px')};
+  const update=()=>{const columns=table.querySelectorAll('.equipment-column'),column=columns[0];if(!column||!scroller.clientWidth)return;const weekly=column.classList.contains('weekly-column');const minimum=weekly?(innerWidth<600?125:145):(innerWidth<600?190:210);const width=innerWidth>=900?Math.max(minimum,(scroller.clientWidth-70)/columns.length):minimum;table.style.setProperty('--responsive-column-width',width+'px');};
   new ResizeObserver(update).observe(scroller);
   new MutationObserver(update).observe(table,{childList:true});
   update();
