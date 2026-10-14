@@ -34,3 +34,5 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .reservation-sidebar .sidebar-category-header:has(.sidebar-link.active),.reservation-sidebar .sidebar-category-header:has(.sidebar-link.active):hover{background:var(--primary-soft)}
 .reservation-sidebar .sidebar-category-header .sidebar-link.active,.reservation-sidebar .sidebar-category-header .sidebar-link.active:hover{background:transparent;color:var(--primary-dark)}
 .reservation-sidebar .sidebar-category-header:has(.sidebar-link.active) .sidebar-fold,.reservation-sidebar .sidebar-fold:hover{color:var(--primary-dark)}
+.results .row,.day-popup .row{transition:background-color .15s ease}@media(hover:hover){.results .row:hover,.day-popup .row:hover{background:var(--soft-button-bg)}}
+#day-popup #day-rows .row:hover,.results #result-rows .row:hover{background-color:var(--primary-soft)}
