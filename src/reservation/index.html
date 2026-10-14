@@ -51,7 +51,7 @@
                 border-radius: 28px;
                 overflow: hidden;
                 position: relative;
-                padding-bottom: 88px
+                padding-bottom: 20px
             }
 
             .status {
@@ -584,13 +584,14 @@
                 font-weight: 400;
                 margin: 0
             }
-        </style>
+        .calendar .event{background:#fbdcdd;border:1px solid #efb9bc;color:#641a17}
+</style>
     <link rel="stylesheet" href="schedule.css">
 </head>
 
     <body>
         <main class="app">
-            <div class="status" aria-hidden="true"><span>9:41</span><span>▂▄▆ ▰ ▱</span></div>
+            
             <header><button class="icon-button" id="back" aria-label="戻る"><svg class="icon">
                         <path d="m17 3-10 10 10 10" />
                     </svg></button>
@@ -640,17 +641,7 @@
                 <h2>検索結果　全<span id="category-count">5</span>件</h2>
                 <div id="category-rows"></div>
             </section>
-            <nav aria-label="メインナビゲーション"><button data-nav="ホーム"><svg class="icon">
-                        <path d="m3 11 10-8 10 8v12h-7v-8h-6v8H3z" />
-                    </svg>ホーム</button><button class="active" data-nav="予約"><svg class="icon">
-                        <rect x="3" y="5" width="20" height="19" rx="2" />
-                        <path d="M3 10h20M8 2v5M18 2v5" />
-                    </svg>予約</button><button data-nav="チャット"><svg class="icon">
-                        <path d="M23 12a10 10 0 0 1-10 10H5l-4 3 2-7a10 10 0 1 1 20-6Z" />
-                        <path d="M8 12h.1M13 12h.1M18 12h.1" />
-                    </svg>チャット</button><button data-nav="その他"><svg class="icon">
-                        <path d="M4 13h.1M13 13h.1M22 13h.1" stroke-width="6" />
-                    </svg>その他</button></nav>
+            
         </main>
         <dialog id="detail">
             <h2 id="detail-title"></h2><img class="detail-image" id="detail-image" alt="">
@@ -689,7 +680,7 @@
             function renderCategories() { const keyword = $('#category-keyword').value.trim().toLowerCase(); const items = equipmentCategories.filter(name => name.toLowerCase().includes(keyword)); $('#category-count').textContent = items.length; $('#category-rows').replaceChildren(...items.map(name => { const button = document.createElement('button'); button.className = 'category-row'; const label = document.createElement('span'); label.textContent = name; const arrow = document.createElement('span'); arrow.className = 'chevron'; arrow.textContent = '›'; button.append(label, arrow); button.onclick = () => { $('#create-form').reset(); $('#create-form').elements.equipment.value = name === '会議室' ? '会議室A' : name; $('#create-form').elements.date.value = selected; $('#form-error').textContent = ''; $('#create').showModal() }; return button })); if (!items.length) $('#category-rows').innerHTML = '<p class="empty">条件に一致するカテゴリーはありません</p>' }
             $('#category-keyword').addEventListener('input', renderCategories);
         </script>
-    <script src="schedule.js"></script>
+    <script src="schedule.js"></script><script src="weekly.js"></script>
 </body>
 
 </html>
