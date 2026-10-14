@@ -1,0 +1,39 @@
+/* Shared page shell: full-width mobile, roomy tablet and desktop layouts. */
+body{background:#f4f7fa}
+.app,.app.schedule-mode,.app.booking-page-mode{width:calc(100% - 40px);max-width:1280px;min-height:calc(100dvh - 40px);margin:20px auto;border-radius:16px;box-shadow:0 8px 32px #2547630c;padding-bottom:24px}
+.app>header{padding:24px 24px 0}
+.tabs{width:calc(100% - 48px);max-width:480px;margin:0 24px 22px}
+.tabs button{font-size:16px;padding:12px}
+#mine{padding:0 16px}.monthbar{padding:4px 8px 16px}.calendar{margin:0 8px}.weekdays{padding-left:8px;padding-right:8px}
+.calendar .day{height:clamp(78px,10vw,124px);font-size:16px;gap:5px;padding:8px 4px}
+.calendar .event{font-size:12px;line-height:1.5;padding:2px 5px}
+#day-panel .day-list{margin:16px 8px 10px}#day-panel .new{margin:0 8px;width:calc(100% - 16px)}.list-title{font-size:17px}.new{font-size:16px}
+.category-page,.schedule-page{padding:0 24px 24px}.category-search{max-width:640px}.category-row{font-size:17px;padding:18px}.category-search input{font-size:15px}
+.equipment-column{width:var(--responsive-column-width,210px)}.weekly-column{width:var(--responsive-column-width,145px)}
+.schedule-scroll{max-height:calc(100dvh - 230px);min-height:280px}.weekly-page .schedule-scroll{max-height:calc(100dvh - 310px)}
+.booking-page{padding:24px}.booking-page .booking-equipment{margin-top:24px}.booking-page #booking-menu-panel{top:70px;right:70px}
+.booking-page #booking-form,.booking-page #booking-confirm,.booking-page #booking-read{max-width:960px;margin-left:auto;margin-right:auto}
+.booking-page .booking-equipment{max-width:960px;margin-left:auto;margin-right:auto}
+.booking-page .booking-primary{max-width:360px;display:block;margin-left:auto;margin-right:auto}
+.booking-detail-row{grid-template-columns:130px 1fr}
+@media(min-width:900px){
+  #mine:has(#day-panel:not([hidden])){display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0 20px;align-items:start}
+  #mine .monthbar{grid-column:1;grid-row:1}#mine .weekdays{grid-column:1;grid-row:2}#mine .calendar{grid-column:1;grid-row:3}
+  #day-panel{grid-column:2;grid-row:1 / 4;padding-top:4px}#day-panel .day-list{margin:0 0 12px}#day-panel .new{margin:0;width:100%}
+  #day-panel .row{gap:12px}#day-panel .thumb{width:70px;height:56px}#day-panel .row-name{font-size:14px}#day-panel .row-time{font-size:13px}
+  #search{display:grid;grid-template-columns:350px minmax(0,1fr);gap:28px;padding:0 24px;align-items:start}.search-box{margin:0;padding:16px}.results{margin:0}.results .row{padding:12px 0}.results .thumb{width:104px;height:78px}
+  #category-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.category-row{margin:0;min-height:76px}
+  #booking-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;align-items:start}
+  #booking-form>label:first-child{grid-column:1 / -1}#booking-form>label:nth-child(2){grid-column:1;grid-row:2}.booking-times{grid-column:2;grid-row:2}
+  .booking-repeat{grid-column:1;grid-row:3}#booking-form>label:has(textarea){grid-column:2;grid-row:3}.booking-page textarea{min-height:180px}
+  #booking-error,#booking-submit{grid-column:1 / -1}.booking-page #booking-submit{width:360px;max-width:100%;margin-top:24px}
+}
+@media(min-width:600px) and (max-width:899px){#category-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.category-row{margin:0}.app{width:calc(100% - 32px);margin:16px auto}.booking-page{padding:24px}}
+@media(max-width:599px){
+  body{background:#fff}.app,.app.schedule-mode,.app.booking-page-mode{width:100%;margin:0;min-height:100dvh;border-radius:0;box-shadow:none;padding-bottom:18px}
+  .app>header{padding:18px 16px 0}.tabs{margin:0 16px 18px;width:calc(100% - 32px)}#mine{padding:0}.calendar .day{height:78px;font-size:15px;padding:7px 3px}.calendar .event{font-size:10px;padding:1px 3px}
+  .category-page{padding:0 16px 20px}.schedule-page{padding:0 10px 18px}.equipment-column{width:var(--responsive-column-width,190px)}.weekly-column{width:var(--responsive-column-width,125px)}
+  .booking-page{padding:18px}.booking-page #booking-menu-panel{top:60px;right:61px}.booking-detail-row{grid-template-columns:80px 1fr}.booking-page #booking-confirm .actions{gap:8px}.booking-page #booking-confirm .actions button{padding:11px 14px;font-size:14px}
+  .search-box{margin:0 16px 18px}.results{margin:0 18px}.monthbar .month-title-button{min-width:160px}.equipment-summary p{font-size:12px}
+}
+@media(max-width:359px){.dates{gap:6px}.search-box .fields input{font-size:12px;padding:9px 6px}.calendar .event{font-size:9px}.booking-page .repeat-weekdays{gap:2px}.booking-page .repeat-weekdays label{font-size:11px}.week-toolbar{gap:2px}.schedule-toolbar .week-range{font-size:12px;padding:9px 6px}}
