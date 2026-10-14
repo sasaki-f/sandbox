@@ -46,3 +46,4 @@ html{scrollbar-gutter:stable}html:has(dialog[open]){overflow:hidden}dialog{overs
 .new{display:flex;align-items:center;justify-content:center;gap:12px;line-height:1.5}.new span{display:grid;place-items:center;margin:0;vertical-align:baseline;font-size:26px;line-height:1;width:26px;height:26px}
 .booking-section-label{font-size:14px;font-weight:700;color:#245899;line-height:1.5;margin:12px 0 0}.booking-repeat-section .booking-repeat{margin:5px 0 12px}.booking-repeat-section{min-width:0}@media(min-width:900px){.booking-repeat-section{grid-column:1;grid-row:3}}
 .booking-times>span{align-self:flex-end;display:flex;align-items:center;justify-content:center;height:46px;margin-bottom:12px;line-height:1}.booking-times select{height:46px}
+.app>header .category-close{display:none}.app:has(#categories:not([hidden]))>header .category-close{display:grid;place-items:center}

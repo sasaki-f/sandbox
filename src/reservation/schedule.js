@@ -35,3 +35,5 @@ document.querySelector('#schedule-prev').onclick=()=>changeScheduleDay(-1);docum
 document.querySelector('#slot-cancel').onclick=()=>slotDialog.close();document.querySelector('#slot-confirm').onclick=()=>{if(!chosenSlot)return;scheduleBookings.push(chosenSlot);const r={name:chosenSlot.equipment,date:chosenSlot.date,from:scheduleTime(chosenSlot.from),to:scheduleTime(chosenSlot.to),person:'自分'};mine.push(r);reservations.push(r);render();search();slotDialog.close();chosenSlot=null;renderSchedule();toast('予約を追加しました')};
 
 document.querySelector('.daily-date-control').addEventListener('click',event=>{if(event.target!==document.querySelector('#schedule-date'))openDatePopup(document.querySelector('#schedule-date'))});
+
+const categoryClose=document.createElement('button');categoryClose.className='schedule-close category-close';categoryClose.type='button';categoryClose.textContent='×';categoryClose.setAttribute('aria-label','予約カテゴリーを閉じる');categoryClose.onclick=()=>tab(false);document.querySelector('header').append(categoryClose);
