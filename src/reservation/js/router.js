@@ -24,6 +24,8 @@ function readReservationRoute() {
       ["to", "end"],
       ["title", "keyword"],
       ["author", "search-author"],
+      ["equipment", "search-equipment"],
+      ["category", "search-category"],
     ]) {
       const value = document.querySelector("#" + id).value;
       if (value) params.set(key, value);
@@ -92,6 +94,8 @@ function applyReservationRoute() {
       document.querySelector("#end").value = validRouteDate(params.get("to"), "2026-10-31");
       document.querySelector("#keyword").value = params.get("title") || "";
       document.querySelector("#search-author").value = params.get("author") || "";
+      document.querySelector("#search-equipment").value = params.get("equipment") || "";
+      document.querySelector("#search-category").value = params.get("category") || "";
       reservationSearchPage = Math.max(1, Number(params.get("p")) || 1);
       tab(true);
       search();
@@ -196,7 +200,15 @@ for (const name of [
 }
 for (const dialog of [dayPopup, bookingDialog])
   dialog.addEventListener("close", queueReservationRoute);
-for (const id of ["start", "end", "keyword", "search-author", "category-keyword"])
+for (const id of [
+  "start",
+  "end",
+  "keyword",
+  "search-author",
+  "search-equipment",
+  "search-category",
+  "category-keyword",
+])
   document.querySelector("#" + id).addEventListener("input", queueReservationRoute);
 document.addEventListener(
   "click",

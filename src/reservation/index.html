@@ -95,12 +95,21 @@
               <input id="start" type="date" value="2026-10-01" aria-label="開始日" /><span>〜</span
               ><input id="end" type="date" value="2026-10-31" aria-label="終了日" />
             </div>
-            <label for="keyword">タイトル</label
-            ><input id="keyword" type="search" placeholder="予約のタイトルで検索" /><label
-              class="search-author-label"
-              for="search-author"
-              >投稿者</label
-            ><input id="search-author" type="search" placeholder="投稿者名で検索" />
+            <label for="search-category">カテゴリー</label>
+            <select id="search-category">
+              <option value="">すべてのカテゴリー</option>
+              <option>会議室</option>
+              <option>プロジェクター</option>
+              <option>車両</option>
+              <option>モニター</option>
+              <option>面談室</option>
+            </select>
+            <label class="search-extra-label" for="search-equipment">設備名</label>
+            <input id="search-equipment" type="search" placeholder="設備名で検索" />
+            <label class="search-extra-label" for="keyword">タイトル</label>
+            <input id="keyword" type="search" placeholder="予約のタイトルで検索" />
+            <label class="search-author-label" for="search-author">投稿者</label>
+            <input id="search-author" type="search" placeholder="投稿者名で検索" />
           </div>
         </div>
         <div class="results">

@@ -217,3 +217,16 @@ textarea:focus-visible,
 .results #result-rows .row:hover {
   background-color: var(--primary-soft);
 }
+.search-box .fields .search-extra-label {
+  margin-top: 16px;
+}
+.search-box .fields select {
+  width: 100%;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: var(--ink);
+}

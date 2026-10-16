@@ -1409,3 +1409,29 @@ dialog {
 .day-popup-close {
   z-index: 2;
 }
+@media (max-width: 999px) {
+  .reservation-mobile-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    height: calc(56px + env(safe-area-inset-top, 0px));
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    background: #fff;
+  }
+
+  .reservation-layout .app {
+    padding-top: calc(56px + env(safe-area-inset-top, 0px));
+  }
+}
+@media (max-width: 999px) {
+  .reservation-sidebar {
+    top: calc(56px + env(safe-area-inset-top, 0px));
+    max-height: calc(100dvh - 56px - env(safe-area-inset-top, 0px));
+  }
+
+  .reservation-layout.menu-open .reservation-menu-shade {
+    top: calc(56px + env(safe-area-inset-top, 0px));
+  }
+}

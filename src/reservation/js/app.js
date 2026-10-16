@@ -199,6 +199,8 @@ function search(event) {
       .toLowerCase();
   const kw = normalize($("#keyword").value.trim()),
     author = normalize($("#search-author").value).replace(/\s/g, ""),
+    equipment = normalize($("#search-equipment").value.trim()),
+    category = $("#search-category").value,
     start = $("#start").value,
     end = $("#end").value;
   const items = reservations.filter(
@@ -206,7 +208,12 @@ function search(event) {
       (!start || r.date >= start) &&
       (!end || r.date <= end) &&
       normalize(r.title || r.booking?.title || "設備予約").includes(kw) &&
-      normalize(r.person).replace(/\s/g, "").includes(author),
+      normalize(r.person).replace(/\s/g, "").includes(author) &&
+      normalize(r.name).includes(equipment) &&
+      (!category ||
+        r.booking?.category === category ||
+        (typeof scheduleEquipment !== "undefined" &&
+          scheduleEquipment[category]?.some((item) => item.name === r.name))),
   );
   $("#result-count").textContent = items.length + "件";
   const pageCount = Math.max(1, Math.ceil(items.length / reservationPageSize));
@@ -252,7 +259,7 @@ $("#toggle").onclick = () => {
   $("#toggle-label").textContent = closed ? "検索条件を開く" : "検索条件を閉じる";
   $(".fold").classList.toggle("is-collapsed", closed);
 };
-["keyword", "search-author", "start", "end"].forEach((id) =>
+["keyword", "search-author", "search-equipment", "search-category", "start", "end"].forEach((id) =>
   $("#" + id).addEventListener("input", search),
 );
 $("#new").onclick = () => {
