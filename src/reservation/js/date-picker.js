@@ -1,0 +1,124 @@
+const datePopup = document.createElement("dialog");
+datePopup.className = "date-popup";
+datePopup.setAttribute("aria-label", "日付を選択");
+datePopup.innerHTML =
+  '<div class="date-popup-header"><button type="button" id="picker-prev" aria-label="前の月">〈</button><h2 id="picker-month"></h2><button type="button" id="picker-next" aria-label="次の月">〉</button></div><div class="picker-weekdays"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="saturday">土</span><span class="sunday">日</span></div><div id="picker-days" class="picker-days"></div><div class="actions"><button type="button" id="picker-close">閉じる</button></div>';
+document.body.append(datePopup);
+let pickerTarget = null,
+  pickerMonth = 0,
+  pickerYear = 2026;
+function openDatePopup(input) {
+  pickerTarget = input;
+  const date = new Date((input.value || "2026-10-14") + "T00:00:00");
+  pickerYear = date.getFullYear();
+  pickerMonth = date.getMonth();
+  renderDatePopup();
+  datePopup.showModal();
+}
+function renderDatePopup() {
+  document.querySelector("#picker-month").textContent =
+    pickerYear + "年" + (pickerMonth + 1) + "月";
+  const grid = document.querySelector("#picker-days");
+  grid.replaceChildren();
+  const first = new Date(pickerYear, pickerMonth, 1),
+    last = new Date(pickerYear, pickerMonth + 1, 0);
+  const offset = (first.getDay() + 6) % 7;
+  const count = Math.ceil((offset + last.getDate()) / 7) * 7;
+  for (let i = 0; i < count; i++) {
+    const date = new Date(pickerYear, pickerMonth, i - offset + 1),
+      value = key(date);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = date.getDate();
+    button.className =
+      "picker-day" +
+      (date.getMonth() !== pickerMonth ? " muted" : "") +
+      (date.getDay() === 0 ? " sunday" : date.getDay() === 6 ? " saturday" : "") +
+      (pickerTarget.value === value ? " chosen" : "");
+    button.setAttribute("aria-label", dateText(value));
+    button.setAttribute("aria-pressed", String(pickerTarget.value === value));
+    button.onclick = () => {
+      pickerTarget.value = value;
+      pickerTarget.dispatchEvent(new Event("input", { bubbles: true }));
+      pickerTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      datePopup.close();
+    };
+    grid.append(button);
+  }
+}
+function movePickerMonth(offset) {
+  const date = new Date(pickerYear, pickerMonth + offset, 1);
+  pickerYear = date.getFullYear();
+  pickerMonth = date.getMonth();
+  renderDatePopup();
+}
+document.querySelector("#picker-prev").onclick = () => movePickerMonth(-1);
+document.querySelector("#picker-next").onclick = () => movePickerMonth(1);
+document.querySelector("#picker-close").onclick = () => datePopup.close();
+datePopup.addEventListener("click", (event) => {
+  if (event.target !== datePopup) return;
+  const rect = datePopup.getBoundingClientRect();
+  if (
+    event.clientX < rect.left ||
+    event.clientX > rect.right ||
+    event.clientY < rect.top ||
+    event.clientY > rect.bottom
+  )
+    datePopup.close();
+});
+document.querySelectorAll('input[type="date"]').forEach((input) => {
+  input.readOnly = true;
+  input.classList.add("popup-date-input");
+  input.setAttribute("aria-haspopup", "dialog");
+  input.addEventListener("click", (event) => {
+    event.preventDefault();
+    openDatePopup(input);
+  });
+  input.addEventListener("keydown", (event) => {
+    if (["Enter", " ", "ArrowDown"].includes(event.key)) {
+      event.preventDefault();
+      openDatePopup(input);
+    }
+  });
+});
+const monthPopup = document.createElement("dialog");
+monthPopup.className = "date-popup";
+monthPopup.setAttribute("aria-label", "年月を選択");
+monthPopup.innerHTML =
+  '<div class="date-popup-header"><button type="button" id="year-prev" aria-label="前年">〈</button><h2 id="picker-year"></h2><button type="button" id="year-next" aria-label="翌年">〉</button></div><div id="month-options" class="month-options"></div><div class="actions"><button type="button" id="month-close">閉じる</button></div>';
+document.body.append(monthPopup);
+let choosingYear = 2026;
+function renderMonthPopup() {
+  document.querySelector("#picker-year").textContent = choosingYear + "年";
+  const grid = document.querySelector("#month-options");
+  grid.replaceChildren();
+  for (let m = 0; m < 12; m++) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "month-option" + (choosingYear === year && m === month ? " chosen" : "");
+    button.textContent = m + 1 + "月";
+    button.setAttribute("aria-pressed", String(choosingYear === year && m === month));
+    button.onclick = () => {
+      year = choosingYear;
+      month = m;
+      selected = null;
+      render();
+      monthPopup.close();
+    };
+    grid.append(button);
+  }
+}
+document.querySelector("#month-title").onclick = () => {
+  choosingYear = year;
+  renderMonthPopup();
+  monthPopup.showModal();
+};
+document.querySelector("#year-prev").onclick = () => {
+  choosingYear--;
+  renderMonthPopup();
+};
+document.querySelector("#year-next").onclick = () => {
+  choosingYear++;
+  renderMonthPopup();
+};
+document.querySelector("#month-close").onclick = () => monthPopup.close();

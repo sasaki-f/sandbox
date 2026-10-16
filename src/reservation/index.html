@@ -1,694 +1,177 @@
 <!doctype html>
 <html lang="ja" class="route-loading">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title>設備の予約</title>
-        <style>
-html.route-loading body{visibility:hidden}
-            :root {
-                --blue: #008ee9;
-                --ink: #111820;
-                --muted: #747c91;
-                --line: #e4e9ef
-            }
-
-            * {
-                box-sizing: border-box
-            }
-
-            body {
-                margin: 0;
-                background: #f1f5f9;
-                color: var(--ink);
-                font-family: Meiryo, "メイリオ", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Roboto, sans-serif
-            }
-
-            button,
-            input,
-            select {
-                font: inherit
-            }
-
-            button {
-                cursor: pointer
-            }
-
-            button:focus-visible,
-            input:focus-visible,
-            select:focus-visible {
-                outline: 3px solid #70bfff;
-                outline-offset: 2px
-            }
-
-            .app {
-                max-width: 490px;
-                margin: 24px auto;
-                background: #fff;
-                min-height: calc(100dvh - 48px);
-                box-shadow: 0 12px 55px #25476314;
-                border-radius: 28px;
-                overflow: hidden;
-                position: relative;
-                padding-bottom: 20px
-            }
-
-            .status {
-                height: 38px;
-                padding: 12px 30px 0;
-                display: flex;
-                justify-content: space-between;
-                font-size: 16px;
-                font-weight: 700
-            }
-
-            .status span:last-child {
-                letter-spacing: 2px;
-                font-size: 13px
-            }
-
-            header {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-                padding: 14px 20px 12px
-            }
-
-            h1 {
-                font-size: 23px;
-                margin: 0;
-                font-weight: 800
-            }
-
-            .icon-button {
-                border: 0;
-                background: transparent;
-                padding: 6px;
-                color: inherit;
-                display: grid;
-                place-items: center
-            }
-
-            svg.icon {
-                width: 25px;
-                height: 25px;
-                fill: none;
-                stroke: currentColor;
-                stroke-width: 2;
-                stroke-linecap: round;
-                stroke-linejoin: round
-            }
-
-            .tabs {
-                display: flex;
-                background: #eaf5ff;
-                border-radius: 12px;
-                margin: 0 16px 18px
-            }
-
-            .tabs button {
-                position: relative;
-                width: 50%;
-                border: 0;
-                background: none;
-                padding: 13px 0;
-                color: #7772cf;
-                font-size: 19px;
-                font-weight: 700;
-                border-radius: 11px
-            }
-
-            .tabs button.active {
-                background: #2889e3;
-                color: white;
-                box-shadow: inset 0 0 0 3px #fff, 0 0 0 2px #79bdff;
-                border-radius: 14px
-            }
-
-            .monthbar {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 4px 20px 15px
-            }
-
-            .monthbar strong {
-                font-size: 21px
-            }
-
-            .today {
-                border: 1px solid #a4d2ff;
-                background: #fff;
-                border-radius: 24px;
-                color: var(--blue);
-                padding: 7px 24px;
-                font-weight: 700
-            }
-
-            .weekdays {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                text-align: center;
-                color: #555d70;
-                font-size: 14px;
-                padding: 0 8px 6px
-            }
-
-            .sun {
-                color: #ff2525 !important
-            }
-
-            .sat {
-                color: #0065ff !important
-            }
-
-            .calendar {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                margin: 0 8px;
-                border-left: 1px solid var(--line);
-                border-top: 1px solid var(--line);
-                border-radius: 6px;
-                overflow: hidden
-            }
-
-            .day {
-                height: 73px;
-                border: 0;
-                border-right: 1px solid var(--line);
-                border-bottom: 1px solid var(--line);
-                background: #fff;
-                padding: 7px 3px 3px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 4px;
-                font-size: 16px
-            }
-
-            .day.outside {
-                color: #b9bec9
-            }
-
-            .day.selected {
-                background: #ecf8ff;
-                box-shadow: inset 0 0 0 1.5px #009bff;
-                border-radius: 7px
-            }
-
-            .event {
-                max-width: 100%;
-                font-size: 10px;
-                line-height: 1.6;
-                background: linear-gradient(#e7f7ff, #d6efff);
-                padding: 1px 5px;
-                border-radius: 4px;
-                color: #00427e;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis
-            }
-
-            .day-list {
-                margin: 14px 18px 10px;
-                border: 1px solid #e8edf3;
-                box-shadow: 0 1px 4px #1729430c;
-                border-radius: 15px;
-                padding: 10px 9px 0
-            }
-
-            .list-title {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin: 0 0 5px;
-                font-size: 19px;
-                font-weight: 800
-            }
-
-            .count {
-                font-size: 15px;
-                color: #626b80;
-                font-weight: 500
-            }
-
-            .row {
-                width: 100%;
-                display: flex;
-                text-align: left;
-                align-items: center;
-                gap: 17px;
-                background: none;
-                border: 0;
-                border-top: 1px solid var(--line);
-                padding: 7px 0;
-                color: inherit
-            }
-
-            .thumb {
-                width: 88px;
-                height: 65px;
-                object-fit: cover;
-                border-radius: 9px;
-                flex-shrink: 0
-            }
-
-            .row-info {
-                flex: 1;
-                min-width: 0
-            }
-
-            .row-name {
-                display: block;
-                font-size: 16px;
-                font-weight: 700;
-                margin-bottom: 3px
-            }
-
-            .row-time {
-                display: block;
-                font-size: 15px;
-                color: #626b80;
-                line-height: 1.5
-            }
-
-            .row-person {
-                color: #737b8b;
-                font-size: 14px
-            }
-
-            .chevron {
-                font-size: 30px;
-                font-weight: 300;
-                margin-right: 4px
-            }
-
-            .new {
-                margin: 0 18px;
-                width: calc(100% - 36px);
-                border: 0;
-                border-radius: 12px;
-                background: var(--blue);
-                color: white;
-                padding: 15px;
-                font-size: 18px;
-                font-weight: 700
-            }
-
-            .new span {
-                font-size: 26px;
-                vertical-align: -2px;
-                margin-right: 12px
-            }
-
-            .search-box {
-                background: #eaf6ff;
-                margin: 0 20px 18px;
-                padding: 16px 18px 13px;
-                border-radius: 16px
-            }
-
-            .search-toggle {
-                display: flex;
-                align-items: center;
-                width: 100%;
-                gap: 11px;
-                border: 0;
-                background: none;
-                color: #0077ff;
-                font-size: 19px;
-                font-weight: 800;
-                padding: 0 0 13px
-            }
-
-            .search-toggle .fold {
-                margin-left: auto;
-                color: #18242e
-            }
-
-            .fields {
-                border-top: 1px solid #d3e5f4;
-                padding-top: 12px
-            }
-
-            .fields label {
-                display: block;
-                font-weight: 700;
-                margin-bottom: 7px
-            }
-
-            .dates {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                margin-bottom: 14px
-            }
-
-            .fields input {
-                background: white;
-                border: 1px solid #e5edf4;
-                border-radius: 10px;
-                padding: 12px 11px;
-                width: 100%;
-                min-width: 0;
-                font-size: 15px
-            }
-
-            .dates input {
-                width: calc(50% - 15px)
-            }
-
-            .results {
-                margin: 0 24px
-            }
-
-            .results h2 {
-                font-size: 20px;
-                margin: 0 0 4px
-            }
-
-            .results .row {
-                padding: 8px 0
-            }
-
-            .results .thumb {
-                height: 74px
-            }
-
-            .results .row-time {
-                color: #006bff;
-                font-size: 14px
-            }
-
-            .empty {
-                padding: 28px 8px;
-                text-align: center;
-                color: var(--muted)
-            }
-
-            nav {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: #ffffffed;
-                border-top: 1px solid var(--line);
-                display: flex;
-                padding: 12px 0 14px
-            }
-
-            nav button {
-                flex: 1;
-                background: none;
-                border: 0;
-                color: #7e849c;
-                font-size: 12px;
-                font-weight: 600;
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                align-items: center
-            }
-
-            nav button.active {
-                color: var(--blue)
-            }
-
-            nav svg.icon {
-                height: 28px;
-                width: 28px
-            }
-
-            [hidden] {
-                display: none !important
-            }
-
-            dialog {
-                border: 0;
-                border-radius: 20px;
-                padding: 24px;
-                width: calc(100% - 36px);
-                max-width: 430px;
-                box-shadow: 0 20px 80px #17304633
-            }
-
-            dialog::backdrop {
-                background: #15273966
-            }
-
-            dialog h2 {
-                font-size: 21px;
-                margin: 0 0 18px
-            }
-
-            dialog label {
-                display: block;
-                font-size: 14px;
-                font-weight: 700;
-                margin: 12px 0
-            }
-
-            dialog input,
-            dialog select {
-                width: 100%;
-                border: 1px solid #dbe3ec;
-                border-radius: 8px;
-                padding: 11px;
-                margin-top: 5px
-            }
-
-            .actions {
-                display: flex;
-                justify-content: flex-end;
-                gap: 10px;
-                margin-top: 22px
-            }
-
-            .actions button {
-                border: 0;
-                background: #edf3f8;
-                border-radius: 9px;
-                padding: 10px 18px
-            }
-
-            .actions .primary {
-                background: var(--blue);
-                color: white
-            }
-
-            .detail-image {
-                width: 100%;
-                height: 160px;
-                object-fit: cover;
-                border-radius: 12px
-            }
-
-            .detail-text {
-                line-height: 1.9;
-                color: #586276
-            }
-
-            .toast {
-                position: fixed;
-                bottom: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 12px 22px;
-                border-radius: 30px;
-                background: #182a40;
-                color: white;
-                z-index: 5;
-                font-size: 14px;
-                white-space: nowrap
-            }
-
-            @media(max-width:540px) {
-                body {
-                    background: white
-                }
-
-                .app {
-                    margin: 0;
-                    border-radius: 0;
-                    box-shadow: none;
-                    min-height: 100dvh
-                }
-
-                .status {
-                    padding-top: 10px
-                }
-
-                .day {
-                    height: 74px
-                }
-            }
-
-            @media(min-width:541px) {
-                .app {
-                    min-height: 900px
-                }
-            }
-
-            .category-page {
-                padding: 8px 18px 24px
-            }
-
-            .category-search {
-                position: relative;
-                margin-bottom: 24px
-            }
-
-            .category-search svg {
-                position: absolute;
-                left: 14px;
-                top: 14px;
-                color: #8492a5
-            }
-
-            .category-search input {
-                width: 100%;
-                border: 1px solid #dfe7ef;
-                background: #f7faff;
-                border-radius: 12px;
-                padding: 14px 14px 14px 48px;
-                font-size: 16px
-            }
-
-            .category-page h2 {
-                font-size: 19px;
-                margin: 0 0 12px
-            }
-
-            .category-row {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border: 1px solid #e3eaf2;
-                border-radius: 9px;
-                background: #fff;
-                margin-bottom: 8px;
-                padding: 17px 20px;
-                font-size: 20px;
-                font-weight: 700;
-                text-align: left
-            }
-
-            .category-row:hover {
-                background: #f1f8ff;
-                border-color: #b7dbff
-            }
-
-            .category-row .chevron {
-                font-weight: 400;
-                margin: 0
-            }
-        .calendar .event{background:#fbdcdd;border:1px solid #efb9bc;color:#641a17}
-</style>
-    <link rel="stylesheet" href="schedule.css">
-<link rel="stylesheet" href="responsive.css"><link rel="stylesheet" href="theme.css">
-</head>
-
-    <body>
-        <main class="app">
-            
-            <header><button class="icon-button" id="back" aria-label="戻る"><svg class="icon">
-                        <path d="m15 4-8 8 8 8" />
-                    </svg></button>
-                <h1>予約</h1>
-            </header>
-            <div class="tabs" role="tablist"><button id="mine-tab" role="tab" class="active" aria-selected="true"
-                    aria-controls="mine">ホーム</button><button id="search-tab" role="tab" aria-selected="false"
-                    aria-controls="search">予約の検索</button></div>
-            <section id="mine" role="tabpanel" aria-labelledby="mine-tab">
-                <div class="monthbar"><button class="icon-button" id="prev" aria-label="前の月">〈</button><button id="month-title" class="month-title-button" aria-haspopup="dialog" aria-label="表示する年月を選択"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="month-label"></span></button><button class="icon-button" id="next"
-                        aria-label="次の月">〉</button></div>
-                <div class="weekdays"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span><span class="sun">日</span></div>
-                <div class="calendar" id="calendar"></div>
-                <aside id="day-panel" hidden><div class="day-list" hidden>
-                    <h2 class="list-title"><span id="day-title"></span><span class="count" id="day-count"></span></h2>
-                    <div id="day-rows"></div>
-                </div>
-                <button class="new" id="new" hidden><span>＋</span>新規予約</button></aside>
-            </section>
-            <section id="search" role="tabpanel" aria-labelledby="search-tab" hidden>
-                <div class="search-box"><button class="search-toggle" id="toggle" aria-expanded="true"><svg
-                            class="icon">
-                            <circle cx="10" cy="10" r="8" />
-                            <path d="m16 16 7 7" />
-                        </svg><span id="toggle-label">検索条件を閉じる</span><span class="fold" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 7 7 7-7"/></svg></span></button>
-                    <div class="fields" id="fields"><label for="start">期間</label>
-                        <div class="dates"><input id="start" type="date" value="2026-10-01"
-                                aria-label="開始日"><span>〜</span><input id="end" type="date" value="2026-10-31"
-                                aria-label="終了日"></div><label for="keyword">タイトル</label><input id="keyword" type="search" placeholder="予約のタイトルで検索"><label class="search-author-label" for="search-author">投稿者</label><input id="search-author" type="search" placeholder="投稿者名で検索">
-                    </div>
-                </div>
-                <div class="results">
-                    <h2>検索結果　<span id="result-count">5件</span></h2>
-                    <div id="result-rows"></div><nav id="result-pagination" class="result-pagination" aria-label="検索結果のページ送り"></nav>
-                </div>
-            </section>
-            <section id="categories" class="category-page" hidden aria-label="設備一覧">
-                <div class="category-search"><svg class="icon" aria-hidden="true">
-                        <circle cx="10" cy="10" r="8" />
-                        <path d="m16 16 7 7" />
-                    </svg><input id="category-keyword" type="search" placeholder="フリーワードで設備を検索"
-                        aria-label="設備一覧のフリーワード検索"></div>
-                <h2>検索結果　全<span id="category-count">5</span>件</h2>
-                <div id="category-rows"></div>
-            </section>
-            
-        </main>
-        <dialog id="detail">
-            <h2 id="detail-title"></h2><img class="detail-image" id="detail-image" alt="">
-            <p class="detail-text" id="detail-text"></p>
-            <div class="actions"><button onclick="document.querySelector('#detail').close()">閉じる</button></div>
-        </dialog>
-        <dialog id="create">
-            <form id="create-form">
-                <h2>新規予約</h2><label>設備<select name="equipment">
-                        <option>会議室A</option>
-                        <option>会議室B</option>
-                        <option>面談室</option>
-                        <option>プロジェクター</option>
-                        <option>モニター</option>
-                        <option>車両</option>
-                    </select></label><label>予約日<input name="date" type="date" required></label><label>開始時刻<input
-                        name="from" type="time" value="10:00" required></label><label>終了時刻<input name="to" type="time"
-                        value="11:00" required></label>
-                <p id="form-error" style="color:#d93131" role="alert"></p>
-                <div class="actions"><button type="button" id="cancel">キャンセル</button><button class="primary"
-                        type="submit">予約する</button></div>
-            </form>
-        </dialog>
-        <div class="toast" id="toast" role="status" hidden></div>
-        <script>
-            const $ = s => document.querySelector(s); const weekdays = ['日', '月', '火', '水', '木', '金', '土']; let year = 2026, month = 9, selected = null; let reservationSearchPage = 1; const reservationPageSize = 50;
-            const reservations = [{ name: 'プロジェクター', title: '研修資料の投影', date: '2026-10-15', from: '09:00', to: '10:30', person: '佐藤 太郎' }, { name: '会議室A', title: '定例会議', date: '2026-10-16', from: '10:00', to: '11:30', person: '田中 一郎' }, { name: '会議室B', title: '営業打ち合わせ', date: '2026-10-19', from: '13:00', to: '14:00', person: '山田 花子' }, { name: '面談室', title: '採用面談', date: '2026-10-22', from: '14:00', to: '15:00', person: '鈴木 健一' }, { name: 'モニター', title: '資料レビュー', date: '2026-10-27', from: '09:00', to: '10:00', person: '高橋 美咲' }];
-            const mine = [{ name: '会議室A', date: '2026-10-05', from: '10:00', to: '11:00' }, { name: 'プロジェクター', date: '2026-10-08', from: '09:00', to: '10:00' }, { name: '面談室', date: '2026-10-14', from: '13:00', to: '14:00' }, { name: '会議室A', date: '2026-10-15', from: '10:00', to: '11:00' }, { name: 'モニター', date: '2026-10-15', from: '14:00', to: '15:30' }, { name: '会議室B', date: '2026-10-19', from: '10:00', to: '11:00' }, { name: '会議室A', date: '2026-10-22', from: '10:00', to: '11:00' }, { name: 'モニター', date: '2026-10-22', from: '14:00', to: '15:00' }, { name: '面談室', date: '2026-10-27', from: '10:00', to: '11:00' }];
-            function artwork(name) { const room = name.includes('室') || typeof scheduleEquipment !== 'undefined' && Object.entries(scheduleEquipment).some(([category, equipment]) => (category === '会議室' || category === '面談室') && equipment.some(item => item.name === name)); const svg = room ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><defs><linearGradient id="a" x2="0" y2="1"><stop stop-color="#f6d59c"/><stop offset="1" stop-color="#a96f39"/></linearGradient></defs><rect width="180" height="120" fill="url(#a)"/><path d="M0 0h180l-30 30H25Z" fill="#e4bb85"/><path d="M0 0 25 30v60L0 120" fill="#bd8d59"/><path d="M0 120 25 90h125l30 30" fill="#8b643f"/><rect x="7" y="30" width="15" height="46" fill="#f8ebd1"/><path d="m40 73 72-8 38 24-74 14Z" fill="#d4a66b"/><path d="M76 103v17m62-29v29M44 76v28" stroke="#42372c" stroke-width="5"/><g fill="#2d2a28"><rect x="53" y="49" width="13" height="24" rx="3"/><rect x="78" y="45" width="13" height="23" rx="3"/><rect x="104" y="45" width="13" height="25" rx="3"/><rect x="131" y="55" width="13" height="27" rx="3"/><rect x="35" y="86" width="16" height="25" rx="3"/><rect x="91" y="93" width="18" height="27" rx="3"/></g><path d="M40 13h35m30 0h35" stroke="#fff5d5" stroke-width="5"/></svg>` : (name.includes('モニター') || typeof scheduleEquipment !== 'undefined' && scheduleEquipment['モニター'].some(item => item.name === name)) ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><rect width="180" height="120" fill="#eeeae4"/><path d="M0 105h180" stroke="#dbd2c8" stroke-width="30"/><path d="M85 83v18m-25 5h58" stroke="#393939" stroke-width="7"/><rect x="26" y="10" width="130" height="77" rx="3" fill="#252525"/><rect x="31" y="15" width="120" height="65" fill="#101519"/><path d="m33 17 115 60" stroke="#ffffff" opacity=".04" stroke-width="30"/></svg>` : (typeof scheduleEquipment !== 'undefined' && scheduleEquipment['車両'].some(item => item.name === name)) ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><defs><linearGradient id="car-bg" x2="0" y2="1"><stop stop-color="#eaf2f8"/><stop offset="1" stop-color="#d9e1e7"/></linearGradient><linearGradient id="car-body" x2="0" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#a8b9ca"/></linearGradient></defs><rect width="180" height="120" fill="url(#car-bg)"/><path d="M0 88h180v32H0Z" fill="#c4cdd5"/><ellipse cx="93" cy="94" rx="68" ry="8" fill="#8f9ba5" opacity=".35"/><path d="m27 68 16-6 19-25h48l25 25 17 7 4 20H23Z" fill="url(#car-body)" stroke="#8598aa" stroke-width="2"/><path d="m51 61 15-19h18v19Zm39-19h17l19 19H90Z" fill="#38586e"/><path d="M91 67v17M52 66v18" stroke="#96a8b8"/><path d="M61 70h11m29 0h11" stroke="#677e92" stroke-width="2"/><circle cx="51" cy="88" r="13" fill="#283440"/><circle cx="51" cy="88" r="7" fill="#b8c6d2"/><circle cx="128" cy="88" r="13" fill="#283440"/><circle cx="128" cy="88" r="7" fill="#b8c6d2"/><path d="M27 73h10m106 0h9" stroke="#fff8d9" stroke-width="5"/><path d="M77 83h28" stroke="#879bac" stroke-width="3"/></svg>` : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120"><defs><linearGradient id="p" x2="0" y2="1"><stop stop-color="#e7e3de"/><stop offset="1" stop-color="#a9a29a"/></linearGradient></defs><rect width="180" height="120" fill="url(#p)"/><ellipse cx="91" cy="91" rx="64" ry="12" fill="#5c554f" opacity=".3"/><path d="m27 44 38-19 91 14-21 18Z" fill="#e8e6e1"/><path d="m27 44 108 13v34L30 76Z" fill="#bab9b5"/><path d="m135 57 21-18v36l-21 16Z" fill="#777774"/><circle cx="111" cy="72" r="18" fill="#24282b"/><circle cx="111" cy="72" r="12" fill="#244053"/><circle cx="111" cy="72" r="7" fill="#14212e"/><circle cx="107" cy="68" r="3" fill="#8eb7ca"/><path d="M37 55v15m5-14v15m5-14v15m5-14v15" stroke="#777" stroke-width="2"/></svg>`; return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) }
-            function key(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` } function dateText(s) { const d = new Date(s + 'T00:00:00'); return `${s.replaceAll('-', '/')}（${weekdays[d.getDay()]}）` }
-            function row(r, search) { const b = document.createElement('button'); b.className = 'row'; const img = document.createElement('img'); img.className = 'thumb'; img.src = artwork(r.name); img.alt = r.name; const info = document.createElement('span'); info.className = 'row-info'; const name = document.createElement('span'); name.className = 'row-name'; name.textContent = search ? (r.title || r.booking?.title || '設備予約') : r.name; if (search) { const equipment = document.createElement('span'); equipment.className = 'row-equipment'; equipment.textContent = r.name; info.append(equipment) } const time = document.createElement('span'); time.className = 'row-time'; time.textContent = (search ? dateText(r.date) + ' ' : '') + r.from + ' 〜 ' + r.to; info.append(name, time); if (search) info.prepend(name); if (search) { const p = document.createElement('span'); p.className = 'row-person'; p.textContent = r.person; info.append(p) } const arrow = document.createElement('span'); arrow.className = 'chevron'; arrow.textContent = '›'; b.append(img, info, arrow); b.onclick = () => { $('#detail-title').textContent = r.name; $('#detail-image').src = artwork(r.name); $('#detail-image').alt = r.name; $('#detail-text').textContent = dateText(r.date) + ' ' + r.from + ' 〜 ' + r.to + '　予約者：' + (r.person || '自分'); $('#detail').showModal() }; return b }
-            function render() { $('#day-panel').hidden = !selected; $('.day-list').hidden = !selected; $('#new').hidden = !selected; $('#month-label').textContent = `${year}/${String(month + 1).padStart(2,'0')}`; const first = new Date(year, month, 1), last = new Date(year, month + 1, 0); const offset = (first.getDay() + 6) % 7; const total = Math.ceil((offset + last.getDate()) / 7) * 7; $('#calendar').replaceChildren(); for (let i = 0; i < total; i++) { const d = new Date(year, month, i - offset + 1), s = key(d), items = mine.filter(r => r.date === s); const b = document.createElement('button'); b.className = 'day' + (d.getMonth() !== month ? ' outside' : d.getDay() === 0 ? ' sun' : d.getDay() === 6 ? ' sat' : '') + (s === selected ? ' selected' : ''); b.setAttribute('aria-label', dateText(s) + ` ${items.length}件の予約`); b.setAttribute('aria-pressed', String(s === selected)); const n = document.createElement('span'); n.textContent = d.getDate(); b.append(n); if (items.length) { const event = document.createElement('span'); event.className = 'event'; event.textContent = items[0].name; b.append(event); if (items.length > 1) { const more = document.createElement('span'); more.className = 'event'; more.textContent = s === selected ? items[1].name : `他${items.length - 1}件`; b.append(more) } } b.onclick = () => { selected = s; if (d.getMonth() !== month) { year = d.getFullYear(); month = d.getMonth() } render(); showDayReservations() }; $('#calendar').append(b) } if (!selected) return; const d = new Date(selected + 'T00:00:00'); $('#day-title').textContent = `${d.getMonth() + 1}月${d.getDate()}日（${weekdays[d.getDay()]}）の予約`; const items = mine.filter(r => r.date === selected); $('#day-count').textContent = items.length + '件'; $('#day-rows').replaceChildren(...items.map(r => row(r, false))); if (!items.length) $('#day-rows').innerHTML = '<p class="empty">この日の予約はありません</p>' }
-            function search(event) { if(event?.type === 'input') reservationSearchPage = 1; const normalize = value => String(value || '').normalize('NFKC').toLowerCase(); const kw = normalize($('#keyword').value.trim()), author = normalize($('#search-author').value).replace(/\s/g, ''), start = $('#start').value, end = $('#end').value; const items = reservations.filter(r => (!start || r.date >= start) && (!end || r.date <= end) && normalize(r.title || r.booking?.title || '設備予約').includes(kw) && normalize(r.person).replace(/\s/g, '').includes(author)); $('#result-count').textContent = items.length + '件'; const pageCount = Math.max(1, Math.ceil(items.length / reservationPageSize)); reservationSearchPage = Math.min(reservationSearchPage, pageCount); const pageStart = (reservationSearchPage - 1) * reservationPageSize; $('#result-rows').replaceChildren(...items.slice(pageStart, pageStart + reservationPageSize).map(r => row(r, true))); renderReservationPagination(items.length, pageCount); if (!items.length) $('#result-rows').innerHTML = '<p class="empty">条件に一致する予約はありません</p>' }
-            function tab(searching) { if (!searching) render(); $('#categories').hidden = true; $('.tabs').hidden = false; $('h1').textContent = '予約'; $('#mine').hidden = searching; $('#search').hidden = !searching; for (const [id, on] of [['mine-tab', !searching], ['search-tab', searching]]) { $('#' + id).classList.toggle('active', on); $('#' + id).setAttribute('aria-selected', String(on)) } } $('#mine-tab').onclick = () => tab(false); $('#search-tab').onclick = () => tab(true); $('#prev').onclick = () => move(-1); $('#next').onclick = () => move(1); function move(n) { const d = new Date(year, month + n, 1); year = d.getFullYear(); month = d.getMonth(); selected = null; render() }  $('#toggle').onclick = () => { const closed = !$('#fields').hidden; $('#fields').hidden = closed; $('#toggle').setAttribute('aria-expanded', String(!closed)); $('#toggle-label').textContent = closed ? '検索条件を開く' : '検索条件を閉じる'; $('.fold').classList.toggle('is-collapsed',closed) };['keyword', 'search-author', 'start', 'end'].forEach(id => $('#' + id).addEventListener('input', search)); $('#new').onclick = () => { $('#mine').hidden = true; $('#search').hidden = true; $('.tabs').hidden = true; $('#categories').hidden = false; $('h1').textContent = '設備一覧'; $('#category-keyword').value = ''; renderCategories() }; $('#cancel').onclick = () => $('#create').close(); $('#create-form').onsubmit = e => { e.preventDefault(); const f = e.target.elements; if (f.to.value <= f.from.value) { $('#form-error').textContent = '終了時刻は開始時刻より後にしてください。'; return } const r = { name: f.equipment.value, date: f.date.value, from: f.from.value, to: f.to.value, person: '自分' }; if (mine.concat(reservations).some(x => x.name === r.name && x.date === r.date && x.from < r.to && x.to > r.from)) { $('#form-error').textContent = 'この設備は選択した時間帯に予約されています。'; return } mine.push(r); reservations.push(r); selected = r.date; const d = new Date(r.date + 'T00:00:00'); year = d.getFullYear(); month = d.getMonth(); render(); search(); tab(false); $('#create').close(); toast('予約を追加しました') }; let timer; function toast(message) { $('#toast').textContent = message; $('#toast').hidden = false; clearTimeout(timer); timer = setTimeout(() => $('#toast').hidden = true, 2600) } document.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => { if (b.dataset.nav === '予約') tab(false); else toast(b.dataset.nav + 'はモックの対象外です') }); $('#back').onclick = () => { if (!$('#categories').hidden) { tab(false); return } if (!$('#search').hidden) tab(false); else toast('設備予約のトップ画面です') }; render(); search();
-            const equipmentCategories = ['プロジェクター', '会議室', '車両', 'モニター', '面談室'];
-            function renderCategories() { const keyword = $('#category-keyword').value.trim().toLowerCase(); const items = equipmentCategories.filter(name => name.toLowerCase().includes(keyword)); $('#category-count').textContent = items.length; $('#category-rows').replaceChildren(...items.map(name => { const button = document.createElement('button'); button.className = 'category-row'; const label = document.createElement('span'); label.textContent = name; const arrow = document.createElement('span'); arrow.className = 'chevron'; arrow.textContent = '›'; button.append(label, arrow); button.onclick = () => { $('#create-form').reset(); $('#create-form').elements.equipment.value = name === '会議室' ? '会議室A' : name; $('#create-form').elements.date.value = selected; $('#form-error').textContent = ''; $('#create').showModal() }; return button })); if (!items.length) $('#category-rows').innerHTML = '<p class="empty">条件に一致するカテゴリーはありません</p>' }
-            $('#category-keyword').addEventListener('input', renderCategories);
-        function renderReservationPagination(total, pages) {
- const nav = document.querySelector('#result-pagination'); nav.replaceChildren(); nav.hidden = total === 0;
- const summary = document.createElement('span'); summary.className = 'pagination-summary'; summary.textContent = total ? `${(reservationSearchPage - 1) * reservationPageSize + 1}〜${Math.min(total, reservationSearchPage * reservationPageSize)}件 / 全${total}件` : ''; nav.append(summary);
- const controls = document.createElement('div'); controls.className = 'pagination-controls';
- const add = (label, page, disabled, current=false) => {const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=disabled;if(current){button.className='current';button.setAttribute('aria-current','page')}button.setAttribute('aria-label',label==='前へ'?'前のページ':label==='次へ'?'次のページ':page+'ページ目');button.onclick=()=>{reservationSearchPage=page;search();document.querySelector('.results').scrollIntoView({block:'start'});document.querySelector('#result-pagination [aria-current="page"]')?.focus({preventScroll:true})};controls.append(button)};
- add('前へ',reservationSearchPage-1,reservationSearchPage===1);
- const shown = new Set([1,pages,reservationSearchPage-1,reservationSearchPage,reservationSearchPage+1]); let previous=0; for(const page of [...shown].filter(p=>p>=1&&p<=pages).sort((a,b)=>a-b)){if(previous&&page-previous>1){const dots=document.createElement('span');dots.textContent='…';controls.append(dots)}add(String(page),page,false,page===reservationSearchPage);previous=page}
- add('次へ',reservationSearchPage+1,reservationSearchPage===pages);nav.append(controls);
-}
-</script>
-    <script src="schedule.js"></script><script src="mock-data.js"></script><script src="weekly.js"></script><script src="date-picker.js"></script><script src="booking.js"></script><script src="scroll-snap.js"></script><script src="day-popup.js"></script><script src="search-layout.js"></script><script src="category-tree.js"></script>
-<script src="sidebar.js"></script><script src="calendar-shortcuts.js"></script><script src="router.js"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>設備の予約</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/schedule.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <header>
+        <button class="icon-button" id="back" aria-label="戻る">
+          <svg class="icon">
+            <path d="m15 4-8 8 8 8" />
+          </svg>
+        </button>
+        <h1>予約</h1>
+      </header>
+      <div class="tabs" role="tablist">
+        <button id="mine-tab" role="tab" class="active" aria-selected="true" aria-controls="mine">
+          ホーム</button
+        ><button id="search-tab" role="tab" aria-selected="false" aria-controls="search">
+          予約の検索
+        </button>
+      </div>
+      <section id="mine" role="tabpanel" aria-labelledby="mine-tab">
+        <div class="monthbar">
+          <button class="icon-button" id="prev" aria-label="前の月">〈</button
+          ><button
+            id="month-title"
+            class="month-title-button"
+            aria-haspopup="dialog"
+            aria-label="表示する年月を選択"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="2" />
+              <path d="M3 10h18M8 3v4M16 3v4" /></svg
+            ><span id="month-label"></span></button
+          ><button class="icon-button" id="next" aria-label="次の月">〉</button>
+        </div>
+        <div class="weekdays">
+          <span>月</span><span>火</span><span>水</span><span>木</span><span>金</span
+          ><span class="sat">土</span><span class="sun">日</span>
+        </div>
+        <div class="calendar" id="calendar"></div>
+        <aside id="day-panel" hidden>
+          <div class="day-list" hidden>
+            <h2 class="list-title">
+              <span id="day-title"></span><span class="count" id="day-count"></span>
+            </h2>
+            <div id="day-rows"></div>
+          </div>
+          <button class="new" id="new" hidden><span>＋</span>新規予約</button>
+        </aside>
+      </section>
+      <section id="search" role="tabpanel" aria-labelledby="search-tab" hidden>
+        <div class="search-box">
+          <button class="search-toggle" id="toggle" aria-expanded="true">
+            <svg class="icon">
+              <circle cx="10" cy="10" r="8" />
+              <path d="m16 16 7 7" /></svg
+            ><span id="toggle-label">検索条件を閉じる</span
+            ><span class="fold" aria-hidden="true"
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m5 9 7 7 7-7" /></svg
+            ></span>
+          </button>
+          <div class="fields" id="fields">
+            <label for="start">期間</label>
+            <div class="dates">
+              <input id="start" type="date" value="2026-10-01" aria-label="開始日" /><span>〜</span
+              ><input id="end" type="date" value="2026-10-31" aria-label="終了日" />
+            </div>
+            <label for="keyword">タイトル</label
+            ><input id="keyword" type="search" placeholder="予約のタイトルで検索" /><label
+              class="search-author-label"
+              for="search-author"
+              >投稿者</label
+            ><input id="search-author" type="search" placeholder="投稿者名で検索" />
+          </div>
+        </div>
+        <div class="results">
+          <h2>検索結果　<span id="result-count">5件</span></h2>
+          <div id="result-rows"></div>
+          <nav
+            id="result-pagination"
+            class="result-pagination"
+            aria-label="検索結果のページ送り"
+          ></nav>
+        </div>
+      </section>
+      <section id="categories" class="category-page" hidden aria-label="設備一覧">
+        <div class="category-search">
+          <svg class="icon" aria-hidden="true">
+            <circle cx="10" cy="10" r="8" />
+            <path d="m16 16 7 7" /></svg
+          ><input
+            id="category-keyword"
+            type="search"
+            placeholder="フリーワードで設備を検索"
+            aria-label="設備一覧のフリーワード検索"
+          />
+        </div>
+        <h2>検索結果　全<span id="category-count">5</span>件</h2>
+        <div id="category-rows"></div>
+      </section>
+    </main>
+    <dialog id="detail">
+      <h2 id="detail-title"></h2>
+      <img class="detail-image" id="detail-image" alt="" />
+      <p class="detail-text" id="detail-text"></p>
+      <div class="actions">
+        <button onclick="document.querySelector('#detail').close()">閉じる</button>
+      </div>
+    </dialog>
+    <dialog id="create">
+      <form id="create-form">
+        <h2>新規予約</h2>
+        <label
+          >設備<select name="equipment">
+            <option>会議室A</option>
+            <option>会議室B</option>
+            <option>面談室</option>
+            <option>プロジェクター</option>
+            <option>モニター</option>
+            <option>車両</option>
+          </select></label
+        ><label>予約日<input name="date" type="date" required /></label
+        ><label>開始時刻<input name="from" type="time" value="10:00" required /></label
+        ><label>終了時刻<input name="to" type="time" value="11:00" required /></label>
+        <p id="form-error" style="color: #d93131" role="alert"></p>
+        <div class="actions">
+          <button type="button" id="cancel">キャンセル</button
+          ><button class="primary" type="submit">予約する</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <script src="js/app.js"></script>
+    <script src="js/schedule.js"></script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/weekly.js"></script>
+    <script src="js/date-picker.js"></script>
+    <script src="js/booking.js"></script>
+    <script src="js/scroll-snap.js"></script>
+    <script src="js/day-popup.js"></script>
+    <script src="js/search-layout.js"></script>
+    <script src="js/category-tree.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/calendar-shortcuts.js"></script>
+    <script src="js/router.js"></script>
+  </body>
 </html>
