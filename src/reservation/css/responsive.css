@@ -1303,6 +1303,7 @@ dialog {
   font-size: 22px;
 }
 .reservation-mobile-topbar {
+  --mobile-logo-width: clamp(100px, 30vw, 144px);
   gap: 10px;
 }
 .reservation-mobile-topbar > span {
@@ -1310,10 +1311,11 @@ dialog {
   gap: 10px;
 }
 .reservation-mobile-topbar img {
-  width: clamp(100px, 30vw, 144px);
-  flex-shrink: 1;
+  width: var(--mobile-logo-width);
+  flex-shrink: 0;
 }
 .reservation-mobile-topbar .reservation-feature-label {
+  font-size: calc(var(--mobile-logo-width) * 0.152777778);
   flex-shrink: 0;
 }
 .sidebar-heading[role="link"],
