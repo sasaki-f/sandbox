@@ -263,7 +263,10 @@ function search(event) {
     $("#result-rows").innerHTML = '<p class="empty">条件に一致する予約はありません</p>';
 }
 function tab(searching) {
-  if (!searching) render();
+  if (!searching) {
+    selected = null;
+    render();
+  }
   $("#categories").hidden = true;
   $(".tabs").hidden = false;
   $("h1").textContent = "予約";
