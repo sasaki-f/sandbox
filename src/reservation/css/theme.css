@@ -230,3 +230,64 @@ textarea:focus-visible,
   font-size: 14px;
   color: var(--ink);
 }
+.category-booking-date {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  margin-bottom: 16px;
+  padding: 0;
+  color: #5a707c;
+  font-size: 16px;
+  font-weight: 700;
+}
+.category-booking-date svg {
+  flex-shrink: 0;
+}
+.picker-period {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.picker-period select {
+  width: auto;
+  margin: 0;
+  padding: 6px 3px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.picker-period select:hover {
+  border-color: var(--primary-soft-border);
+  background: var(--soft-button-bg);
+}
+.calendar .day.past {
+  cursor: default;
+  background: #f7f8fa;
+}
+.calendar .day.past > span:first-child {
+  opacity: 0.45;
+}
+.picker-day:disabled,
+.month-option:disabled {
+  color: #b9c1cb;
+  background: #f7f8fa;
+  cursor: not-allowed;
+}
+.monthbar .icon-button:disabled,
+.schedule-toolbar button:disabled,
+.date-popup-header button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.calendar .day:disabled:not(.past) {
+  background: #f7f8fa;
+  cursor: default;
+}
+.calendar .day:disabled:not(.past) > span:first-child {
+  opacity: 0.45;
+}

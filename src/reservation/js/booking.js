@@ -102,6 +102,11 @@ function fillDetail(container, b, confirmation = false) {
   appendDetail(container, "備考", b.notes || "―");
 }
 function openBooking(b, isNew = false) {
+  const past = b.date < reservationToday();
+  if (isNew && past) {
+    toast("過去の日付では予約できません。");
+    return;
+  }
   activeBooking = b;
   bookingNew = isNew;
   bookingDraft = null;
@@ -111,13 +116,13 @@ function openBooking(b, isNew = false) {
   B("booking-equipment-info").textContent = e.info + " ／ 予約単位：" + e.unit + "分";
   B("booking-image").src = artwork(b.equipment);
   B("booking-image").alt = b.equipment;
-  B("booking-menu").hidden = isNew || !b.own;
+  B("booking-menu").hidden = isNew || !b.own || past;
   B("booking-menu-panel").hidden = true;
   B("booking-confirm").hidden = true;
   B("booking-error").textContent = "";
   B("booking-form").hidden = !isNew;
   B("booking-read").hidden = isNew;
-  if (isNew || b.own) fillBookingForm(b);
+  if (isNew || (b.own && !past)) fillBookingForm(b);
   else fillDetail(B("booking-read"), b);
   showBookingPage();
 }
@@ -221,6 +226,12 @@ function validateDraft(b, dates) {
   if ((b.from - scheduleStart) % e.unit || (b.to - b.from) % e.unit)
     throw Error("この設備は" + e.unit + "分単位で予約してください。");
   for (const date of dates) {
+    if (date > reservationMaximumDate())
+      throw Error(
+        `予約できるのは${dateText(reservationMaximumDate())}までです。繰り返しの終了条件も確認してください。`,
+      );
+    if (date < reservationToday())
+      throw Error("過去の日付では予約できません。今日以降を選択してください。");
     if (scheduleEquipment[b.category]?.some((e) => e.name === b.equipment)) {
       const weekday = new Date(date + "T00:00:00").getDay();
       if (weekday === 0 || weekday === 6) throw Error(dateText(date) + "は予約できません。");
@@ -398,6 +409,7 @@ B("booking-success-ok").onclick = () => successDialog.close();
 B("booking-repeat").onchange = () => (B("repeat-fields").hidden = !B("booking-repeat").checked);
 B("repeat-mode").onchange = repeatMode;
 for (const id of ["booking-date", "repeat-end"]) {
+  B(id).max = reservationMaximumDate();
   const input = B(id);
   input.classList.add("popup-date-input");
   input.onclick = (event) => {

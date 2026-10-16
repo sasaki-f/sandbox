@@ -6,6 +6,13 @@ const collapsedCategories = new Set();
 let previousCategoryQuery = "";
 let weeklyFromCategory = false;
 renderCategories = function () {
+  const dateContext = document.querySelector("#category-booking-date");
+  dateContext.hidden = !selected;
+  if (selected) {
+    const dateValue = document.querySelector("#category-booking-date-value");
+    dateValue.dateTime = selected;
+    dateValue.textContent = dateText(selected);
+  }
   const query = categorySearch.value.trim().normalize("NFKC").toLocaleLowerCase();
   if (query !== previousCategoryQuery) {
     collapsedCategories.clear();

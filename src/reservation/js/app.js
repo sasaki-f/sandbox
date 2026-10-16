@@ -1,3 +1,19 @@
+const reservationMinimumDate = "2026-01-01";
+function reservationToday() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const value = (type) => parts.find((p) => p.type === type).value;
+  return value("year") + "-" + value("month") + "-" + value("day");
+}
+function reservationMaximumDate(base = reservationToday()) {
+  const [y, m, d] = base.split("-").map(Number);
+  const lastDay = new Date(Date.UTC(y + 1, m, 0)).getUTCDate();
+  return `${y + 1}-${String(m).padStart(2, "0")}-${String(Math.min(d, lastDay)).padStart(2, "0")}`;
+}
 const $ = (s) => document.querySelector(s);
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 let year = 2026,
@@ -130,9 +146,13 @@ function row(r, search) {
   return b;
 }
 function render() {
+  const today = reservationToday();
+  const maximum = reservationMaximumDate();
+  $("#next").disabled = `${year}-${String(month + 1).padStart(2, "0")}` >= maximum.slice(0, 7);
+  $("#prev").disabled = year <= 2026 && month === 0;
   $("#day-panel").hidden = !selected;
   $(".day-list").hidden = !selected;
-  $("#new").hidden = !selected;
+  $("#new").hidden = !selected || selected < today;
   $("#month-label").textContent = `${year}/${String(month + 1).padStart(2, "0")}`;
   const first = new Date(year, month, 1),
     last = new Date(year, month + 1, 0);
@@ -156,6 +176,8 @@ function render() {
       (s === selected ? " selected" : "");
     b.setAttribute("aria-label", dateText(s) + ` ${items.length}件の予約`);
     b.setAttribute("aria-pressed", String(s === selected));
+    b.classList.toggle("past", s < today);
+    b.disabled = s < reservationMinimumDate || s > maximum;
     const n = document.createElement("span");
     n.textContent = d.getDate();
     b.append(n);
@@ -247,6 +269,8 @@ $("#prev").onclick = () => move(-1);
 $("#next").onclick = () => move(1);
 function move(n) {
   const d = new Date(year, month + n, 1);
+  if (key(d) < reservationMinimumDate) return;
+  if (key(d).slice(0, 7) > reservationMaximumDate().slice(0, 7)) return;
   year = d.getFullYear();
   month = d.getMonth();
   selected = null;
@@ -263,6 +287,7 @@ $("#toggle").onclick = () => {
   $("#" + id).addEventListener("input", search),
 );
 $("#new").onclick = () => {
+  if (!selected) selected = reservationToday();
   $("#mine").hidden = true;
   $("#search").hidden = true;
   $(".tabs").hidden = true;

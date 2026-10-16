@@ -75,7 +75,11 @@ function queueReservationRoute() {
 function validRouteDate(value, fallback) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value || "") &&
     !Number.isNaN(new Date(value + "T00:00:00").getTime())
-    ? value
+    ? value < reservationMinimumDate
+      ? reservationMinimumDate
+      : value > reservationMaximumDate()
+        ? reservationMaximumDate()
+        : value
     : fallback;
 }
 function applyReservationRoute() {
@@ -129,6 +133,15 @@ function applyReservationRoute() {
       if (/^\d{4}-(0[1-9]|1[0-2])$/.test(monthValue || "")) {
         [year, month] = monthValue.split("-").map(Number);
         month--;
+        if (year < 2026) {
+          year = 2026;
+          month = 0;
+        }
+        const maximum = reservationMaximumDate();
+        if (`${year}-${String(month + 1).padStart(2, "0")}` > maximum.slice(0, 7)) {
+          year = Number(maximum.slice(0, 4));
+          month = Number(maximum.slice(5, 7)) - 1;
+        }
       }
       selected = null;
       tab(false);

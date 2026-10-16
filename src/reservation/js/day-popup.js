@@ -10,7 +10,14 @@ dayClose.textContent = "×";
 dayPopup.append(dayClose, document.querySelector("#day-panel"));
 document.body.append(dayPopup);
 function showDayReservations() {
-  if (!selected) return;
+  if (
+    !selected ||
+    selected > reservationMaximumDate() ||
+    (selected < reservationToday() && !mine.some((reservation) => reservation.date === selected))
+  ) {
+    if (dayPopup.open) dayPopup.close();
+    return;
+  }
   document.querySelector("#day-panel").hidden = false;
   if (!dayPopup.open) dayPopup.showModal();
 }

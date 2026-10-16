@@ -1,13 +1,3 @@
-function reservationToday() {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Tokyo",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(new Date());
-  const value = (type) => parts.find((p) => p.type === type).value;
-  return value("year") + "-" + value("month") + "-" + value("day");
-}
 const monthShortcut = document.createElement("button");
 monthShortcut.type = "button";
 monthShortcut.className = "calendar-shortcut";

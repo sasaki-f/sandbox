@@ -1435,3 +1435,21 @@ dialog {
     top: calc(56px + env(safe-area-inset-top, 0px));
   }
 }
+.daily-date-control {
+  width: 250px;
+}
+#schedule-date-label {
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+#schedule .schedule-toolbar .daily-date-control input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  z-index: 1;
+}

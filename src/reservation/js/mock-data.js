@@ -143,6 +143,7 @@ scheduleBookings.length = 0;
 scheduleBlocked.length = 0;
 seededScheduleDays.clear();
 seedSchedule = function (category, date) {
+  if (date < reservationMinimumDate) return;
   const seedKey = category + "|" + date;
   if (seededScheduleDays.has(seedKey)) return;
   seededScheduleDays.add(seedKey);

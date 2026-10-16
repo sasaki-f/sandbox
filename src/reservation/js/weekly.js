@@ -35,6 +35,8 @@ function leaveWeekly() {
   renderSchedule();
 }
 function renderWeekly() {
+  document.querySelector("#week-prev").disabled = weekStart <= monday(reservationMinimumDate);
+  document.querySelector("#week-next").disabled = weekStart >= monday(reservationMaximumDate());
   const dailyDate = scheduleDate,
     table = document.querySelector("#weekly-table");
   table.replaceChildren();
@@ -132,6 +134,8 @@ document.querySelectorAll("[data-nav]").forEach((button) =>
 function changeWeek(offset) {
   const d = new Date(weekStart + "T00:00:00");
   d.setDate(d.getDate() + offset * 7);
+  if (key(d) < monday(reservationMinimumDate)) return;
+  if (key(d) > monday(reservationMaximumDate())) return;
   weekStart = key(d);
   renderWeekly();
 }

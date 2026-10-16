@@ -41,7 +41,7 @@ schedulePage.id = "schedule";
 schedulePage.className = "schedule-page";
 schedulePage.hidden = true;
 schedulePage.innerHTML =
-  '<div class="schedule-toolbar"><button id="schedule-prev" aria-label="前日">〈</button><div class="daily-date-control"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input id="schedule-date" type="date" aria-label="表示日"></div><button id="schedule-next" aria-label="翌日">〉</button></div><div class="schedule-scroll"><div class="schedule-table" id="schedule-table"></div></div><div class="schedule-legend"><span><i class="legend-box available"></i>予約可能</span><span><b class="legend-unavailable">×</b>予約不可</span><span><i class="legend-box own"></i>自分の予定</span><span><i class="legend-box"></i>他人の予定</span></div><p class="schedule-note">設備ごとの予約単位で空き枠を表示しています。空欄を選択して予約できます。</p>';
+  '<div class="schedule-toolbar"><button id="schedule-prev" aria-label="前日">〈</button><div class="daily-date-control"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="schedule-date-label" aria-hidden="true"></span><input id="schedule-date" type="date" aria-label="表示日"></div><button id="schedule-next" aria-label="翌日">〉</button></div><div class="schedule-scroll"><div class="schedule-table" id="schedule-table"></div></div><div class="schedule-legend"><span><i class="legend-box available"></i>予約可能</span><span><b class="legend-unavailable">×</b>予約不可</span><span><i class="legend-box own"></i>自分の予定</span><span><i class="legend-box"></i>他人の予定</span></div><p class="schedule-note">設備ごとの予約単位で空き枠を表示しています。空欄を選択して予約できます。</p>';
 document.querySelector(".app").append(schedulePage);
 const scheduleClose = document.createElement("button");
 scheduleClose.className = "schedule-close";
@@ -127,8 +127,11 @@ function leaveSchedule(toCalendar = false) {
   }
 }
 function renderSchedule() {
+  document.querySelector("#schedule-prev").disabled = scheduleDate <= reservationMinimumDate;
+  document.querySelector("#schedule-next").disabled = scheduleDate >= reservationMaximumDate();
   seedSchedule(scheduleCategory, scheduleDate);
   document.querySelector("#schedule-date").value = scheduleDate;
+  document.querySelector("#schedule-date-label").textContent = dateText(scheduleDate);
   const equipment = scheduleEquipment[scheduleCategory],
     table = document.querySelector("#schedule-table");
   table.replaceChildren();
@@ -177,7 +180,10 @@ function renderSchedule() {
     for (let from = scheduleStart; from + e.unit <= scheduleEnd; from += e.unit) {
       const to = from + e.unit;
       const busy = bookings.some((b) => b.from < to && b.to > from),
-        unavailable = blocked.some((b) => b.from < to && b.to > from);
+        unavailable =
+          scheduleDate < reservationToday() ||
+          scheduleDate > reservationMaximumDate() ||
+          blocked.some((b) => b.from < to && b.to > from);
       const slot = document.createElement("button");
       slot.className = "schedule-slot";
       slot.style.top = (from - scheduleStart) * minuteHeight + "px";
@@ -266,6 +272,8 @@ scheduleClose.onclick = () => leaveSchedule(true);
 function changeScheduleDay(offset) {
   const date = new Date(scheduleDate + "T00:00:00");
   date.setDate(date.getDate() + offset);
+  if (key(date) < reservationMinimumDate) return;
+  if (key(date) > reservationMaximumDate()) return;
   scheduleDate = key(date);
   renderSchedule();
 }
