@@ -71,13 +71,25 @@ function renderWeekly() {
     const weekday = document.createElement("small");
     weekday.textContent = "（" + weekdays[d.getDay()] + "）";
     heading.append(day, weekday);
+    if (date === reservationToday()) {
+      col.classList.add("is-today");
+      heading.setAttribute("aria-current", "date");
+    }
     if (d.getDay() === 0) heading.classList.add("week-sun");
     if (d.getDay() === 6) heading.classList.add("week-sat");
     if (d.getDay() === 0 || d.getDay() === 6) {
       col.querySelectorAll(".schedule-slot").forEach((slot) => {
         slot.disabled = true;
-        slot.textContent = "×";
-        slot.setAttribute("aria-label", weeklyEquipment.name + " " + date + " 予約不可");
+        const past = date < reservationToday();
+        const outsideRange = date > reservationMaximumDate();
+        slot.textContent = past || outsideRange ? "" : "×";
+        slot.setAttribute(
+          "aria-label",
+          weeklyEquipment.name +
+            " " +
+            date +
+            (past ? " 過去の時間枠" : outsideRange ? " 予約受付期間外" : " 予約不可"),
+        );
       });
       col.querySelectorAll(".schedule-booking").forEach((event) => event.remove());
     }

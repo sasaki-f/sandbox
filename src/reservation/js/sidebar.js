@@ -235,8 +235,7 @@ for (const brand of [sidebarHeading, mobileBrand]) {
   brand.setAttribute("tabindex", "0");
   brand.setAttribute("aria-label", "ホームへ移動");
   const goHome = () => {
-    tab(false);
-    closeReservationMenu();
+    navigateReservationHome();
   };
   brand.onclick = goHome;
   brand.addEventListener("keydown", (event) => {

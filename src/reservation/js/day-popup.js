@@ -22,6 +22,17 @@ function showDayReservations() {
   if (!dayPopup.open) dayPopup.showModal();
 }
 dayClose.onclick = () => dayPopup.close();
+dayPopup.addEventListener("close", () => {
+  if (
+    !dayPopup.open &&
+    !bookingDialog.open &&
+    !document.querySelector("#mine").hidden &&
+    selected
+  ) {
+    selected = null;
+    render();
+  }
+});
 dayPopup.addEventListener("click", (event) => {
   if (event.target !== dayPopup) return;
   const rect = dayPopup.getBoundingClientRect();

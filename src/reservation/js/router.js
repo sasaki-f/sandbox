@@ -58,9 +58,19 @@ function routeURL(params) {
 }
 function syncReservationRoute(replace = false) {
   if (routing) return;
-  const next = routeURL(readReservationRoute());
+  const params = readReservationRoute();
+  const bareHome =
+    params.get("page") === "home" &&
+    !params.has("day") &&
+    !params.has("modal") &&
+    history.state?.bareHomeMonth === params.get("month");
+  const next = routeURL(bareHome ? new URLSearchParams() : params);
   if (next === location.href) return;
-  const state = { reservationRoute: true, sequence: replace ? routeSequence : ++routeSequence };
+  const state = {
+    reservationRoute: true,
+    sequence: replace ? routeSequence : ++routeSequence,
+    ...(bareHome ? { bareHomeMonth: params.get("month") } : {}),
+  };
   if (replace) history.replaceState(state, "", next);
   else history.pushState(state, "", next);
 }
@@ -129,7 +139,7 @@ function applyReservationRoute() {
         }
       } else tab(false);
     } else {
-      const monthValue = params.get("month");
+      const monthValue = params.get("month") || history.state?.bareHomeMonth;
       if (/^\d{4}-(0[1-9]|1[0-2])$/.test(monthValue || "")) {
         [year, month] = monthValue.split("-").map(Number);
         month--;
@@ -245,10 +255,37 @@ if (new URLSearchParams(location.search).has("page")) {
   applyReservationRoute();
 } else {
   history.replaceState(
-    { reservationRoute: true, sequence: 0 },
+    {
+      reservationRoute: true,
+      sequence: 0,
+      bareHomeMonth: `${year}-${String(month + 1).padStart(2, "0")}`,
+    },
     "",
-    routeURL(readReservationRoute()),
+    location.href,
   );
 }
 
 document.documentElement.classList.remove("route-loading");
+function navigateReservationHome() {
+  routing = true;
+  returnToDayPopup = false;
+  for (const dialog of document.querySelectorAll("dialog[open]")) dialog.close();
+  const today = reservationToday();
+  year = Number(today.slice(0, 4));
+  month = Number(today.slice(5, 7)) - 1;
+  selected = null;
+  tab(false);
+  closeReservationMenu();
+  const url = new URL(location.href);
+  url.search = "";
+  url.hash = "";
+  const state = {
+    reservationRoute: true,
+    sequence: ++routeSequence,
+    bareHomeMonth: today.slice(0, 7),
+  };
+  history.pushState(state, "", url.href);
+  setTimeout(() => {
+    routing = false;
+  }, 0);
+}

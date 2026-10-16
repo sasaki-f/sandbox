@@ -180,18 +180,19 @@ function renderSchedule() {
     for (let from = scheduleStart; from + e.unit <= scheduleEnd; from += e.unit) {
       const to = from + e.unit;
       const busy = bookings.some((b) => b.from < to && b.to > from),
-        unavailable =
-          scheduleDate < reservationToday() ||
-          scheduleDate > reservationMaximumDate() ||
-          blocked.some((b) => b.from < to && b.to > from);
+        past = scheduleDate < reservationToday(),
+        outsideRange = scheduleDate > reservationMaximumDate(),
+        unavailable = blocked.some((b) => b.from < to && b.to > from);
       const slot = document.createElement("button");
       slot.className = "schedule-slot";
+      slot.classList.toggle("past-slot", past);
+      slot.classList.toggle("outside-range-slot", outsideRange);
       slot.style.top = (from - scheduleStart) * minuteHeight + "px";
       slot.style.height = e.unit * minuteHeight + "px";
       slot.dataset.from = from;
       slot.dataset.to = to;
-      slot.textContent = unavailable && !busy ? "×" : "";
-      slot.disabled = busy || unavailable;
+      slot.textContent = unavailable && !busy && !past && !outsideRange ? "×" : "";
+      slot.disabled = busy || unavailable || past || outsideRange;
       slot.setAttribute(
         "aria-label",
         e.name +
@@ -199,7 +200,15 @@ function renderSchedule() {
           scheduleTime(from) +
           "〜" +
           scheduleTime(to) +
-          (busy ? " 予約済み" : unavailable ? " 予約不可" : " 予約可能"),
+          (busy
+            ? " 予約済み"
+            : past
+              ? " 過去の時間枠"
+              : outsideRange
+                ? " 予約受付期間外"
+                : unavailable
+                  ? " 予約不可"
+                  : " 予約可能"),
       );
       slot.onclick = () => {
         chosenSlot = {

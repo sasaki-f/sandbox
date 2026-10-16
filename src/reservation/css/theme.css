@@ -291,3 +291,25 @@ textarea:focus-visible,
 .calendar .day:disabled:not(.past) > span:first-child {
   opacity: 0.45;
 }
+.schedule-slot.past-slot:disabled,
+.schedule-slot.outside-range-slot:disabled {
+  background: #eef0f3;
+  color: #a1aab5;
+  cursor: default;
+}
+.calendar .day.is-today,
+.weekly-column.is-today {
+  position: relative;
+}
+.calendar .day.is-today::after,
+.weekly-column.is-today::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--primary);
+  pointer-events: none;
+  z-index: 6;
+}
+.calendar .day.is-today::after {
+  border-radius: 5px;
+}

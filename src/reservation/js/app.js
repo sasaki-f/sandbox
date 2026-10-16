@@ -177,6 +177,8 @@ function render() {
     b.setAttribute("aria-label", dateText(s) + ` ${items.length}件の予約`);
     b.setAttribute("aria-pressed", String(s === selected));
     b.classList.toggle("past", s < today);
+    b.classList.toggle("is-today", s === today);
+    if (s === today) b.setAttribute("aria-current", "date");
     b.disabled = s < reservationMinimumDate || s > maximum;
     const n = document.createElement("span");
     n.textContent = d.getDate();
