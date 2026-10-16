@@ -145,6 +145,7 @@ function fillBookingForm(b) {
   B("booking-notes").value = b.notes || "";
   for (const id of ["booking-from", "booking-to"]) {
     const select = B(id);
+    select.dataset.unit = e.unit;
     select.replaceChildren();
     for (let t = scheduleStart; t <= scheduleEnd; t += e.unit) {
       if (id === "booking-from" && t === scheduleEnd) continue;
@@ -187,21 +188,21 @@ function updateBookingTimeAvailability() {
   const from = B("booking-from");
   const to = B("booking-to");
   const closing = reservationClosingMinute(date);
-  const unit = Number(from.options[1]?.value) - Number(from.options[0]?.value);
-  for (const option of from.options)
-    option.disabled = isPast(Number(option.value)) || Number(option.value) + unit > closing;
-  if (!from.selectedOptions.length || from.selectedOptions[0].disabled) {
-    from.value = [...from.options].find((option) => !option.disabled)?.value || "";
-  }
-  for (const option of to.options) {
-    option.disabled =
-      !from.value ||
-      Number(option.value) <= Number(from.value) ||
-      Number(option.value) > closing ||
-      isPast(Number(option.value));
-  }
-  if (!to.selectedOptions.length || to.selectedOptions[0].disabled) {
-    to.value = [...to.options].find((option) => !option.disabled)?.value || "";
+  const unit = Number(from.dataset.unit);
+  if (!unit) return;
+  for (const select of [from, to]) {
+    const previous = select.value;
+    select.replaceChildren();
+    for (let value = scheduleStart; value <= closing; value += unit) {
+      if (isPast(value)) continue;
+      if (select === from && value + unit > closing) continue;
+      if (select === to && (!from.value || value <= Number(from.value))) continue;
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = scheduleTime(value);
+      select.append(option);
+    }
+    if ([...select.options].some((option) => option.value === previous)) select.value = previous;
   }
   B("booking-submit").disabled = !from.value || !to.value;
   if (B("booking-submit").disabled) {
