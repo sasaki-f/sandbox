@@ -71,6 +71,7 @@ function renderWeekly() {
     const weekday = document.createElement("small");
     weekday.textContent = "（" + weekdays[d.getDay()] + "）";
     heading.append(day, weekday);
+    if (date < reservationToday()) heading.classList.add("past-heading");
     if (date === reservationToday()) {
       col.classList.add("is-today");
       heading.setAttribute("aria-current", "date");
@@ -80,7 +81,7 @@ function renderWeekly() {
     if (d.getDay() === 0 || d.getDay() === 6) {
       col.querySelectorAll(".schedule-slot").forEach((slot) => {
         slot.disabled = true;
-        const past = date < reservationToday();
+        const past = slot.classList.contains("past-slot");
         const outsideRange = date > reservationMaximumDate();
         slot.textContent = past || outsideRange ? "" : "×";
         slot.setAttribute(

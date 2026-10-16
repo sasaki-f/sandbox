@@ -293,7 +293,7 @@ textarea:focus-visible,
 }
 .schedule-slot.past-slot:disabled,
 .schedule-slot.outside-range-slot:disabled {
-  background: #eef0f3;
+  background: var(--past-slot-background, #f6f7f9);
   color: #a1aab5;
   cursor: default;
 }
@@ -312,4 +312,32 @@ textarea:focus-visible,
 }
 .calendar .day.is-today::after {
   border-radius: 5px;
+}
+.calendar .day.past {
+  cursor: not-allowed;
+}
+.calendar .day.past.has-reservations:not(:disabled) {
+  cursor: pointer;
+}
+.calendar .day:disabled,
+.picker-day:disabled,
+.month-option:disabled,
+.schedule-slot:disabled,
+.schedule-slot.past-slot:disabled,
+.schedule-slot.outside-range-slot:disabled,
+.date-popup-header button:disabled,
+.monthbar .icon-button:disabled,
+.schedule-toolbar button:disabled {
+  cursor: not-allowed;
+}
+.schedule-booking {
+  cursor: pointer;
+}
+.weekly-page .weekly-heading.past-heading {
+  background: #f6f7f9;
+}
+.booking-primary:disabled {
+  background: #dce3e6;
+  color: #8a969e;
+  cursor: not-allowed;
 }

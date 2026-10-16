@@ -1453,3 +1453,32 @@ dialog {
   opacity: 0;
   z-index: 1;
 }
+:root {
+  --schedule-row-height: 40px;
+}
+.schedule-scroll .time-label {
+  height: var(--schedule-row-height);
+}
+.schedule-track {
+  height: calc(22 * var(--schedule-row-height));
+}
+.schedule-booking > span,
+.schedule-booking > strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (min-width: 1000px) {
+  :root {
+    --schedule-row-height: 56px;
+  }
+}
+@media (max-width: 999px) {
+  .schedule-booking,
+  .weekly-column .schedule-booking {
+    font-size: 12px;
+    line-height: 1.25;
+    padding: 3px 6px;
+  }
+}

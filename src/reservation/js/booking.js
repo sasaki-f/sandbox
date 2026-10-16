@@ -102,7 +102,9 @@ function fillDetail(container, b, confirmation = false) {
   appendDetail(container, "備考", b.notes || "―");
 }
 function openBooking(b, isNew = false) {
-  const past = b.date < reservationToday();
+  const past =
+    b.date < reservationToday() ||
+    (b.date === reservationToday() && b.from < reservationCurrentMinute());
   if (isNew && past) {
     toast("過去の日付では予約できません。");
     return;
@@ -175,7 +177,38 @@ function fillBookingForm(b) {
   repeatMode();
   repeatFrequency();
   B("booking-submit").textContent = bookingNew ? "予約内容を確認する" : "変更内容を確認する";
+  updateBookingTimeAvailability();
 }
+function updateBookingTimeAvailability() {
+  const date = B("booking-date").value;
+  const now = reservationCurrentMinute();
+  const isPast = (value) =>
+    date < reservationToday() || (date === reservationToday() && value < now);
+  const from = B("booking-from");
+  const to = B("booking-to");
+  for (const option of from.options) option.disabled = isPast(Number(option.value));
+  if (!from.selectedOptions.length || from.selectedOptions[0].disabled) {
+    from.value = [...from.options].find((option) => !option.disabled)?.value || "";
+  }
+  for (const option of to.options) {
+    option.disabled =
+      !from.value || Number(option.value) <= Number(from.value) || isPast(Number(option.value));
+  }
+  if (!to.selectedOptions.length || to.selectedOptions[0].disabled) {
+    to.value = [...to.options].find((option) => !option.disabled)?.value || "";
+  }
+  B("booking-submit").disabled = !from.value || !to.value;
+  if (B("booking-submit").disabled) {
+    B("booking-error").textContent =
+      "この日には予約できる時間がありません。別の日付を選択してください。";
+  } else if (B("booking-error").textContent.startsWith("この日には予約できる時間")) {
+    B("booking-error").textContent = "";
+  }
+}
+B("booking-date").addEventListener("change", updateBookingTimeAvailability);
+B("booking-from").addEventListener("change", updateBookingTimeAvailability);
+for (const id of ["booking-from", "booking-to"])
+  B(id).addEventListener("focus", updateBookingTimeAvailability);
 function repeatMode() {
   B("repeat-count-label").hidden = B("repeat-mode").value !== "count";
   B("repeat-end-label").hidden = B("repeat-mode").value !== "date";
@@ -226,6 +259,8 @@ function validateDraft(b, dates) {
   if ((b.from - scheduleStart) % e.unit || (b.to - b.from) % e.unit)
     throw Error("この設備は" + e.unit + "分単位で予約してください。");
   for (const date of dates) {
+    if (date === reservationToday() && b.from < reservationCurrentMinute())
+      throw Error("過去の時刻では予約できません。現在時刻以降の開始時刻を選択してください。");
     if (date > reservationMaximumDate())
       throw Error(
         `予約できるのは${dateText(reservationMaximumDate())}までです。繰り返しの終了条件も確認してください。`,

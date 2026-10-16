@@ -18,7 +18,10 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   const snapTime = () => {
     if (!scroller.clientHeight) return;
     const limit = scroller.scrollHeight - scroller.clientHeight;
-    const top = Math.min(Math.round(scroller.scrollTop / 32) * 32, Math.floor(limit / 32) * 32);
+    // The bottom edge is a valid stop even when it falls between time lines.
+    if (limit - scroller.scrollTop <= 1) return;
+    const rowHeight = scroller.querySelector(".time-label")?.getBoundingClientRect().height || 40;
+    const top = Math.min(Math.round(scroller.scrollTop / rowHeight) * rowHeight, limit);
     if (Math.abs(top - scroller.scrollTop) > 0.5)
       scroller.scrollTo({ top, left: scroller.scrollLeft, behavior: "smooth" });
   };

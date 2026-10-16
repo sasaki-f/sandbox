@@ -31,8 +31,7 @@ let scheduleCategory = "",
   scheduleDate = "",
   chosenSlot = null;
 const scheduleStart = 420,
-  scheduleEnd = 1080,
-  minuteHeight = 32 / 30;
+  scheduleEnd = 1080;
 const scheduleBookings = [];
 const seededScheduleDays = new Set();
 const scheduleBlocked = [];
@@ -127,6 +126,8 @@ function leaveSchedule(toCalendar = false) {
   }
 }
 function renderSchedule() {
+  const today = reservationToday();
+  const currentMinute = reservationCurrentMinute();
   document.querySelector("#schedule-prev").disabled = scheduleDate <= reservationMinimumDate;
   document.querySelector("#schedule-next").disabled = scheduleDate >= reservationMaximumDate();
   seedSchedule(scheduleCategory, scheduleDate);
@@ -180,15 +181,23 @@ function renderSchedule() {
     for (let from = scheduleStart; from + e.unit <= scheduleEnd; from += e.unit) {
       const to = from + e.unit;
       const busy = bookings.some((b) => b.from < to && b.to > from),
-        past = scheduleDate < reservationToday(),
+        past = scheduleDate < today || (scheduleDate === today && from < currentMinute),
         outsideRange = scheduleDate > reservationMaximumDate(),
         unavailable = blocked.some((b) => b.from < to && b.to > from);
       const slot = document.createElement("button");
       slot.className = "schedule-slot";
       slot.classList.toggle("past-slot", past);
       slot.classList.toggle("outside-range-slot", outsideRange);
-      slot.style.top = (from - scheduleStart) * minuteHeight + "px";
-      slot.style.height = e.unit * minuteHeight + "px";
+      if (past && scheduleDate === today && currentMinute < to) {
+        // Paint elapsed time independently of the equipment's reservation unit.
+        const elapsed = ((currentMinute - from) / e.unit) * 100;
+        slot.style.setProperty(
+          "--past-slot-background",
+          `linear-gradient(to bottom, #f6f7f9 ${elapsed}%, #fff ${elapsed}%)`,
+        );
+      }
+      slot.style.top = `calc(${(from - scheduleStart) / 30} * var(--schedule-row-height))`;
+      slot.style.height = `calc(${e.unit / 30} * var(--schedule-row-height))`;
       slot.dataset.from = from;
       slot.dataset.to = to;
       slot.textContent = unavailable && !busy && !past && !outsideRange ? "×" : "";
@@ -235,8 +244,9 @@ function renderSchedule() {
     bookings.forEach((b) => {
       const event = document.createElement("button");
       event.className = "schedule-booking" + (b.own ? " own" : "");
-      event.style.top = (b.from - scheduleStart) * minuteHeight + "px";
-      event.style.height = (b.to - b.from) * minuteHeight + "px";
+      event.style.top = `calc(${(b.from - scheduleStart) / 30} * var(--schedule-row-height))`;
+      event.style.height = `calc(${(b.to - b.from) / 30} * var(--schedule-row-height))`;
+      event.title = `${scheduleTime(b.from)}〜${scheduleTime(b.to)} ${b.title}`;
       const time = document.createElement("span");
       time.textContent = scheduleTime(b.from) + "〜" + scheduleTime(b.to);
       const title = document.createElement("strong");

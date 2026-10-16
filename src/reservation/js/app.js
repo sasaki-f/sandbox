@@ -14,6 +14,17 @@ function reservationMaximumDate(base = reservationToday()) {
   const lastDay = new Date(Date.UTC(y + 1, m, 0)).getUTCDate();
   return `${y + 1}-${String(m).padStart(2, "0")}-${String(Math.min(d, lastDay)).padStart(2, "0")}`;
 }
+function reservationCurrentMinute() {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Tokyo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const value = (type) => Number(parts.find((part) => part.type === type).value);
+  return value("hour") * 60 + value("minute") + value("second") / 60;
+}
 const $ = (s) => document.querySelector(s);
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 let year = 2026,
@@ -177,6 +188,7 @@ function render() {
     b.setAttribute("aria-label", dateText(s) + ` ${items.length}件の予約`);
     b.setAttribute("aria-pressed", String(s === selected));
     b.classList.toggle("past", s < today);
+    b.classList.toggle("has-reservations", items.length > 0);
     b.classList.toggle("is-today", s === today);
     if (s === today) b.setAttribute("aria-current", "date");
     b.disabled = s < reservationMinimumDate || s > maximum;
