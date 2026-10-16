@@ -313,6 +313,14 @@ textarea:focus-visible,
 .calendar .day.is-today::after {
   border-radius: 5px;
 }
+.weekly-column.is-today > .weekly-heading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--primary);
+  border-bottom: 0;
+  pointer-events: none;
+}
 .calendar .day.past {
   cursor: not-allowed;
 }
@@ -335,6 +343,13 @@ textarea:focus-visible,
 }
 .weekly-page .weekly-heading.past-heading {
   background: #f6f7f9;
+}
+.schedule-remainder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #f6f7f9;
+  cursor: not-allowed;
 }
 .booking-primary:disabled {
   background: #dce3e6;

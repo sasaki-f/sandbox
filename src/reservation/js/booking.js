@@ -186,13 +186,19 @@ function updateBookingTimeAvailability() {
     date < reservationToday() || (date === reservationToday() && value < now);
   const from = B("booking-from");
   const to = B("booking-to");
-  for (const option of from.options) option.disabled = isPast(Number(option.value));
+  const closing = reservationClosingMinute(date);
+  const unit = Number(from.options[1]?.value) - Number(from.options[0]?.value);
+  for (const option of from.options)
+    option.disabled = isPast(Number(option.value)) || Number(option.value) + unit > closing;
   if (!from.selectedOptions.length || from.selectedOptions[0].disabled) {
     from.value = [...from.options].find((option) => !option.disabled)?.value || "";
   }
   for (const option of to.options) {
     option.disabled =
-      !from.value || Number(option.value) <= Number(from.value) || isPast(Number(option.value));
+      !from.value ||
+      Number(option.value) <= Number(from.value) ||
+      Number(option.value) > closing ||
+      isPast(Number(option.value));
   }
   if (!to.selectedOptions.length || to.selectedOptions[0].disabled) {
     to.value = [...to.options].find((option) => !option.disabled)?.value || "";
@@ -268,8 +274,8 @@ function validateDraft(b, dates) {
     if (date < reservationToday())
       throw Error("過去の日付では予約できません。今日以降を選択してください。");
     if (scheduleEquipment[b.category]?.some((e) => e.name === b.equipment)) {
-      const weekday = new Date(date + "T00:00:00").getDay();
-      if (weekday === 0 || weekday === 6) throw Error(dateText(date) + "は予約できません。");
+      if (b.to > reservationClosingMinute(date))
+        throw Error(dateText(date) + "の予約受付は12:00までです。");
       seedSchedule(b.category, date);
     }
     const conflicts = scheduleBookings.some(

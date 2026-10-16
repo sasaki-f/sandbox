@@ -1469,6 +1469,20 @@ dialog {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.schedule-booking.compact-booking {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  line-height: 1.25;
+}
+.schedule-booking.compact-booking > span {
+  flex: 0 0 auto;
+}
+.schedule-booking.compact-booking > strong {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 @media (min-width: 1000px) {
   :root {
     --schedule-row-height: 56px;

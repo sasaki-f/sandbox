@@ -5,7 +5,7 @@ function reservationToday() {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).formatToParts(new Date());
+  }).formatToParts(reservationNow());
   const value = (type) => parts.find((p) => p.type === type).value;
   return value("year") + "-" + value("month") + "-" + value("day");
 }
@@ -21,7 +21,7 @@ function reservationCurrentMinute() {
     minute: "2-digit",
     second: "2-digit",
     hourCycle: "h23",
-  }).formatToParts(new Date());
+  }).formatToParts(reservationNow());
   const value = (type) => Number(parts.find((part) => part.type === type).value);
   return value("hour") * 60 + value("minute") + value("second") / 60;
 }

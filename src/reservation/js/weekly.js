@@ -78,22 +78,6 @@ function renderWeekly() {
     }
     if (d.getDay() === 0) heading.classList.add("week-sun");
     if (d.getDay() === 6) heading.classList.add("week-sat");
-    if (d.getDay() === 0 || d.getDay() === 6) {
-      col.querySelectorAll(".schedule-slot").forEach((slot) => {
-        slot.disabled = true;
-        const past = slot.classList.contains("past-slot");
-        const outsideRange = date > reservationMaximumDate();
-        slot.textContent = past || outsideRange ? "" : "×";
-        slot.setAttribute(
-          "aria-label",
-          weeklyEquipment.name +
-            " " +
-            date +
-            (past ? " 過去の時間枠" : outsideRange ? " 予約受付期間外" : " 予約不可"),
-        );
-      });
-      col.querySelectorAll(".schedule-booking").forEach((event) => event.remove());
-    }
     col.addEventListener(
       "click",
       () => {

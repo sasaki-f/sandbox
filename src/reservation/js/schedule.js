@@ -33,6 +33,10 @@ let scheduleCategory = "",
 const scheduleStart = 420,
   scheduleEnd = 1080;
 const scheduleBookings = [];
+function reservationClosingMinute(date) {
+  const weekday = new Date(date + "T00:00:00").getDay();
+  return weekday === 0 || weekday === 6 ? 720 : scheduleEnd;
+}
 const seededScheduleDays = new Set();
 const scheduleBlocked = [];
 const schedulePage = document.createElement("section");
@@ -241,9 +245,24 @@ function renderSchedule() {
       };
       track.append(slot);
     }
+    const remainder = (scheduleEnd - scheduleStart) % e.unit;
+    if (remainder > 0) {
+      const from = scheduleEnd - remainder;
+      const unavailable = document.createElement("div");
+      unavailable.className = "schedule-remainder";
+      unavailable.style.top = `calc(${(from - scheduleStart) / 30} * var(--schedule-row-height))`;
+      unavailable.style.height = `calc(${remainder / 30} * var(--schedule-row-height))`;
+      unavailable.setAttribute("role", "note");
+      unavailable.setAttribute(
+        "aria-label",
+        `${e.name} ${scheduleTime(from)}〜${scheduleTime(scheduleEnd)} 予約単位に満たないため予約不可`,
+      );
+      track.append(unavailable);
+    }
     bookings.forEach((b) => {
       const event = document.createElement("button");
       event.className = "schedule-booking" + (b.own ? " own" : "");
+      event.classList.toggle("compact-booking", b.to - b.from < 30);
       event.style.top = `calc(${(b.from - scheduleStart) / 30} * var(--schedule-row-height))`;
       event.style.height = `calc(${(b.to - b.from) / 30} * var(--schedule-row-height))`;
       event.title = `${scheduleTime(b.from)}〜${scheduleTime(b.to)} ${b.title}`;

@@ -81,6 +81,11 @@ scheduleEquipment["プロジェクター"].splice(7);
 scheduleEquipment["車両"].splice(6);
 scheduleEquipment["モニター"].splice(9);
 scheduleEquipment["面談室"].splice(8);
+scheduleEquipment["プロジェクター"].push({
+  name: "ミニプロジェクター（15分単位）",
+  unit: 15,
+  info: "短時間の資料確認・動作テスト用",
+});
 const demoTitles = {
   会議室: [
     "企画会議",
@@ -155,7 +160,7 @@ seedSchedule = function (category, date) {
         category,
         date,
         equipment: e.name,
-        from: scheduleStart,
+        from: reservationClosingMinute(date),
         to: scheduleEnd,
       }),
     );
@@ -172,6 +177,26 @@ seedSchedule = function (category, date) {
   scheduleEquipment[category].forEach((e, index) => {
     const hash = demoHash(date + "|" + e.name);
     const planned = [];
+    if (e.unit === 15) {
+      for (const [from, to, title, own] of [
+        [615, 630, "投影テスト", false],
+        [795, 825, "提案資料のレビュー", true],
+      ]) {
+        addDemoBooking({
+          category,
+          date,
+          equipment: e.name,
+          from,
+          to,
+          title,
+          own,
+          person: own ? "自分" : "佐藤 太郎",
+          department: "企画部",
+          notes: "15分単位の設備の表示確認用です。",
+        });
+      }
+      return;
+    }
     if (hash % 7 === 0)
       scheduleBlocked.push({
         category,
