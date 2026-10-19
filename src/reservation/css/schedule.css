@@ -232,6 +232,11 @@
   }
 }
 .equipment-link {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #0066e6;
   font-size: inherit;
   font-weight: 700;
@@ -239,6 +244,11 @@
   border: 0;
   padding: 0;
   cursor: pointer;
+}
+.equipment-column > .schedule-heading > small {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .equipment-link:hover {
   text-decoration: underline;

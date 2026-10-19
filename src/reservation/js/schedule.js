@@ -160,10 +160,12 @@ function renderSchedule() {
     const link = document.createElement("button");
     link.className = "equipment-link";
     link.textContent = e.name;
+    link.title = e.name;
     link.setAttribute("aria-label", e.name + "の1週間予約を表示");
     head.append(link);
     const info = document.createElement("small");
     info.textContent = e.info;
+    info.title = e.info;
     head.append(info);
     if (e.capacity) {
       const capacity = document.createElement("small");
