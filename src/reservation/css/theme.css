@@ -355,6 +355,11 @@ textarea:focus-visible,
 .schedule-booking {
   cursor: pointer;
 }
+.schedule-scroll .time-column,
+.schedule-scroll .time-column > .schedule-heading,
+.equipment-column > .schedule-heading:not(.week-sat):not(.week-sun) {
+  background: #f1f7ef;
+}
 .weekly-page .weekly-heading.past-heading {
   background: #f6f7f9;
 }
