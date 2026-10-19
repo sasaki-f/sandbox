@@ -251,7 +251,7 @@
   text-overflow: ellipsis;
 }
 .equipment-link:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .equipment-summary {
   display: flex;

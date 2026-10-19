@@ -71,6 +71,21 @@ function renderWeekly() {
     const weekday = document.createElement("small");
     weekday.textContent = "（" + weekdays[d.getDay()] + "）";
     heading.append(day, weekday);
+    heading.setAttribute("role", "link");
+    heading.tabIndex = 0;
+    heading.setAttribute("aria-label", dateText(date) + "の" + scheduleCategory + "の予約表を表示");
+    const openCategoryDay = () => {
+      scheduleDate = date;
+      weeklyFromCategory = false;
+      leaveWeekly();
+    };
+    heading.onclick = openCategoryDay;
+    heading.onkeydown = (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openCategoryDay();
+      }
+    };
     if (date < reservationToday()) heading.classList.add("past-heading");
     if (date === reservationToday()) {
       col.classList.add("is-today");

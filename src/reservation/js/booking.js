@@ -19,6 +19,13 @@ let activeBooking = null,
   bookingDraft = null;
 let bookingSerial = 0;
 const B = (id) => document.getElementById(id);
+const monthlyWeekdayOption = document.createElement("option");
+monthlyWeekdayOption.value = "monthly-weekday";
+B("repeat-interval").append(monthlyWeekdayOption);
+function monthlyWeekdayLabel(date) {
+  const day = new Date(date + "T00:00:00");
+  return `毎月 第${Math.ceil(day.getDate() / 7)} ${weekdays[day.getDay()]}曜日`;
+}
 function equipmentFor(name) {
   for (const [category, items] of Object.entries(scheduleEquipment)) {
     const e = items.find((e) => e.name === name);
@@ -60,6 +67,12 @@ function bookingFromRow(r, own) {
 }
 function repeatDescription(b) {
   if (!b.repeat) return "なし";
+  if (b.repeat.frequency === "monthly-weekday")
+    return (
+      monthlyWeekdayLabel(b.date) +
+      "　" +
+      (b.repeat.mode === "date" ? dateText(b.repeat.end) + "まで" : "全" + b.repeat.count + "回")
+    );
   if (b.repeat.frequency === "monthly")
     return (
       "毎月 " +
@@ -158,7 +171,9 @@ function fillBookingForm(b) {
   }
   B("booking-repeat").checked = !!b.repeat;
   B("repeat-fields").hidden = !b.repeat;
-  B("repeat-interval").value = b.repeat?.frequency === "monthly" ? "monthly" : 1;
+  B("repeat-interval").value = b.repeat?.frequency?.startsWith("monthly")
+    ? b.repeat.frequency
+    : "1";
   B("repeat-mode").value = b.repeat?.mode || "count";
   B("repeat-count").value = b.repeat?.count || 6;
   const end = new Date(b.date + "T00:00:00");
@@ -222,12 +237,24 @@ function repeatMode() {
 }
 function occurrenceDates(b) {
   if (!b.repeat) return [b.date];
-  if (b.repeat.frequency === "monthly") {
+  if (b.repeat.frequency.startsWith("monthly")) {
     const start = new Date(b.date + "T00:00:00"),
       dates = [];
     for (let i = 0; i < 120; i++) {
-      const d = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
-      if (d.getDate() !== start.getDate()) continue;
+      let d;
+      if (b.repeat.frequency === "monthly-weekday") {
+        const first = new Date(start.getFullYear(), start.getMonth() + i, 1);
+        const offset = (start.getDay() - first.getDay() + 7) % 7;
+        d = new Date(
+          first.getFullYear(),
+          first.getMonth(),
+          1 + offset + Math.floor((start.getDate() - 1) / 7) * 7,
+        );
+        if (d.getMonth() !== first.getMonth()) continue;
+      } else {
+        d = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
+        if (d.getDate() !== start.getDate()) continue;
+      }
       const value = key(d);
       if (b.repeat.mode === "date" && value > b.repeat.end) break;
       dates.push(value);
@@ -320,7 +347,9 @@ B("booking-form").onsubmit = (event) => {
     };
     b.repeat = B("booking-repeat").checked
       ? {
-          frequency: B("repeat-interval").value === "monthly" ? "monthly" : "weekly",
+          frequency: B("repeat-interval").value.startsWith("monthly")
+            ? B("repeat-interval").value
+            : "weekly",
           interval: 1,
           days: [...B("repeat-weekdays").querySelectorAll("input:checked")].map((e) =>
             Number(e.value),
@@ -332,7 +361,7 @@ B("booking-form").onsubmit = (event) => {
       : null;
     if (
       b.repeat &&
-      ((b.repeat.frequency !== "monthly" && !b.repeat.days.length) ||
+      ((!b.repeat.frequency.startsWith("monthly") && !b.repeat.days.length) ||
         (b.repeat.mode === "count" &&
           (!Number.isInteger(b.repeat.count) || b.repeat.count < 2 || b.repeat.count > 52)) ||
         (b.repeat.mode === "date" && (!b.repeat.end || b.repeat.end < b.date)))
@@ -490,13 +519,18 @@ bookingDialog.addEventListener("click", (event) => {
 });
 
 function repeatFrequency() {
-  const monthly = B("repeat-interval").value === "monthly";
+  const date = B("booking-date").value;
+  monthlyWeekdayOption.textContent = date ? monthlyWeekdayLabel(date) : "毎月 第○曜日";
+  const monthly = B("repeat-interval").value.startsWith("monthly");
   B("repeat-weekdays").hidden = monthly;
   B("repeat-monthly-hint").hidden = !monthly;
   B("repeat-monthly-hint").textContent =
-    "毎月、初回と同じ日付で予約します。その日付がない月はスキップします。";
+    B("repeat-interval").value === "monthly-weekday"
+      ? "初回と同じ第何週・曜日で予約します。該当する曜日がない月はスキップします。"
+      : "毎月、初回と同じ日付で予約します。その日付がない月はスキップします。";
 }
 B("repeat-interval").onchange = repeatFrequency;
+B("booking-date").addEventListener("change", repeatFrequency);
 
 function showBookingPage() {
   if (!bookingDialog.open) bookingDialog.showModal();

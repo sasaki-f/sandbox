@@ -321,6 +321,20 @@ textarea:focus-visible,
   border-bottom: 0;
   pointer-events: none;
 }
+.weekly-heading[role="link"] {
+  cursor: pointer;
+}
+.equipment-column > .schedule-heading {
+  cursor: pointer;
+}
+.weekly-heading[role="link"]:hover,
+.equipment-column > .schedule-heading:has(.equipment-link):hover {
+  box-shadow: inset 0 0 0 2px var(--primary-soft-border);
+}
+.weekly-heading[role="link"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -3px;
+}
 .calendar .day.past {
   cursor: not-allowed;
 }

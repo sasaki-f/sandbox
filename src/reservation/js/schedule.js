@@ -157,6 +157,9 @@ function renderSchedule() {
     column.dataset.unit = e.unit;
     const head = document.createElement("div");
     head.className = "schedule-heading";
+    head.onclick = (event) => {
+      if (!event.target.closest(".equipment-link")) head.querySelector(".equipment-link").click();
+    };
     const link = document.createElement("button");
     link.className = "equipment-link";
     link.textContent = e.name;
