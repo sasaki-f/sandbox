@@ -139,6 +139,10 @@ function renderSchedule() {
   document.querySelector("#schedule-date-label").textContent = dateText(scheduleDate);
   const equipment = scheduleEquipment[scheduleCategory],
     table = document.querySelector("#schedule-table");
+  table.style.setProperty(
+    "--equipment-heading-height",
+    equipment.some((e) => e.capacity) ? "112px" : "90px",
+  );
   table.replaceChildren();
   table.style.gridTemplateColumns = "70px " + equipment.map(() => "max-content").join(" ");
   const times = document.createElement("div");

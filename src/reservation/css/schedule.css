@@ -65,6 +65,14 @@
   color: #375674;
   margin-top: 4px;
 }
+#schedule-table .schedule-heading {
+  height: var(--equipment-heading-height, 112px);
+  padding: 10px;
+}
+#schedule-table .schedule-heading small {
+  line-height: 1.4;
+  margin-top: 3px;
+}
 .time-column {
   position: sticky;
   left: 0;
