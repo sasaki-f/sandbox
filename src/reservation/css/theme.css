@@ -141,9 +141,15 @@ textarea:focus-visible,
 .app > header .schedule-close {
   color: var(--primary-dark);
 }
+.booking-header #booking-menu {
+  background: #f5f6f7;
+  border: 1px solid #dce0e4;
+  border-radius: 8px;
+  color: #59636e;
+}
 .booking-header #booking-menu:hover,
 .booking-header #booking-menu[aria-expanded="true"] {
-  background: var(--soft-button-bg);
+  background: #e9ecef;
 }
 .sidebar-heading[role="link"]:focus-visible,
 .reservation-mobile-topbar > span[role="link"]:focus-visible,
