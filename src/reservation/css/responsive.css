@@ -1468,6 +1468,9 @@ dialog {
     margin: 0 0 8px;
   }
   .schedule-view-controls button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 5px 10px;
     border: 1px solid var(--primary-soft-border);
     border-radius: 6px;
@@ -1475,9 +1478,12 @@ dialog {
     color: var(--primary-dark);
     font-size: 12px;
   }
-  .schedule-view-controls button:hover,
   .schedule-view-controls button[aria-pressed="true"] {
     background: var(--primary-soft);
+  }
+  .schedule-view-controls button:hover {
+    background: var(--primary-soft-hover);
+    border-color: var(--primary);
   }
   .schedule-overview .schedule-table {
     zoom: 0.5;

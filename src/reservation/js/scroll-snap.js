@@ -5,11 +5,24 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   viewControls.className = "schedule-view-controls";
   const overview = document.createElement("button");
   overview.type = "button";
-  overview.textContent = "全体表示";
+  const updateOverviewLabel = (compact) => {
+    overview.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        ${
+          compact
+            ? '<path d="M9 8V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3" /><rect x="3" y="8" width="13" height="13" rx="2" />'
+            : '<rect x="4" y="4" width="16" height="16" rx="3" />'
+        }
+      </svg>
+      <span>${compact ? "通常表示" : "全体表示"}</span>
+    `;
+  };
+  updateOverviewLabel(false);
   overview.setAttribute("aria-pressed", "false");
   overview.onclick = () => {
     const compact = scroller.classList.toggle("schedule-overview");
-    overview.textContent = compact ? "通常表示に戻す" : "全体表示";
+    updateOverviewLabel(compact);
     overview.setAttribute("aria-pressed", String(compact));
   };
   viewControls.append(overview);
