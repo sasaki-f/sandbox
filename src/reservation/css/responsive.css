@@ -1458,6 +1458,31 @@ dialog {
 :root {
   --schedule-row-height: 40px;
 }
+.schedule-view-controls {
+  display: none;
+}
+@media (max-width: 999px) {
+  .schedule-view-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 8px;
+  }
+  .schedule-view-controls button {
+    padding: 5px 10px;
+    border: 1px solid var(--primary-soft-border);
+    border-radius: 6px;
+    background: var(--soft-button-bg);
+    color: var(--primary-dark);
+    font-size: 12px;
+  }
+  .schedule-view-controls button:hover,
+  .schedule-view-controls button[aria-pressed="true"] {
+    background: var(--primary-soft);
+  }
+  .schedule-overview .schedule-table {
+    zoom: 0.5;
+  }
+}
 .schedule-scroll .time-label {
   height: var(--schedule-row-height);
 }

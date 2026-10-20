@@ -1,6 +1,19 @@
 // Snap between columns without adding space past the right edge of the table.
 for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   const table = scroller.querySelector(".schedule-table");
+  const viewControls = document.createElement("div");
+  viewControls.className = "schedule-view-controls";
+  const overview = document.createElement("button");
+  overview.type = "button";
+  overview.textContent = "全体表示";
+  overview.setAttribute("aria-pressed", "false");
+  overview.onclick = () => {
+    const compact = scroller.classList.toggle("schedule-overview");
+    overview.textContent = compact ? "通常表示に戻す" : "全体表示";
+    overview.setAttribute("aria-pressed", String(compact));
+  };
+  viewControls.append(overview);
+  scroller.before(viewControls);
   const update = () => {
     const columns = table.querySelectorAll(".equipment-column"),
       column = columns[0];
