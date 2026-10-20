@@ -41,6 +41,7 @@ async function bootstrapReservation() {
       "booking",
       "scroll-snap",
       "day-popup",
+      "dialog-drag",
       "search-layout",
       "category-tree",
       "sidebar",

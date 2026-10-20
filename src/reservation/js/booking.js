@@ -10,6 +10,7 @@ deleteDialog.innerHTML =
   '<h2>この予約を削除しますか？</h2><p>この操作は取り消せません。</p><p id="delete-repeat-note"></p><button id="delete-confirm" class="booking-danger">予約を削除する</button><button id="delete-cancel" class="booking-secondary">キャンセル</button>';
 document.body.append(deleteDialog);
 const successDialog = document.createElement("dialog");
+let successReturnDay = null;
 successDialog.className = "booking-success";
 successDialog.innerHTML =
   '<div class="success-mark">✓</div><h2>予約が完了しました</h2><p id="booking-success-text"></p><button class="booking-primary" id="booking-success-ok">OK</button>';
@@ -434,6 +435,9 @@ function commitBooking() {
       mine.push(row);
       reservations.push(row);
     });
+    successReturnDay = returnToDayPopup || dayPopup.open ? selected : null;
+    returnToDayPopup = false;
+    if (dayPopup.open) dayPopup.close();
     closeBookingPage();
     refreshBookings();
     B("booking-success-text").textContent =
@@ -457,6 +461,14 @@ B("booking-menu").onclick = () => {
   const open = B("booking-menu-panel").hidden;
   B("booking-menu-panel").hidden = !open;
   B("booking-menu").setAttribute("aria-expanded", String(open));
+  if (open) {
+    const panel = B("booking-menu-panel");
+    const buttonRect = B("booking-menu").getBoundingClientRect();
+    const dialogRect = bookingDialog.getBoundingClientRect();
+    panel.style.top = `${buttonRect.bottom - dialogRect.top + bookingDialog.scrollTop + 6}px`;
+    panel.style.left = `${Math.max(8, buttonRect.right - dialogRect.left - panel.offsetWidth)}px`;
+    panel.style.right = "auto";
+  }
 };
 B("booking-delete").onclick = () => {
   if (!activeBooking.own) return;
@@ -477,6 +489,13 @@ B("delete-confirm").onclick = () => {
 B("delete-cancel").onclick = () => deleteDialog.close();
 B("booking-close").onclick = () => closeBookingPage();
 B("booking-success-ok").onclick = () => successDialog.close();
+successDialog.addEventListener("close", () => {
+  if (!successReturnDay) return;
+  selected = successReturnDay;
+  successReturnDay = null;
+  render();
+  showDayReservations();
+});
 B("booking-repeat").onchange = () => (B("repeat-fields").hidden = !B("booking-repeat").checked);
 B("repeat-mode").onchange = repeatMode;
 for (const id of ["booking-date", "repeat-end"]) {

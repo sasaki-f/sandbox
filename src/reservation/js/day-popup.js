@@ -19,7 +19,12 @@ function showDayReservations() {
     return;
   }
   document.querySelector("#day-panel").hidden = false;
-  if (!dayPopup.open) dayPopup.showModal();
+  if (!dayPopup.open) {
+    dayPopup.showModal();
+    const title = dayPopup.querySelector("#day-title");
+    title.setAttribute("tabindex", "-1");
+    title.focus({ preventScroll: true });
+  }
 }
 dayClose.onclick = () => dayPopup.close();
 dayPopup.addEventListener("close", () => {

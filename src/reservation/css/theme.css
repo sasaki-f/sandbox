@@ -383,3 +383,175 @@ textarea:focus-visible,
   color: #8a969e;
   cursor: not-allowed;
 }
+#booking-heading:focus {
+  outline: none;
+}
+.booking-popup .booking-header #booking-heading {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  margin: 0;
+  line-height: 1;
+  transform: translateY(2px);
+}
+.day-popup .list-title #day-title,
+.day-popup .list-title .count {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1;
+  transform: translateY(2px);
+}
+#day-title:focus {
+  outline: none;
+}
+.dialog-drag-handle,
+dialog button,
+.day-popup-close {
+  user-select: none;
+  -webkit-user-select: none;
+}
+.booking-popup .booking-header button:focus-visible,
+.day-popup .day-popup-close:focus-visible {
+  outline: 2px solid #f6d982;
+  outline-offset: 2px;
+}
+.booking-popup .booking-header button:focus:not(:focus-visible),
+.day-popup .day-popup-close:focus:not(:focus-visible) {
+  outline: none;
+}
+.booking-popup .booking-header :is(#booking-back, #booking-close),
+.day-popup .day-popup-close,
+.app > header :is(#back, .schedule-close) {
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex: 0 0 36px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c6dfdc;
+  border-radius: 9px;
+  background: #eff9f8;
+  font-size: 24px;
+  line-height: 1;
+}
+.booking-popup .booking-header :is(#booking-back, #booking-close):hover,
+.day-popup .day-popup-close:hover,
+.app > header :is(#back, .schedule-close):hover {
+  background: #d3efed;
+}
+@media (min-width: 0px) {
+  .booking-popup,
+  .day-popup {
+    padding-top: 0;
+  }
+  .day-popup {
+    padding: 0;
+  }
+  .booking-popup .booking-header.dialog-drag-handle {
+    margin: 0 -24px 18px;
+  }
+  .day-popup #day-panel .day-list {
+    margin-top: 0;
+    overflow: hidden;
+  }
+  .day-popup .list-title.dialog-drag-handle {
+    margin: 0 0 12px;
+  }
+  .day-popup #day-rows {
+    margin: 0 22px;
+  }
+  .day-popup #day-panel .new {
+    margin: 0 22px 22px;
+    width: calc(100% - 44px);
+  }
+  .dialog-drag-handle {
+    cursor: grab;
+    touch-action: none;
+  }
+  .booking-popup .booking-header.dialog-drag-handle,
+  .day-popup .list-title.dialog-drag-handle {
+    min-height: 48px;
+    padding: 10px 12px;
+    background: #438f8c;
+    color: #fff;
+    border: 1px solid #397e7b;
+    border-bottom: 0;
+    border-radius: 16px 16px 0 0;
+  }
+  .day-popup .list-title.dialog-drag-handle {
+    min-height: 56px;
+    padding-left: 22px;
+    padding-right: 60px;
+  }
+  .booking-popup .booking-header.dialog-drag-handle:hover,
+  .day-popup .list-title.dialog-drag-handle:hover {
+    background: #397f7c;
+  }
+  .booking-popup .dialog-drag-handle h2,
+  .day-popup .dialog-drag-handle .count {
+    color: #fff;
+  }
+  .booking-popup .booking-header #booking-back,
+  .booking-popup .booking-header #booking-close,
+  .booking-popup .booking-header #booking-menu,
+  .day-popup .day-popup-close {
+    color: #fff;
+  }
+  .booking-popup .booking-header :is(#booking-back, #booking-close),
+  .day-popup .day-popup-close {
+    border-color: rgb(255 255 255 / 45%);
+    background: rgb(255 255 255 / 22%);
+  }
+  .day-popup .day-popup-close {
+    top: 10px;
+  }
+  .booking-popup .dialog-drag-handle #booking-menu {
+    background: rgb(255 255 255 / 20%);
+    border-color: rgb(255 255 255 / 65%);
+    color: #fff;
+  }
+  .booking-popup .booking-header #booking-back:hover,
+  .booking-popup .booking-header #booking-close:hover,
+  .booking-popup .booking-header #booking-menu:hover,
+  .day-popup .day-popup-close:hover {
+    color: #fff;
+    background: rgb(255 255 255 / 28%);
+  }
+  .booking-popup .booking-header #booking-close,
+  .day-popup .day-popup-close {
+    background: #e5686d;
+    border-color: #e5686d;
+    color: #fff;
+  }
+  .booking-popup .booking-header #booking-close:hover,
+  .day-popup .day-popup-close:hover {
+    background: #d9575e;
+    border-color: #d9575e;
+  }
+  .dialog-drag-handle.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+}
+@media (max-width: 999px) {
+  .booking-popup .booking-header.dialog-drag-handle:hover,
+  .day-popup .list-title.dialog-drag-handle:hover {
+    background: #438f8c;
+  }
+  .dialog-drag-handle {
+    cursor: default;
+    touch-action: auto;
+  }
+}
+@media (max-width: 599px) {
+  .booking-popup .booking-header.dialog-drag-handle {
+    margin-left: -18px;
+    margin-right: -18px;
+    border-radius: 14px 14px 0 0;
+  }
+}
