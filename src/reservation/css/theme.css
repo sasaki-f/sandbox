@@ -469,6 +469,9 @@ dialog button,
   }
   .booking-popup .booking-header.dialog-drag-handle {
     margin: 0 -24px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
   .day-popup #day-panel .day-list {
     margin-top: 0;
@@ -568,5 +571,30 @@ dialog button,
     margin-left: -18px;
     margin-right: -18px;
     border-radius: 14px 14px 0 0;
+  }
+}
+.booking-popup {
+  padding: 0;
+  overflow: hidden;
+}
+.booking-popup[open] {
+  display: flex;
+  flex-direction: column;
+}
+.booking-popup .booking-header.dialog-drag-handle {
+  position: relative;
+  flex-shrink: 0;
+  margin: 0 0 12px;
+}
+.booking-popup .booking-scroll-body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 18px 18px;
+  padding: 0 6px 6px;
+}
+@media (max-width: 599px) {
+  .booking-popup .booking-scroll-body {
+    margin: 0 12px 12px;
   }
 }

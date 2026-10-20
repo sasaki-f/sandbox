@@ -4,6 +4,12 @@ bookingDialog.id = "booking-page";
 bookingDialog.setAttribute("aria-label", "予約");
 bookingDialog.innerHTML = `<div class="booking-header"><button type="button" id="booking-back" aria-label="戻る"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 4-8 8 8 8"/></svg></button><h2 id="booking-heading"></h2><div><button type="button" id="booking-menu" aria-label="予定のメニュー">⋮</button><button type="button" id="booking-close" aria-label="閉じる">×</button></div></div><div id="booking-menu-panel" hidden><button type="button" id="booking-delete"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></svg>削除</button></div><div class="booking-equipment"><img id="booking-image" alt=""><div><strong id="booking-equipment-name"></strong><p id="booking-equipment-info"></p></div></div><div id="booking-read"></div><form id="booking-form"><label>タイトル<input id="booking-title" required maxlength="80" placeholder="タイトルを入力してください"></label><label>日時<input id="booking-date" type="date" required readonly aria-haspopup="dialog"></label><div class="booking-times"><label>開始<select id="booking-from"></select></label><span>〜</span><label>終了<select id="booking-to"></select></label></div><div class="booking-repeat-section"><div class="booking-section-label">繰り返し</div><fieldset class="booking-repeat"><label class="repeat-toggle"><input id="booking-repeat" type="checkbox">繰り返して予約する</label><div id="repeat-fields" hidden><label>繰り返し間隔<select id="repeat-interval"><option value="1">毎週</option><option value="monthly">毎月</option></select></label><div class="repeat-weekdays" id="repeat-weekdays"></div><p id="repeat-monthly-hint" hidden style="font-size:12px;color:#61778f;line-height:1.6"></p><label>繰り返し終了<select id="repeat-mode"><option value="count">回数で指定</option><option value="date">終了日を指定</option></select></label><label id="repeat-count-label">回数<input id="repeat-count" type="number" min="2" max="52" value="6"></label><label id="repeat-end-label" hidden>終了日<input id="repeat-end" type="date" readonly aria-haspopup="dialog"></label></div></fieldset></div><label>備考<textarea id="booking-notes" rows="3" placeholder="備考を入力してください"></textarea></label><p id="booking-error" role="alert"></p><button class="booking-primary" id="booking-submit" type="submit">予約内容を確認する</button></form><div id="booking-confirm" hidden></div>`;
 document.body.append(bookingDialog);
+const bookingBody = document.createElement("div");
+bookingBody.className = "booking-scroll-body";
+for (const child of [...bookingDialog.children]) {
+  if (!child.matches(".booking-header, #booking-menu-panel")) bookingBody.append(child);
+}
+bookingDialog.append(bookingBody);
 const deleteDialog = document.createElement("dialog");
 deleteDialog.className = "booking-delete-dialog";
 deleteDialog.innerHTML =
@@ -392,7 +398,7 @@ B("booking-form").onsubmit = (event) => {
     save.onclick = commitBooking;
     actions.append(back, save);
     confirm.append(actions);
-    bookingDialog.scrollTo(0, 0);
+    bookingBody.scrollTo(0, 0);
     B("booking-heading").focus({ preventScroll: true });
   } catch (error) {
     showBookingError(error.message);
@@ -553,7 +559,7 @@ B("booking-date").addEventListener("change", repeatFrequency);
 
 function showBookingPage() {
   if (!bookingDialog.open) bookingDialog.showModal();
-  bookingDialog.scrollTop = 0;
+  bookingBody.scrollTop = 0;
   B("booking-heading").setAttribute("tabindex", "-1");
   B("booking-heading").focus({ preventScroll: true });
 }
@@ -580,7 +586,7 @@ function returnToBookingForm() {
   B("booking-form").hidden = false;
   B("booking-menu").hidden = bookingNew || !activeBooking.own;
   B("booking-heading").textContent = bookingNew ? "新規予約" : "予定の編集";
-  bookingDialog.scrollTo(0, 0);
+  bookingBody.scrollTo(0, 0);
 }
 B("booking-back").onclick = () => {
   if (!B("booking-confirm").hidden) returnToBookingForm();
