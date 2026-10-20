@@ -110,7 +110,7 @@ function seedSchedule(category, date) {
 }
 function showSchedule(category) {
   scheduleCategory = category;
-  scheduleDate = selected || "2026-10-15";
+  scheduleDate = selected || reservationToday();
   document.querySelector("#categories").hidden = true;
   schedulePage.hidden = false;
   document.querySelector(".app").classList.add("schedule-mode");

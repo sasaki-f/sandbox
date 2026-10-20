@@ -27,8 +27,9 @@ function reservationCurrentMinute() {
 }
 const $ = (s) => document.querySelector(s);
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-let year = 2026,
-  month = 9,
+const initialReservationDate = reservationToday();
+let year = Number(initialReservationDate.slice(0, 4)),
+  month = Number(initialReservationDate.slice(5, 7)) - 1,
   selected = null;
 let reservationSearchPage = 1;
 const reservationPageSize = 50;
