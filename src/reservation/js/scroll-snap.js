@@ -1,4 +1,12 @@
 // Snap between columns without adding space past the right edge of the table.
+const reservationViewModeKey = "reservation-calendar-overview";
+let reservationOverview = false;
+try {
+  reservationOverview = localStorage.getItem(reservationViewModeKey) === "true";
+} catch {
+  // Keep the shared mode for this page when browser storage is unavailable.
+}
+const reservationViewUpdates = [];
 for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   const table = scroller.querySelector(".schedule-table");
   const viewControls = document.createElement("div");
@@ -18,12 +26,21 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
       <span>${compact ? "通常表示" : "全体表示"}</span>
     `;
   };
-  updateOverviewLabel(false);
-  overview.setAttribute("aria-pressed", "false");
+  const applyOverview = () => {
+    scroller.classList.toggle("schedule-overview", reservationOverview);
+    updateOverviewLabel(reservationOverview);
+    overview.setAttribute("aria-pressed", String(reservationOverview));
+  };
+  reservationViewUpdates.push(applyOverview);
+  applyOverview();
   overview.onclick = () => {
-    const compact = scroller.classList.toggle("schedule-overview");
-    updateOverviewLabel(compact);
-    overview.setAttribute("aria-pressed", String(compact));
+    reservationOverview = !reservationOverview;
+    try {
+      localStorage.setItem(reservationViewModeKey, String(reservationOverview));
+    } catch {
+      // Navigation within this page still keeps the selected mode.
+    }
+    reservationViewUpdates.forEach((apply) => apply());
   };
   viewControls.append(overview);
   scroller.before(viewControls);
