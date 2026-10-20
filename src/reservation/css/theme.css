@@ -383,6 +383,21 @@ textarea:focus-visible,
   color: #8a969e;
   cursor: not-allowed;
 }
+.actions button:not(.primary):not(:disabled):hover,
+.booking-secondary:not(:disabled):hover {
+  background: #dce6ee;
+}
+.actions .primary:not(:disabled):hover {
+  background: var(--primary-dark);
+}
+.date-popup .actions .calendar-shortcut:not(:disabled):hover,
+.date-popup-header button:not(:disabled):hover,
+.schedule-toolbar > button:not(:disabled):hover {
+  background: var(--primary-soft);
+}
+.booking-danger:not(:disabled):hover {
+  background: #d92e51;
+}
 #booking-heading:focus {
   outline: none;
 }
@@ -424,7 +439,7 @@ dialog button,
 }
 .booking-popup .booking-header :is(#booking-back, #booking-close),
 .day-popup .day-popup-close,
-.app > header :is(#back, .schedule-close) {
+.app > header :is(#back, .schedule-close):not(.category-close) {
   box-sizing: border-box;
   width: 36px;
   height: 36px;
@@ -441,7 +456,7 @@ dialog button,
 }
 .booking-popup .booking-header :is(#booking-back, #booking-close):hover,
 .day-popup .day-popup-close:hover,
-.app > header :is(#back, .schedule-close):hover {
+.app > header :is(#back, .schedule-close):not(.category-close):hover {
   background: #d3efed;
 }
 @media (min-width: 0px) {
