@@ -1459,35 +1459,40 @@ dialog {
   --schedule-row-height: 40px;
 }
 .schedule-view-controls {
-  display: none;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 8px;
 }
-@media (max-width: 999px) {
-  .schedule-view-controls {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 0 8px;
+@media (hover: hover) and (pointer: fine) {
+  .schedule-scroll {
+    cursor: grab;
   }
-  .schedule-view-controls button {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
-    border: 1px solid var(--primary-soft-border);
-    border-radius: 6px;
-    background: var(--soft-button-bg);
-    color: var(--primary-dark);
-    font-size: 12px;
-  }
-  .schedule-view-controls button[aria-pressed="true"] {
-    background: var(--primary-soft);
-  }
-  .schedule-view-controls button:hover {
-    background: var(--primary-soft-hover);
-    border-color: var(--primary);
-  }
-  .schedule-overview .schedule-table {
-    zoom: 0.5;
-  }
+}
+html.calendar-mouse-dragging,
+html.calendar-mouse-dragging * {
+  cursor: move !important;
+  user-select: none !important;
+}
+.schedule-view-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 6px;
+  background: var(--soft-button-bg);
+  color: var(--primary-dark);
+  font-size: 12px;
+}
+.schedule-view-controls button[aria-pressed="true"] {
+  background: var(--primary-soft);
+}
+.schedule-view-controls button:hover {
+  background: var(--primary-soft-hover);
+  border-color: var(--primary);
+}
+.schedule-overview .schedule-table {
+  zoom: 0.5;
 }
 .schedule-scroll .time-label {
   height: var(--schedule-row-height);

@@ -44,6 +44,71 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   };
   viewControls.append(overview);
   scroller.before(viewControls);
+  let tableDrag = null;
+  let suppressDragClick = false;
+  scroller.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    // Leave native scrollbar dragging to the browser.
+    const rect = scroller.getBoundingClientRect();
+    if (
+      event.clientX >= rect.left + scroller.clientWidth ||
+      event.clientY >= rect.top + scroller.clientHeight
+    )
+      return;
+    tableDrag = {
+      x: event.clientX,
+      y: event.clientY,
+      left: scroller.scrollLeft,
+      top: scroller.scrollTop,
+      active: false,
+      pointerId: event.pointerId,
+    };
+  });
+  scroller.addEventListener("pointermove", (event) => {
+    if (!tableDrag || event.pointerId !== tableDrag.pointerId) return;
+    const dx = event.clientX - tableDrag.x;
+    const dy = event.clientY - tableDrag.y;
+    if (!tableDrag.active) {
+      if (Math.hypot(dx, dy) < 8) return;
+      tableDrag.active = true;
+      scroller.setPointerCapture(event.pointerId);
+      scroller.classList.add("is-table-dragging");
+      document.documentElement.classList.add("calendar-mouse-dragging");
+      window.getSelection()?.removeAllRanges();
+    }
+    event.preventDefault();
+    scroller.scrollLeft = tableDrag.left - dx;
+    scroller.scrollTop = tableDrag.top - dy;
+  });
+  const finishTableDrag = (event) => {
+    if (!tableDrag || event.pointerId !== tableDrag.pointerId) return;
+    if (tableDrag.active) {
+      clearTimeout(verticalTimer);
+      verticalTimer = setTimeout(snapTime, 140);
+      suppressDragClick = true;
+      setTimeout(() => {
+        suppressDragClick = false;
+      }, 0);
+    }
+    tableDrag = null;
+    scroller.classList.remove("is-table-dragging");
+    document.documentElement.classList.remove("calendar-mouse-dragging");
+  };
+  scroller.addEventListener("pointerup", finishTableDrag);
+  scroller.addEventListener("pointercancel", finishTableDrag);
+  scroller.addEventListener("lostpointercapture", finishTableDrag);
+  scroller.addEventListener("pointerleave", (event) => {
+    if (tableDrag && !tableDrag.active) finishTableDrag(event);
+  });
+  scroller.addEventListener(
+    "click",
+    (event) => {
+      if (!suppressDragClick) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    },
+    true,
+  );
   const update = () => {
     const columns = table.querySelectorAll(".equipment-column"),
       column = columns[0];
@@ -59,6 +124,7 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   update();
   let verticalTimer;
   const snapTime = () => {
+    if (tableDrag?.active) return;
     if (!scroller.clientHeight) return;
     const limit = scroller.scrollHeight - scroller.clientHeight;
     // The bottom edge is a valid stop even when it falls between time lines.

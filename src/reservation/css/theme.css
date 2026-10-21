@@ -368,6 +368,9 @@ textarea:focus-visible,
 .equipment-column > .schedule-heading:not(.week-sat):not(.week-sun) {
   background: #f1f7ef;
 }
+.schedule-scroll .time-column {
+  z-index: 8;
+}
 .weekly-page .weekly-heading.past-heading {
   background: #f6f7f9;
 }
