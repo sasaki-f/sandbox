@@ -44,6 +44,50 @@ for (const scroller of document.querySelectorAll(".schedule-scroll")) {
   };
   viewControls.append(overview);
   scroller.before(viewControls);
+  const dragWrap = document.createElement("div");
+  dragWrap.className = "schedule-drag-wrap";
+  scroller.before(dragWrap);
+  dragWrap.append(scroller);
+  const dragHint = document.createElement("div");
+  dragHint.className = "schedule-drag-hint";
+  dragHint.setAttribute("aria-hidden", "true");
+  dragHint.innerHTML = `
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 5v38M5 24h38M18 11l6-6 6 6M18 37l6 6 6-6M11 18l-6 6 6 6M37 18l6 6-6 6" />
+    </svg>
+    <span>ドラッグで縦横に<br>スクロールできます</span>
+  `;
+  dragWrap.append(dragHint);
+  let hintTimer;
+  let hintShown = false;
+  const hideDragHint = () => {
+    clearTimeout(hintTimer);
+    dragHint.classList.remove("is-visible");
+  };
+  const showDragHint = () => {
+    if (hintShown) return;
+    hintShown = true;
+    dragHint.classList.add("is-visible");
+    hintTimer = setTimeout(hideDragHint, 6000);
+  };
+  const hintObserver = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        hideDragHint();
+        hintShown = false;
+        return;
+      }
+      if (innerWidth >= 1000 || matchMedia("(any-pointer: fine)").matches) showDragHint();
+    },
+    { threshold: 0.2 },
+  );
+  hintObserver.observe(scroller);
+  scroller.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse") showDragHint();
+  });
+  scroller.addEventListener("pointerdown", hideDragHint);
+  scroller.addEventListener("wheel", hideDragHint, { passive: true });
   let tableDrag = null;
   let suppressDragClick = false;
   scroller.addEventListener("pointerdown", (event) => {

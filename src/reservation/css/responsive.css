@@ -1463,6 +1463,33 @@ dialog {
   justify-content: flex-end;
   margin: 0 0 8px;
 }
+.schedule-drag-wrap {
+  position: relative;
+  min-width: 0;
+}
+.schedule-drag-hint {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: rgb(30 38 43 / 72%);
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.6;
+  pointer-events: none;
+}
+.schedule-drag-hint svg {
+  display: block;
+  margin: 0 auto 8px;
+}
+.schedule-drag-hint.is-visible {
+  display: block;
+}
 @media (hover: hover) and (pointer: fine) {
   .schedule-scroll {
     cursor: grab;
