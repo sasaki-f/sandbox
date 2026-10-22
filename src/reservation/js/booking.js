@@ -163,7 +163,7 @@ function fillDetail(container, b, confirmation = false) {
   appendDetail(container, "タイトル", b.title);
   appendDetail(
     container,
-    "日時",
+    confirmation && b.repeat ? "初回の日時" : "日時",
     dateText(b.date) + "\n" + scheduleTime(b.from) + " 〜 " + scheduleTime(b.to),
   );
   if (!confirmation) {
@@ -172,7 +172,7 @@ function fillDetail(container, b, confirmation = false) {
   }
   appendDetail(container, "繰り返し", repeatDescription(b));
   if (b.allDay)
-    appendDetail(container, "終日", "当日は予約可能な次の時刻から、翌日以降は受付開始から終了まで");
+    appendDetail(container, "終日", "当日は残りの受付時間、翌日以降は受付時間全体を予約します。");
   appendDetail(container, "備考", b.notes || "―");
 }
 function openBooking(b, isNew = false) {
@@ -462,7 +462,15 @@ B("booking-form").onsubmit = (event) => {
     B("booking-heading").textContent = "予約内容の確認";
     const confirm = B("booking-confirm");
     confirm.hidden = false;
-    fillDetail(confirm, b, true);
+    fillDetail(
+      confirm,
+      {
+        ...b,
+        date: dates[0],
+        ...(b.allDay ? allDayBookingRange(b, dates[0]) : {}),
+      },
+      true,
+    );
     if (!bookingNew && activeBooking.repeat)
       appendDetail(
         confirm,
