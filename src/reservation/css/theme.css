@@ -404,6 +404,34 @@ textarea:focus-visible,
 #booking-heading:focus {
   outline: none;
 }
+.booking-popup .booking-times {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+  row-gap: 4px;
+}
+.booking-popup .booking-times .booking-all-day {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.booking-popup .booking-all-day input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+.booking-all-day-hint {
+  grid-column: 1 / -1;
+  margin: 0 0 6px;
+  line-height: 1.5;
+  color: var(--muted);
+  font-size: 12px;
+}
+.booking-popup .booking-times select:disabled {
+  background: #f1f4f5;
+  color: #596a75;
+}
 .booking-popup .booking-header #booking-heading {
   display: flex;
   align-items: center;

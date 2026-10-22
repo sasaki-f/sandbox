@@ -26,6 +26,27 @@ let activeBooking = null,
   bookingDraft = null;
 let bookingSerial = 0;
 const B = (id) => document.getElementById(id);
+const allDayLabel = document.createElement("label");
+allDayLabel.className = "booking-all-day";
+allDayLabel.innerHTML = '<input type="checkbox" id="booking-all-day">終日（受付時間全体）';
+const allDayHint = document.createElement("p");
+allDayHint.className = "booking-all-day-hint";
+allDayHint.textContent = "※ 当日は残りの受付時間、翌日以降は受付時間全体を予約します。";
+B("booking-from").closest(".booking-times").append(allDayLabel, allDayHint);
+function bookingHours(e, date) {
+  return {
+    opening: e.openMinute ?? scheduleStart,
+    closing: Math.min(e.closeMinute ?? scheduleEnd, reservationClosingMinute(date)),
+  };
+}
+function allDayBookingRange(b, date) {
+  const e = equipmentFor(b.equipment);
+  const { opening, closing } = bookingHours(e, date);
+  const now = date === reservationToday() ? reservationCurrentMinute() : opening;
+  const from = opening + Math.max(0, Math.ceil((now - opening) / e.unit)) * e.unit;
+  const to = opening + Math.floor((closing - opening) / e.unit) * e.unit;
+  return { from, to };
+}
 const monthlyWeekdayOption = document.createElement("option");
 monthlyWeekdayOption.value = "monthly-weekday";
 B("repeat-interval").append(monthlyWeekdayOption);
@@ -119,6 +140,8 @@ function fillDetail(container, b, confirmation = false) {
     appendDetail(container, "所属", b.department || (b.own ? "企画部" : "総務部"));
   }
   appendDetail(container, "繰り返し", repeatDescription(b));
+  if (b.allDay)
+    appendDetail(container, "終日", "当日は予約可能な次の時刻から、翌日以降は受付開始から終了まで");
   appendDetail(container, "備考", b.notes || "―");
 }
 function openBooking(b, isNew = false) {
@@ -163,6 +186,7 @@ function fillBookingForm(b) {
   B("booking-title").value = bookingNew ? "" : b.title;
   B("booking-date").value = b.date;
   B("booking-notes").value = b.notes || "";
+  B("booking-all-day").checked = !!b.allDay;
   for (const id of ["booking-from", "booking-to"]) {
     const select = B(id);
     select.dataset.unit = e.unit;
@@ -209,16 +233,22 @@ function updateBookingTimeAvailability() {
     date < reservationToday() || (date === reservationToday() && value < now);
   const from = B("booking-from");
   const to = B("booking-to");
-  const closing = reservationClosingMinute(date);
+  const { opening, closing } = bookingHours(equipmentFor(activeBooking.equipment), date);
   const unit = Number(from.dataset.unit);
   if (!unit) return;
+  const allDay = B("booking-all-day").checked;
+  from.disabled = allDay;
+  to.disabled = allDay;
+  const range = allDay ? allDayBookingRange(activeBooking, date) : null;
   for (const select of [from, to]) {
     const previous = select.value;
     select.replaceChildren();
-    for (let value = scheduleStart; value <= closing; value += unit) {
+    for (let value = opening; value <= closing; value += unit) {
       if (isPast(value)) continue;
       if (select === from && value + unit > closing) continue;
       if (select === to && (!from.value || value <= Number(from.value))) continue;
+      if (allDay && (range.to <= range.from || value !== (select === from ? range.from : range.to)))
+        continue;
       const option = document.createElement("option");
       option.value = value;
       option.textContent = scheduleTime(value);
@@ -234,6 +264,7 @@ function updateBookingTimeAvailability() {
     B("booking-error").textContent = "";
   }
 }
+B("booking-all-day").addEventListener("change", updateBookingTimeAvailability);
 B("booking-date").addEventListener("change", updateBookingTimeAvailability);
 B("booking-from").addEventListener("change", updateBookingTimeAvailability);
 for (const id of ["booking-from", "booking-to"])
@@ -293,11 +324,20 @@ function sameSeries(a, b) {
   return a === b || (a.seriesId && a.seriesId === b.seriesId);
 }
 function validateDraft(b, dates) {
+  if (b.allDay) {
+    for (const date of dates) {
+      const range = allDayBookingRange(b, date);
+      if (range.to <= range.from)
+        throw Error(dateText(date) + "には終日予約できる時間がありません。");
+      validateDraft({ ...b, ...range, date, allDay: false }, [date]);
+    }
+    return;
+  }
   const e = equipmentFor(b.equipment);
   if (!b.title.trim()) throw Error("タイトルを入力してください。");
   if (!b.date || !Number.isFinite(b.from) || !Number.isFinite(b.to) || b.to <= b.from)
     throw Error("開始・終了時刻を確認してください。");
-  if ((b.from - scheduleStart) % e.unit || (b.to - b.from) % e.unit)
+  if ((b.from - bookingHours(e, b.date).opening) % e.unit || (b.to - b.from) % e.unit)
     throw Error("この設備は" + e.unit + "分単位で予約してください。");
   for (const date of dates) {
     if (date === reservationToday() && b.from < reservationCurrentMinute())
@@ -309,8 +349,11 @@ function validateDraft(b, dates) {
     if (date < reservationToday())
       throw Error("過去の日付では予約できません。今日以降を選択してください。");
     if (scheduleEquipment[b.category]?.some((e) => e.name === b.equipment)) {
-      if (b.to > reservationClosingMinute(date))
-        throw Error(dateText(date) + "の予約受付は12:00までです。");
+      const { opening, closing } = bookingHours(e, date);
+      if (b.from < opening || b.to > closing)
+        throw Error(
+          `${dateText(date)}の予約受付は${scheduleTime(opening)}〜${scheduleTime(closing)}です。`,
+        );
       seedSchedule(b.category, date);
     }
     const conflicts = scheduleBookings.some(
@@ -349,6 +392,7 @@ B("booking-form").onsubmit = (event) => {
       from: Number(B("booking-from").value),
       to: Number(B("booking-to").value),
       notes: B("booking-notes").value,
+      allDay: B("booking-all-day").checked,
       own: true,
       person: "自分",
     };
@@ -385,6 +429,17 @@ B("booking-form").onsubmit = (event) => {
     B("booking-menu").hidden = true;
     B("booking-menu-panel").hidden = true;
     appendDetail(confirm, "予約件数", dates.length + "件");
+    if (b.allDay && b.repeat)
+      appendDetail(
+        confirm,
+        "各日の時間",
+        dates
+          .map((date) => {
+            const range = allDayBookingRange(b, date);
+            return `${dateText(date)} ${scheduleTime(range.from)}〜${scheduleTime(range.to)}`;
+          })
+          .join("\n"),
+      );
     const actions = document.createElement("div");
     actions.className = "actions";
     const back = document.createElement("button");
@@ -425,13 +480,19 @@ function commitBooking() {
     if (!bookingNew) removeBooking(activeBooking);
     const seriesId = "series-" + Date.now() + "-" + ++bookingSerial;
     dates.forEach((date) => {
-      const entry = { ...b, date, seriesId, row: undefined };
+      const entry = {
+        ...b,
+        ...(b.allDay ? allDayBookingRange(b, date) : {}),
+        date,
+        seriesId,
+        row: undefined,
+      };
       scheduleBookings.push(entry);
       const row = {
         name: b.equipment,
         date,
-        from: scheduleTime(b.from),
-        to: scheduleTime(b.to),
+        from: scheduleTime(entry.from),
+        to: scheduleTime(entry.to),
         title: b.title,
         person: "自分",
         notes: b.notes,
