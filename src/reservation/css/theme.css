@@ -428,6 +428,57 @@ textarea:focus-visible,
   color: var(--muted);
   font-size: 12px;
 }
+.booking-scope {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 8px;
+}
+.booking-scope legend {
+  padding: 0 4px;
+}
+.booking-popup .booking-scope label,
+.booking-delete-dialog .booking-scope label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+.booking-scope input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--primary-dark);
+}
+.booking-delete-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.booking-delete-actions button {
+  min-width: 0;
+  padding: 12px 8px;
+  font-size: 13px;
+}
+.booking-scope select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+}
+.booking-scroll-body:has(#booking-form[hidden]) > .booking-scope {
+  display: none;
+}
 .booking-popup .booking-times select:disabled {
   background: #f1f4f5;
   color: #596a75;

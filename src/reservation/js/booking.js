@@ -13,7 +13,7 @@ bookingDialog.append(bookingBody);
 const deleteDialog = document.createElement("dialog");
 deleteDialog.className = "booking-delete-dialog";
 deleteDialog.innerHTML =
-  '<h2>この予約を削除しますか？</h2><p>この操作は取り消せません。</p><p id="delete-repeat-note"></p><button id="delete-confirm" class="booking-danger">予約を削除する</button><button id="delete-cancel" class="booking-secondary">キャンセル</button>';
+  '<h2>この予約を削除しますか？</h2><p>この操作は取り消せません。</p><button id="delete-confirm" class="booking-danger">予約を削除する</button><button id="delete-cancel" class="booking-secondary">キャンセル</button>';
 document.body.append(deleteDialog);
 const successDialog = document.createElement("dialog");
 let successReturnDay = null;
@@ -26,6 +26,37 @@ let activeBooking = null,
   bookingDraft = null;
 let bookingSerial = 0;
 const B = (id) => document.getElementById(id);
+const deleteScopeLabel = document.createElement("fieldset");
+deleteScopeLabel.className = "booking-scope";
+deleteScopeLabel.id = "booking-delete-scope";
+deleteScopeLabel.innerHTML = `<legend>削除対象</legend>
+  <label><input type="radio" name="delete-scope" value="this" checked>この予定</label>
+  <label><input type="radio" name="delete-scope" value="all">現在時刻以降の繰り返し予約すべて</label>`;
+B("delete-confirm").before(deleteScopeLabel);
+const deleteActions = document.createElement("div");
+deleteActions.className = "booking-delete-actions";
+deleteDialog.append(deleteActions);
+deleteActions.append(B("delete-confirm"), B("delete-cancel"));
+function bookingScope(id) {
+  return B(id).querySelector("input:checked").value;
+}
+function editsWholeSeries() {
+  return !bookingNew && !!activeBooking?.repeat;
+}
+function canChangeBooking(entry) {
+  const today = reservationToday();
+  return entry.date > today || (entry.date === today && entry.from >= reservationCurrentMinute());
+}
+function matchesBookingScope(entry, booking, all) {
+  return all
+    ? sameSeries(entry, booking) && canChangeBooking(entry)
+    : entry === booking ||
+        (!!booking.seriesId &&
+          entry.seriesId === booking.seriesId &&
+          entry.date === booking.date &&
+          entry.from === booking.from &&
+          entry.to === booking.to);
+}
 const allDayLabel = document.createElement("label");
 allDayLabel.className = "booking-all-day";
 allDayLabel.innerHTML = '<input type="checkbox" id="booking-all-day">終日（受付時間全体）';
@@ -172,11 +203,13 @@ function openBooking(b, isNew = false) {
   showBookingPage();
 }
 function fillBookingForm(b) {
-  if (b.repeat && b.seriesId) {
-    b =
-      scheduleBookings
-        .filter((entry) => entry.seriesId === b.seriesId)
-        .sort((a, b) => a.date.localeCompare(b.date))[0] || b;
+  B("booking-repeat").closest(".booking-repeat-section").hidden =
+    !bookingNew && !!b.repeat && !editsWholeSeries();
+  if (b.repeat && b.seriesId && editsWholeSeries()) {
+    const editable = scheduleBookings
+      .filter((entry) => entry.seriesId === b.seriesId && canChangeBooking(entry))
+      .sort((a, b) => a.date.localeCompare(b.date));
+    b = { ...(editable[0] || b), repeat: { ...b.repeat, count: editable.length || 1 } };
   }
   const e = equipmentFor(b.equipment);
   B("booking-heading").textContent = bookingNew ? "新規予約" : "予定の編集";
@@ -207,6 +240,7 @@ function fillBookingForm(b) {
     : "1";
   B("repeat-mode").value = b.repeat?.mode || "count";
   B("repeat-count").value = b.repeat?.count || 6;
+  B("repeat-count").min = editsWholeSeries() ? "1" : "2";
   const end = new Date(b.date + "T00:00:00");
   end.setDate(end.getDate() + 35);
   B("repeat-end").value = b.repeat?.end || key(end);
@@ -362,7 +396,7 @@ function validateDraft(b, dates) {
         x.date === date &&
         x.from < b.to &&
         x.to > b.from &&
-        (bookingNew || !sameSeries(x, activeBooking)),
+        (bookingNew || !matchesBookingScope(x, activeBooking, editsWholeSeries())),
     );
     const rowConflicts = mine
       .concat(reservations)
@@ -373,7 +407,7 @@ function validateDraft(b, dates) {
           minute(x.from) < b.to &&
           minute(x.to) > b.from &&
           x !== activeBooking.row &&
-          (!x.booking || !sameSeries(x.booking, activeBooking)),
+          (!x.booking || !matchesBookingScope(x.booking, activeBooking, editsWholeSeries())),
       );
     const blocked = scheduleBlocked.some(
       (x) => x.equipment === b.equipment && x.date === date && x.from < b.to && x.to > b.from,
@@ -410,11 +444,14 @@ B("booking-form").onsubmit = (event) => {
           end: B("repeat-end").value,
         }
       : null;
+    if (!bookingNew && activeBooking.repeat && !editsWholeSeries()) b.repeat = null;
     if (
       b.repeat &&
       ((!b.repeat.frequency.startsWith("monthly") && !b.repeat.days.length) ||
         (b.repeat.mode === "count" &&
-          (!Number.isInteger(b.repeat.count) || b.repeat.count < 2 || b.repeat.count > 52)) ||
+          (!Number.isInteger(b.repeat.count) ||
+            b.repeat.count < (editsWholeSeries() ? 1 : 2) ||
+            b.repeat.count > 52)) ||
         (b.repeat.mode === "date" && (!b.repeat.end || b.repeat.end < b.date)))
     )
       throw Error("繰り返しの曜日・終了条件を確認してください。");
@@ -426,6 +463,12 @@ B("booking-form").onsubmit = (event) => {
     const confirm = B("booking-confirm");
     confirm.hidden = false;
     fillDetail(confirm, b, true);
+    if (!bookingNew && activeBooking.repeat)
+      appendDetail(
+        confirm,
+        "変更対象",
+        editsWholeSeries() ? "現在時刻以降の繰り返し予約すべて" : "この予定",
+      );
     B("booking-menu").hidden = true;
     B("booking-menu-panel").hidden = true;
     appendDetail(confirm, "予約件数", dates.length + "件");
@@ -459,12 +502,15 @@ B("booking-form").onsubmit = (event) => {
     showBookingError(error.message);
   }
 };
-function removeBooking(b) {
+function removeBooking(b, all = true) {
   for (let i = scheduleBookings.length - 1; i >= 0; i--)
-    if (sameSeries(scheduleBookings[i], b)) scheduleBookings.splice(i, 1);
+    if (matchesBookingScope(scheduleBookings[i], b, all)) scheduleBookings.splice(i, 1);
   for (const list of [mine, reservations])
     for (let i = list.length - 1; i >= 0; i--)
-      if (list[i] === b.row || (list[i].booking && sameSeries(list[i].booking, b)))
+      if (
+        (list[i] === b.row && (!all || canChangeBooking(b))) ||
+        (list[i].booking && matchesBookingScope(list[i].booking, b, all))
+      )
         list.splice(i, 1);
 }
 function refreshBookings() {
@@ -477,7 +523,7 @@ function commitBooking() {
   try {
     const { b, dates } = bookingDraft;
     validateDraft(b, dates);
-    if (!bookingNew) removeBooking(activeBooking);
+    if (!bookingNew) removeBooking(activeBooking, editsWholeSeries());
     const seriesId = "series-" + Date.now() + "-" + ++bookingSerial;
     dates.forEach((date) => {
       const entry = {
@@ -540,14 +586,20 @@ B("booking-menu").onclick = () => {
 B("booking-delete").onclick = () => {
   if (!activeBooking.own) return;
   B("booking-menu-panel").hidden = true;
-  B("delete-repeat-note").textContent = activeBooking.repeat
-    ? "繰り返し予約のすべての予定が削除されます。"
-    : "";
+  deleteScopeLabel.hidden = !activeBooking.repeat;
+  B("booking-delete-scope").querySelector('[value="this"]').checked = true;
   deleteDialog.showModal();
 };
 B("delete-confirm").onclick = () => {
   if (!activeBooking?.own) return;
-  removeBooking(activeBooking);
+  if (!canChangeBooking(activeBooking)) {
+    toast("過去の予定は削除できません。");
+    return;
+  }
+  removeBooking(
+    activeBooking,
+    !!activeBooking.repeat && bookingScope("booking-delete-scope") === "all",
+  );
   deleteDialog.close();
   closeBookingPage();
   refreshBookings();
