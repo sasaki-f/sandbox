@@ -12,13 +12,6 @@ function alignModalButton(button) {
       stroke-linejoin="round" aria-hidden="true">${modalIconPaths[text]}</svg>`;
     return;
   }
-  for (const node of [...button.childNodes]) {
-    if (node.nodeType !== Node.TEXT_NODE || !node.textContent.trim()) continue;
-    const label = document.createElement("span");
-    label.className = "modal-button-label";
-    label.textContent = node.textContent;
-    node.replaceWith(label);
-  }
 }
 for (const dialog of document.querySelectorAll("dialog")) {
   dialog.querySelectorAll("button").forEach(alignModalButton);

@@ -33,10 +33,14 @@ dialog button svg {
   display: block;
   flex-shrink: 0;
 }
-.modal-button-label {
-  display: inline-block;
+dialog .actions button,
+dialog .booking-primary,
+dialog .booking-danger,
+dialog .booking-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1.4;
-  transform: translateY(-1px);
 }
 button:focus-visible,
 input:focus-visible,
