@@ -13,6 +13,31 @@
 body {
   background: #f5f7f8;
 }
+@media (max-width: 999px) {
+  html {
+    touch-action: pan-x pan-y;
+    -webkit-text-size-adjust: 100%;
+  }
+  button,
+  [role="link"] {
+    touch-action: manipulation;
+  }
+  .booking-popup input:not([type="checkbox"]):not([type="radio"]),
+  .booking-popup select,
+  .booking-popup textarea,
+  .date-popup select {
+    font-size: 16px;
+  }
+}
+dialog button svg {
+  display: block;
+  flex-shrink: 0;
+}
+.modal-button-label {
+  display: inline-block;
+  line-height: 1.4;
+  transform: translateY(-1px);
+}
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,

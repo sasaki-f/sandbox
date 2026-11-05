@@ -48,6 +48,7 @@ async function bootstrapReservation() {
       "calendar-shortcuts",
       "router",
       "live-time",
+      "mobile-interaction",
     ]) {
       await new Promise((resolve, reject) => {
         const script = document.createElement("script");
