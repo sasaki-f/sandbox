@@ -52,7 +52,10 @@ async function bootstrapReservation() {
     ]) {
       await new Promise((resolve, reject) => {
         const script = document.createElement("script");
-        script.src = new URL(`${name}.js`, document.currentScript?.src || bootstrapSource).href;
+        const source = new URL(bootstrapSource);
+        const scriptUrl = new URL(`${name}.js`, source);
+        scriptUrl.search = source.search;
+        script.src = scriptUrl.href;
         script.onload = resolve;
         script.onerror = reject;
         document.body.append(script);

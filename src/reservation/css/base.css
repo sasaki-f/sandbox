@@ -294,7 +294,7 @@ svg.icon {
   font-weight: 700;
 }
 
-.new span {
+.new span:not(.modal-button-label) {
   font-size: 26px;
   vertical-align: -2px;
   margin-right: 12px;

@@ -546,7 +546,7 @@ dialog {
   gap: 12px;
   line-height: 1.5;
 }
-.new span {
+.new span:not(.modal-button-label) {
   display: grid;
   place-items: center;
   margin: 0;
