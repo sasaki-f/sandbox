@@ -7,7 +7,42 @@ document.body.append(datePopup);
 let pickerTarget = null,
   pickerMonth = 0,
   pickerYear = 2026;
+const customDateButtons = new Map();
+function updateCustomDateButtons() {
+  for (const [input, button] of customDateButtons) {
+    button.querySelector("span").textContent = input.value
+      ? input.value.replaceAll("-", "/")
+      : "日付を選択";
+    button.setAttribute(
+      "aria-label",
+      input.value ? "日付を選択：" + dateText(input.value) : "日付を選択",
+    );
+  }
+}
+function useCustomDateButton(input) {
+  // Keep ISO values and existing change handlers without exposing Safari's native date control.
+  input.type = "hidden";
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = input.id + "-trigger";
+  button.className = "custom-date-button";
+  button.setAttribute("aria-haspopup", "dialog");
+  button.innerHTML = `<span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+    <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
+  </svg>`;
+  button.onclick = () => openDatePopup(input);
+  input.after(button);
+  customDateButtons.set(input, button);
+  input.addEventListener("change", updateCustomDateButtons);
+  updateCustomDateButtons();
+}
+datePopup.addEventListener("close", () => {
+  updateCustomDateButtons();
+  customDateButtons.get(pickerTarget)?.focus({ preventScroll: true });
+});
 function openDatePopup(input) {
+  if (datePopup.open) return;
   pickerTarget = input;
   const value =
     input.value && input.value >= reservationMinimumDate ? input.value : reservationMinimumDate;

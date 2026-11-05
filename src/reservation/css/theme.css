@@ -483,6 +483,39 @@ textarea:focus-visible,
   background: #f1f4f5;
   color: #596a75;
 }
+.booking-popup #booking-form > label,
+.booking-popup #repeat-fields label {
+  min-width: 0;
+}
+.booking-popup .custom-date-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 6px 0 12px;
+  padding: 12px;
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+.custom-date-button span {
+  min-width: 0;
+}
+.custom-date-button svg {
+  flex-shrink: 0;
+  color: var(--primary-dark);
+}
+.booking-popup .custom-date-button:hover {
+  background: var(--soft-button-bg);
+}
 .booking-popup .booking-header #booking-heading {
   display: flex;
   align-items: center;

@@ -259,6 +259,7 @@ function fillBookingForm(b) {
   repeatFrequency();
   B("booking-submit").textContent = bookingNew ? "予約内容を確認する" : "変更内容を確認する";
   updateBookingTimeAvailability();
+  updateCustomDateButtons();
 }
 function updateBookingTimeAvailability() {
   const date = B("booking-date").value;
@@ -628,6 +629,7 @@ B("repeat-mode").onchange = repeatMode;
 for (const id of ["booking-date", "repeat-end"]) {
   B(id).max = reservationMaximumDate();
   const input = B(id);
+  useCustomDateButton(input);
   input.classList.add("popup-date-input");
   input.onclick = (event) => {
     event.preventDefault();

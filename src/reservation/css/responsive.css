@@ -1384,14 +1384,14 @@ dialog {
 .day-popup #day-panel {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 0 1 auto;
   min-height: 0;
   overflow: hidden;
 }
 .day-popup #day-panel .day-list {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 0 1 auto;
   min-height: 0;
   overflow: hidden;
   margin-bottom: 14px;
