@@ -126,7 +126,32 @@ function demoHash(value) {
   for (const c of value) n = (n * 31 + c.charCodeAt(0)) >>> 0;
   return n;
 }
+const demoOwnBookingCandidates = new Map();
+function demoOwnBookingLimit(date) {
+  const day = new Date(date + "T00:00:00");
+  const index = (day.getDay() + 6) % 7;
+  const monday = new Date(day);
+  monday.setDate(day.getDate() - index);
+  let seed = demoHash(key(monday) + "|quiet-days");
+  const days = Array.from({ length: 7 }, (_, i) => i);
+  for (let i = days.length - 1; i > 0; i--) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    const j = seed % (i + 1);
+    [days[i], days[j]] = [days[j], days[i]];
+  }
+  if (days.slice(0, 3).includes(index)) return 0;
+  return 1 + (demoHash(date + "|personal-booking-limit") % 5);
+}
 function addDemoBooking(b) {
+  if (b.own) {
+    if (!demoOwnBookingLimit(b.date)) return;
+    if (!demoOwnBookingCandidates.has(b.date)) demoOwnBookingCandidates.set(b.date, []);
+    demoOwnBookingCandidates.get(b.date).push(b);
+    return;
+  }
+  appendDemoBooking(b);
+}
+function appendDemoBooking(b) {
   scheduleBookings.push(b);
   const r = {
     name: b.equipment,
@@ -164,6 +189,26 @@ seedSchedule = function (category, date) {
         to: scheduleEnd,
       }),
     );
+    if (demoOwnBookingLimit(date) > 0) {
+      scheduleEquipment[category].forEach((e) => {
+        const hash = demoHash(date + "|" + e.name);
+        if (hash % 3 !== 0) return;
+        const from = scheduleStart + Math.ceil((540 - scheduleStart) / e.unit) * e.unit;
+        if (from + e.unit > reservationClosingMinute(date)) return;
+        addDemoBooking({
+          category,
+          date,
+          equipment: e.name,
+          from,
+          to: from + e.unit,
+          title: demoTitles[category][hash % demoTitles[category].length],
+          own: true,
+          person: "自分",
+          department: "企画部",
+          notes: "午前中の利用予定です。",
+        });
+      });
+    }
     return;
   }
   const monthStart = new Date(day.getFullYear(), day.getMonth(), 1);
@@ -173,7 +218,7 @@ seedSchedule = function (category, date) {
     d.getMonth() === monthStart.getMonth();
     d.setDate(d.getDate() + 1)
   )
-    if (d.getDay() === 2) tuesdayCount++;
+    if (d.getDay() === 2 && demoOwnBookingLimit(key(d)) > 0) tuesdayCount++;
   scheduleEquipment[category].forEach((e, index) => {
     const hash = demoHash(date + "|" + e.name);
     const planned = [];
@@ -268,6 +313,42 @@ seedSchedule = function (category, date) {
       planned.push(b);
     });
   });
+};
+// Seed all categories before choosing personal bookings, so inventory order cannot bias the day.
+const seedDemoCategory = seedSchedule;
+const seededDemoDates = new Set();
+function demoMixScore(value) {
+  let n = demoHash(value);
+  n = Math.imul(n ^ (n >>> 16), 0x85ebca6b);
+  n = Math.imul(n ^ (n >>> 13), 0xc2b2ae35);
+  return (n ^ (n >>> 16)) >>> 0;
+}
+seedSchedule = function (category, date) {
+  if (date < reservationMinimumDate || seededDemoDates.has(date)) return;
+  for (const name of Object.keys(scheduleEquipment)) seedDemoCategory(name, date);
+  const candidates = demoOwnBookingCandidates.get(date) || [];
+  const categories = [...new Set(candidates.map((b) => b.category))].sort(
+    (a, b) => demoMixScore(date + "|" + a) - demoMixScore(date + "|" + b),
+  );
+  const ranked = candidates.sort(
+    (a, b) =>
+      demoMixScore(date + "|" + a.equipment + "|" + a.from) -
+      demoMixScore(date + "|" + b.equipment + "|" + b.from),
+  );
+  const selected = [];
+  const limit = demoOwnBookingLimit(date);
+  // First distribute across categories, then fill any remaining places from the shuffled candidates.
+  for (const name of categories) {
+    if (selected.length >= limit) break;
+    selected.push(ranked.find((b) => b.category === name));
+  }
+  for (const booking of ranked) {
+    if (selected.length >= limit) break;
+    if (!selected.includes(booking)) selected.push(booking);
+  }
+  selected.forEach(appendDemoBooking);
+  demoOwnBookingCandidates.delete(date);
+  seededDemoDates.add(date);
 };
 const demoMonths = new Set(["2026-09", "2026-10", "2026-11"]);
 const demoToday = new Date();
