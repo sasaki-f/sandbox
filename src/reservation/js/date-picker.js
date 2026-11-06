@@ -8,6 +8,7 @@ let pickerTarget = null,
   pickerMonth = 0,
   pickerYear = 2026;
 const customDateButtons = new Map();
+const datePickerTriggers = new Map();
 function updateCustomDateButtons() {
   for (const [input, button] of customDateButtons) {
     button.querySelector("span").textContent = input.value
@@ -20,8 +21,27 @@ function updateCustomDateButtons() {
   }
 }
 function useCustomDateButton(input) {
+  if (datePickerTriggers.has(input)) return;
+  if (!input.id) input.id = "custom-date-" + datePickerTriggers.size;
   // Keep ISO values and existing change handlers without exposing Safari's native date control.
   input.type = "hidden";
+  const existingTrigger = input.closest("#week-picker, .daily-date-control");
+  if (existingTrigger) {
+    existingTrigger.setAttribute("aria-haspopup", "dialog");
+    existingTrigger.onclick = () => openDatePopup(input);
+    if (existingTrigger.tagName !== "BUTTON") {
+      existingTrigger.setAttribute("role", "button");
+      existingTrigger.tabIndex = 0;
+      existingTrigger.onkeydown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDatePopup(input);
+        }
+      };
+    }
+    datePickerTriggers.set(input, existingTrigger);
+    return;
+  }
   const button = document.createElement("button");
   button.type = "button";
   button.id = input.id + "-trigger";
@@ -34,12 +54,13 @@ function useCustomDateButton(input) {
   button.onclick = () => openDatePopup(input);
   input.after(button);
   customDateButtons.set(input, button);
+  datePickerTriggers.set(input, button);
   input.addEventListener("change", updateCustomDateButtons);
   updateCustomDateButtons();
 }
 datePopup.addEventListener("close", () => {
   updateCustomDateButtons();
-  customDateButtons.get(pickerTarget)?.focus({ preventScroll: true });
+  datePickerTriggers.get(pickerTarget)?.focus({ preventScroll: true });
 });
 function openDatePopup(input) {
   if (datePopup.open) return;
@@ -157,6 +178,7 @@ document.querySelectorAll('input[type="date"]').forEach((input) => {
       openDatePopup(input);
     }
   });
+  useCustomDateButton(input);
 });
 const monthPopup = document.createElement("dialog");
 monthPopup.className = "date-popup";

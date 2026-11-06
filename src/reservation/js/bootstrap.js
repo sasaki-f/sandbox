@@ -61,6 +61,7 @@ async function bootstrapReservation() {
         document.body.append(script);
       });
     }
+    updateCustomDateButtons();
     if (location.protocol !== "file:") {
       setInterval(() => synchronizeReservationClock().catch(console.error), 5 * 60 * 1000);
     }

@@ -29,7 +29,8 @@ body {
     font-size: 16px;
   }
 }
-dialog button svg {
+dialog button svg,
+.app > header button svg {
   display: block;
   flex-shrink: 0;
 }
@@ -526,7 +527,7 @@ textarea:focus-visible,
 .booking-popup #repeat-fields label {
   min-width: 0;
 }
-.booking-popup .custom-date-button {
+.custom-date-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -552,8 +553,20 @@ textarea:focus-visible,
   flex-shrink: 0;
   color: var(--primary-dark);
 }
-.booking-popup .custom-date-button:hover {
+.custom-date-button:hover {
   background: var(--soft-button-bg);
+}
+.dates .custom-date-button {
+  flex: 1 1 0;
+  width: 0;
+  margin: 0;
+  padding: 10px 8px;
+  gap: 6px;
+  font-weight: 400;
+}
+.dates .custom-date-button svg {
+  width: 16px;
+  height: 16px;
 }
 .booking-popup .booking-header #booking-heading {
   display: flex;

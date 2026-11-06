@@ -13,7 +13,7 @@ function alignModalButton(button) {
     return;
   }
 }
-for (const dialog of document.querySelectorAll("dialog")) {
+for (const dialog of document.querySelectorAll("dialog, .app > header")) {
   dialog.querySelectorAll("button").forEach(alignModalButton);
   new MutationObserver((records) => {
     for (const record of records) {

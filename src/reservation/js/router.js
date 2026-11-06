@@ -193,6 +193,7 @@ function applyReservationRoute() {
     }
     updateSidebarCurrent();
   } finally {
+    updateCustomDateButtons();
     setTimeout(() => {
       routing = false;
     }, 0);
