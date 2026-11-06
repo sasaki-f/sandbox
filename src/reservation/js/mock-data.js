@@ -12,16 +12,138 @@ scheduleEquipment["管理職予定"] = [
   "中村総務部長",
 ].map((name) => ({ name, unit: 30, info: "会議・確認・相談の時間確保" }));
 const managerDemoTopics = [
-  ["経営会議の議題確認", "地域連携会議の事前説明", "設備更新の稟議内容確認"],
-  ["診療体制見直しの相談", "医療連携会議の資料確認", "診療科間の連携調整"],
-  ["来年度予算案の事前確認", "委託業務の契約内容確認", "病院運営会議の事前打合せ"],
-  ["病棟の勤務体制について相談", "看護部研修計画の確認", "病棟師長会議の議題確認"],
-  ["外来診療体制の確認", "診療部会議の資料説明", "診療実績の報告内容確認"],
-  ["医局会議の日程調整", "研修医の受入計画確認", "当直体制について相談"],
-  ["採用薬品の変更内容確認", "薬剤部研修の事前相談", "薬事委員会の議題確認"],
-  ["リハビリ部門の人員配置相談", "地域連携カンファレンスの事前確認", "リハビリ機器更新の説明"],
-  ["医療安全研修の資料確認", "安全対策の改善案相談", "医療安全委員会の事前打合せ"],
-  ["職員研修の日程確認", "施設修繕の見積内容確認", "採用面接日程の調整"],
+  [
+    "経営会議の議題確認",
+    "病院中期計画の進捗報告",
+    "大型設備投資の決裁依頼",
+    "地域連携協定の締結内容説明",
+    "年度事業計画の承認依頼",
+    "病院機能評価の対応方針確認",
+    "診療科再編案の事前説明",
+    "幹部会議の資料説明",
+    "自治体との協議内容の報告",
+    "病院広報方針の承認依頼",
+  ],
+  [
+    "診療科間の連携調整相談",
+    "救急受入体制の見直し説明",
+    "診療の質改善活動の進捗報告",
+    "地域医療連携会議の事前確認",
+    "診療横断プロジェクトの相談",
+    "院内感染対策の運営報告",
+    "外来・病棟間の連携課題説明",
+    "診療ガイドライン運用状況の報告",
+    "診療支援部門の連携体制確認",
+    "副院長会議の議題説明",
+  ],
+  [
+    "来年度予算案の事前確認",
+    "委託業務の契約内容確認",
+    "病院運営会議の事前打合せ",
+    "部門別収支の月次報告",
+    "施設維持費の見直し相談",
+    "設備更新の費用対効果説明",
+    "診療報酬請求業務の監査報告",
+    "物品調達契約の承認依頼",
+    "病院運営コスト削減案の説明",
+    "補助金申請の進捗確認",
+  ],
+  [
+    "病棟の勤務体制について相談",
+    "看護部研修計画の確認",
+    "病棟師長会議の議題確認",
+    "夜勤配置の調整相談",
+    "新人看護師教育の進捗報告",
+    "看護必要度の集計結果報告",
+    "看護手順書改訂案の確認",
+    "退院支援看護の連携課題相談",
+    "病床稼働に応じた看護配置の説明",
+    "看護職員の採用計画相談",
+  ],
+  [
+    "外来診療体制の確認",
+    "診療部会議の資料説明",
+    "診療科別実績の報告",
+    "外来待ち時間の改善案説明",
+    "手術枠の運用調整相談",
+    "診療科間の検査連携確認",
+    "診療部の年度目標進捗報告",
+    "専門外来の新設案相談",
+    "診療部門の業務分担見直し",
+    "診療支援システム改修要望の確認",
+  ],
+  [
+    "医局会議の議題確認",
+    "研修医の受入計画確認",
+    "医師の当直体制調整",
+    "診療応援医師の配置相談",
+    "医師の休暇日程調整",
+    "臨床研修プログラムの見直し",
+    "医局勉強会の講師調整",
+    "学会出張に伴う診療体制確認",
+    "医師採用面談の日程調整",
+    "専攻医のローテーション計画確認",
+  ],
+  [
+    "採用薬品の変更内容確認",
+    "薬剤部研修計画の相談",
+    "薬事委員会の議題確認",
+    "医薬品在庫の適正化報告",
+    "病棟薬剤業務の配置相談",
+    "調剤監査手順の見直し確認",
+    "医薬品供給不足への対応報告",
+    "抗菌薬適正使用会議の事前説明",
+    "服薬指導実績の月次報告",
+    "薬剤部の機器更新計画説明",
+  ],
+  [
+    "リハビリ職員の人員配置相談",
+    "退院支援カンファレンスの事前確認",
+    "リハビリ機器更新の説明",
+    "リハビリ予約枠の運用調整",
+    "療法士の担当病棟見直し相談",
+    "リハビリ実施単位数の月次報告",
+    "訪問リハビリ体制の相談",
+    "リハビリ科内研修計画の確認",
+    "地域連携リハビリ会議の資料説明",
+    "リハビリ依頼から介入までの業務改善相談",
+  ],
+  [
+    "医療安全研修の資料確認",
+    "転倒・転落対策の改善案相談",
+    "医療安全委員会の事前打合せ",
+    "インシデント集計結果の報告",
+    "安全ラウンド指摘事項の対応確認",
+    "ヒヤリハット共有会の運営相談",
+    "患者確認手順の改訂案説明",
+    "医療機器安全管理の連携確認",
+    "安全対策の実施状況フォロー報告",
+    "部門別安全研修の日程調整",
+  ],
+  [
+    "職員研修の日程確認",
+    "施設修繕の見積内容確認",
+    "採用面接日程の調整",
+    "勤怠集計の確認依頼",
+    "就業規則改訂案の説明",
+    "防災訓練の実施計画相談",
+    "福利厚生制度の運用確認",
+    "人事異動に伴う受入準備相談",
+    "施設定期点検の日程調整",
+    "職員向け周知文書の確認依頼",
+  ],
+];
+const managerRequestDepartments = [
+  ["秘書室", "経営企画課", "総務課"],
+  ["診療支援課", "地域連携室", "感染対策室"],
+  ["経営企画課", "財務課", "施設管理課", "医事課"],
+  ["看護部", "病棟管理室", "看護教育室"],
+  ["診療支援課", "外来管理室", "医事課"],
+  ["医局事務室", "臨床研修センター", "診療支援課"],
+  ["薬剤部", "薬剤管理室"],
+  ["リハビリテーション科", "地域連携室"],
+  ["医療安全管理室", "感染対策室", "看護部"],
+  ["総務課", "人事課", "施設管理課"],
 ];
 function denseDemoSlots(date, equipment, opening, closing, occupied = []) {
   const end = opening + Math.floor((closing - opening) / equipment.unit) * equipment.unit;
@@ -53,7 +175,6 @@ function managerOwnBookingLimit(date) {
 function seedManagerDemo(date) {
   const closing = reservationClosingMinute(date);
   const entries = [];
-  const departments = ["秘書室", "総務課", "診療支援課", "看護部", "地域連携室", "医事課"];
   scheduleEquipment["管理職予定"].forEach((e, index) => {
     if (closing < scheduleEnd)
       scheduleBlocked.push({
@@ -63,15 +184,11 @@ function seedManagerDemo(date) {
         from: closing,
         to: scheduleEnd,
       });
-    const topics = [
-      ...managerDemoTopics[index],
-      "決裁書類の確認",
-      "担当部署からの進捗報告",
-      "委員会運営の相談",
-    ];
+    const topics = managerDemoTopics[index];
     denseDemoSlots(date, e, 480, closing).forEach(({ from, to }, part) => {
       const score = demoMixScore(date + e.name + from);
-      const department = departments[score % departments.length];
+      const requester = demoRequester(score, managerRequestDepartments[index]);
+      const department = requester.department;
       entries.push({
         category: "管理職予定",
         equipment: e.name,
@@ -80,7 +197,7 @@ function seedManagerDemo(date) {
         to,
         title: topics[(score + part) % topics.length],
         own: false,
-        person: demoPeople[(score >>> 4) % demoPeople.length],
+        person: requester.name,
         department,
         notes: `${department}からの時間確保依頼。関連資料を持参し、内容の確認・承認をお願いします。場所：管理棟打合せ室。`,
       });
@@ -114,16 +231,94 @@ scheduleEquipment["プロジェクター"].push({
 });
 scheduleEquipment["車両"].push({ name: "配送用バン", unit: 120, info: "荷物運搬用・定員2名" });
 scheduleEquipment["モニター"].push({ name: "モニターC", unit: 30, info: "32インチ・USB-C対応" });
-const demoPeople = [
-  "佐藤 太郎",
-  "田中 一郎",
-  "山田 花子",
-  "鈴木 健一",
-  "高橋 美咲",
-  "伊藤 彩",
-  "渡辺 翔太",
-  "小林 美穂",
+const demoSurnames = [
+  "佐藤",
+  "鈴木",
+  "高橋",
+  "田中",
+  "伊藤",
+  "渡辺",
+  "山本",
+  "中村",
+  "小林",
+  "加藤",
+  "吉田",
+  "山田",
+  "佐々木",
+  "山口",
+  "松本",
+  "井上",
+  "木村",
+  "林",
+  "清水",
+  "斎藤",
+  "山崎",
+  "森",
+  "池田",
+  "橋本",
+  "阿部",
+  "石川",
+  "前田",
+  "藤田",
+  "岡田",
+  "長谷川",
+  "小川",
+  "後藤",
+  "近藤",
+  "村上",
+  "遠藤",
+  "青木",
+  "坂本",
+  "石井",
+  "福田",
+  "太田",
 ];
+const demoGivenNames = [
+  "太郎",
+  "花子",
+  "健一",
+  "美咲",
+  "翔太",
+  "美穂",
+  "直樹",
+  "彩",
+  "大輔",
+  "由紀",
+  "拓也",
+  "陽子",
+  "和也",
+  "真由美",
+  "亮",
+  "恵",
+  "悠人",
+  "里奈",
+  "修平",
+  "愛",
+  "達也",
+  "奈緒",
+  "誠",
+  "明日香",
+];
+const demoStaffDepartments = [
+  ...new Set([...managerRequestDepartments.flat(), "検査部", "放射線科", "栄養管理室", "企画部"]),
+];
+const demoStaff = Array.from({ length: 160 }, (_, index) => ({
+  name:
+    demoSurnames[index % demoSurnames.length] +
+    " " +
+    demoGivenNames[
+      (Math.floor(index / demoSurnames.length) + (index % demoSurnames.length) * 7) %
+        demoGivenNames.length
+    ],
+  department: demoStaffDepartments[index % demoStaffDepartments.length],
+}));
+const demoPeople = demoStaff.map((staff) => staff.name);
+function demoRequester(score, departments = null) {
+  const candidates = departments
+    ? demoStaff.filter((staff) => departments.includes(staff.department))
+    : demoStaff;
+  return candidates[score % candidates.length];
+}
 scheduleEquipment["会議室"].push(
   { name: "第3会議室", unit: 30, info: "モニター・Web会議用カメラ有り", capacity: 6 },
   { name: "第4会議室", unit: 60, info: "ホワイトボード・電源有り", capacity: 10 },
@@ -257,10 +452,16 @@ function addDemoBooking(b) {
   appendDemoBooking(b);
 }
 function otherDemoBooking(b) {
+  const index = scheduleEquipment["管理職予定"].findIndex((e) => e.name === b.equipment);
+  const requester = demoRequester(
+    demoMixScore(b.date + b.equipment + b.from),
+    index >= 0 ? managerRequestDepartments[index] : null,
+  );
   return {
     ...b,
     own: false,
-    person: demoPeople[demoMixScore(b.date + b.equipment + b.from) % demoPeople.length],
+    person: requester.name,
+    department: requester.department,
   };
 }
 function appendDemoBooking(b) {
@@ -360,6 +561,7 @@ seedSchedule = function (category, date) {
     ]).forEach(({ from, to }, part) => {
       const score = demoMixScore(date + e.name + from);
       const own = score % 5 === 0;
+      const requester = demoRequester(score >>> 4);
       const titles = demoTitles[category];
       const b = {
         category,
@@ -369,8 +571,8 @@ seedSchedule = function (category, date) {
         to,
         title: titles[(score + part + index) % titles.length],
         own,
-        person: own ? "自分" : demoPeople[(score >>> 4) % demoPeople.length],
-        department: own ? "企画部" : ["営業部", "開発部", "人事部", "総務部"][score % 4],
+        person: own ? "自分" : requester.name,
+        department: own ? "企画部" : requester.department,
         notes: [
           "資料は共有フォルダーにあります。",
           "開始10分前に準備します。",
