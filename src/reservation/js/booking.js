@@ -458,6 +458,8 @@ B("booking-form").onsubmit = (event) => {
       throw Error("繰り返しの曜日・終了条件を確認してください。");
     const dates = occurrenceDates(b);
     validateDraft(b, dates);
+    B("booking-error").textContent = "";
+    B("booking-error").removeAttribute("tabindex");
     bookingDraft = { b, dates };
     B("booking-form").hidden = true;
     B("booking-heading").textContent = "予約内容の確認";
