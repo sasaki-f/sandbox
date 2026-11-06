@@ -87,6 +87,17 @@ const mine = [
   { name: "面談室", date: "2026-10-27", from: "10:00", to: "11:00" },
 ];
 function artwork(name) {
+  if (/(院長|事務長|部長|医局長|科長|室長)$/.test(name)) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+      <rect width="180" height="120" fill="#e6f1ef"/>
+      <circle cx="82" cy="40" r="21" fill="#75aaa5"/>
+      <path d="M40 111V95a42 35 0 0 1 84 0v16" fill="#477e7c"/>
+      <path d="m68 75 14 13 14-13-8 36H76Z" fill="#fff"/>
+      <rect x="119" y="65" width="43" height="39" rx="6" fill="#fff" stroke="#75aaa5" stroke-width="2"/>
+      <path d="M119 78h43M130 59v12m21-12v12m-20 18h7m7 0h7" fill="none" stroke="#477e7c" stroke-width="3"/>
+    </svg>`;
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }
   const room =
     name.includes("室") ||
     (typeof scheduleEquipment !== "undefined" &&
@@ -373,7 +384,14 @@ $("#back").onclick = () => {
 };
 render();
 search();
-const equipmentCategories = ["プロジェクター", "会議室", "車両", "モニター", "面談室"];
+const equipmentCategories = [
+  "プロジェクター",
+  "会議室",
+  "車両",
+  "モニター",
+  "面談室",
+  "管理職予定",
+];
 function renderCategories() {
   const keyword = $("#category-keyword").value.trim().toLowerCase();
   const items = equipmentCategories.filter((name) => name.toLowerCase().includes(keyword));

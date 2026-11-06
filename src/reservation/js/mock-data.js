@@ -1,4 +1,106 @@
 // Deterministic demo data: shared by Home, search, daily and weekly calendars.
+scheduleEquipment["管理職予定"] = [
+  "山田院長",
+  "佐藤副院長",
+  "鈴木事務長",
+  "田中看護部長",
+  "高橋診療部長",
+  "伊藤医局長",
+  "渡辺薬剤部長",
+  "小林リハビリテーション科長",
+  "加藤医療安全管理室長",
+  "中村総務部長",
+].map((name) => ({ name, unit: 30, info: "会議・確認・相談の時間確保" }));
+const managerDemoTopics = [
+  ["経営会議の議題確認", "地域連携会議の事前説明", "設備更新の稟議内容確認"],
+  ["診療体制見直しの相談", "医療連携会議の資料確認", "診療科間の連携調整"],
+  ["来年度予算案の事前確認", "委託業務の契約内容確認", "病院運営会議の事前打合せ"],
+  ["病棟の勤務体制について相談", "看護部研修計画の確認", "病棟師長会議の議題確認"],
+  ["外来診療体制の確認", "診療部会議の資料説明", "診療実績の報告内容確認"],
+  ["医局会議の日程調整", "研修医の受入計画確認", "当直体制について相談"],
+  ["採用薬品の変更内容確認", "薬剤部研修の事前相談", "薬事委員会の議題確認"],
+  ["リハビリ部門の人員配置相談", "地域連携カンファレンスの事前確認", "リハビリ機器更新の説明"],
+  ["医療安全研修の資料確認", "安全対策の改善案相談", "医療安全委員会の事前打合せ"],
+  ["職員研修の日程確認", "施設修繕の見積内容確認", "採用面接日程の調整"],
+];
+function denseDemoSlots(date, equipment, opening, closing, occupied = []) {
+  const end = opening + Math.floor((closing - opening) / equipment.unit) * equipment.unit;
+  let seed = demoMixScore(date + "|" + equipment.name + "|slots");
+  const random = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed;
+  };
+  const slots = [];
+  for (let from = opening; from + equipment.unit <= end;) {
+    if (random() % 100 < 15) {
+      from += equipment.unit;
+      continue;
+    }
+    const length = random() % 10;
+    let to = Math.min(end, from + equipment.unit * (length < 7 ? 1 : length < 9 ? 2 : 3));
+    const busy = (end) => occupied.some((b) => b.from < end && b.to > from);
+    while (to - from > equipment.unit && busy(to)) to -= equipment.unit;
+    if (!busy(to)) slots.push({ from, to });
+    from = busy(to) ? from + equipment.unit : to;
+  }
+  return slots;
+}
+function managerOwnBookingLimit(date) {
+  const limit = demoOwnBookingLimit(date);
+  if (!limit || demoMixScore(date + "|manager-personal") % 4 === 0) return 0;
+  return limit >= 4 ? 2 : 1;
+}
+function seedManagerDemo(date) {
+  const closing = reservationClosingMinute(date);
+  const entries = [];
+  const departments = ["秘書室", "総務課", "診療支援課", "看護部", "地域連携室", "医事課"];
+  scheduleEquipment["管理職予定"].forEach((e, index) => {
+    if (closing < scheduleEnd)
+      scheduleBlocked.push({
+        category: "管理職予定",
+        date,
+        equipment: e.name,
+        from: closing,
+        to: scheduleEnd,
+      });
+    const topics = [
+      ...managerDemoTopics[index],
+      "決裁書類の確認",
+      "担当部署からの進捗報告",
+      "委員会運営の相談",
+    ];
+    denseDemoSlots(date, e, 480, closing).forEach(({ from, to }, part) => {
+      const score = demoMixScore(date + e.name + from);
+      const department = departments[score % departments.length];
+      entries.push({
+        category: "管理職予定",
+        equipment: e.name,
+        date,
+        from,
+        to,
+        title: topics[(score + part) % topics.length],
+        own: false,
+        person: demoPeople[(score >>> 4) % demoPeople.length],
+        department,
+        notes: `${department}からの時間確保依頼。関連資料を持参し、内容の確認・承認をお願いします。場所：管理棟打合せ室。`,
+      });
+    });
+  });
+  const ranked = [...entries].sort(
+    (a, b) => demoMixScore(date + a.equipment + a.from) - demoMixScore(date + b.equipment + b.from),
+  );
+  const ownEquipment = new Set();
+  for (const entry of ranked) {
+    if (ownEquipment.size >= managerOwnBookingLimit(date)) break;
+    if (ownEquipment.has(entry.equipment)) continue;
+    entry.own = true;
+    entry.person = "自分";
+    entry.department = "企画部";
+    ownEquipment.add(entry.equipment);
+  }
+  entries.forEach(addDemoBooking);
+}
+
 scheduleEquipment["会議室"].push({
   name: "大会議室",
   unit: 60,
@@ -144,14 +246,28 @@ function demoOwnBookingLimit(date) {
 }
 function addDemoBooking(b) {
   if (b.own) {
-    if (!demoOwnBookingLimit(b.date)) return;
+    if (!demoOwnBookingLimit(b.date)) {
+      appendDemoBooking(otherDemoBooking(b));
+      return;
+    }
     if (!demoOwnBookingCandidates.has(b.date)) demoOwnBookingCandidates.set(b.date, []);
     demoOwnBookingCandidates.get(b.date).push(b);
     return;
   }
   appendDemoBooking(b);
 }
+function otherDemoBooking(b) {
+  return {
+    ...b,
+    own: false,
+    person: demoPeople[demoMixScore(b.date + b.equipment + b.from) % demoPeople.length],
+  };
+}
 function appendDemoBooking(b) {
+  // Thin individual demo events, independently of weekday, category and time band.
+  // Stable scores keep the same scattered gaps after reloading or changing views.
+  if (!b.own && demoMixScore(`${b.date}|${b.equipment}|${b.from}|${b.to}|sparse`) % 100 < 50)
+    return;
   scheduleBookings.push(b);
   const r = {
     name: b.equipment,
@@ -179,37 +295,19 @@ seedSchedule = function (category, date) {
   seededScheduleDays.add(seedKey);
   const day = new Date(date + "T00:00:00"),
     weekday = day.getDay();
+  if (category === "管理職予定") {
+    seedManagerDemo(date, weekday);
+    return;
+  }
   if (weekday === 0 || weekday === 6) {
-    scheduleEquipment[category].forEach((e) =>
+    for (const e of scheduleEquipment[category])
       scheduleBlocked.push({
         category,
         date,
         equipment: e.name,
         from: reservationClosingMinute(date),
         to: scheduleEnd,
-      }),
-    );
-    if (demoOwnBookingLimit(date) > 0) {
-      scheduleEquipment[category].forEach((e) => {
-        const hash = demoHash(date + "|" + e.name);
-        if (hash % 3 !== 0) return;
-        const from = scheduleStart + Math.ceil((540 - scheduleStart) / e.unit) * e.unit;
-        if (from + e.unit > reservationClosingMinute(date)) return;
-        addDemoBooking({
-          category,
-          date,
-          equipment: e.name,
-          from,
-          to: from + e.unit,
-          title: demoTitles[category][hash % demoTitles[category].length],
-          own: true,
-          person: "自分",
-          department: "企画部",
-          notes: "午前中の利用予定です。",
-        });
       });
-    }
-    return;
   }
   const monthStart = new Date(day.getFullYear(), day.getMonth(), 1);
   let tuesdayCount = 0;
@@ -222,26 +320,6 @@ seedSchedule = function (category, date) {
   scheduleEquipment[category].forEach((e, index) => {
     const hash = demoHash(date + "|" + e.name);
     const planned = [];
-    if (e.unit === 15) {
-      for (const [from, to, title, own] of [
-        [615, 630, "投影テスト", false],
-        [795, 825, "提案資料のレビュー", true],
-      ]) {
-        addDemoBooking({
-          category,
-          date,
-          equipment: e.name,
-          from,
-          to,
-          title,
-          own,
-          person: own ? "自分" : "佐藤 太郎",
-          department: "企画部",
-          notes: "15分単位の設備の表示確認用です。",
-        });
-      }
-      return;
-    }
     if (hash % 7 === 0)
       scheduleBlocked.push({
         category,
@@ -275,22 +353,13 @@ seedSchedule = function (category, date) {
       addDemoBooking(b);
       planned.push(b);
     }
-    if (hash % 4 === 0) return;
-    const windows = [
-      { start: 540, end: 720 },
-      { start: 780, end: 1020 },
-    ];
-    windows.forEach((window, part) => {
-      if ((hash + part) % 3 === 0) return;
-      const possible = [];
-      for (let t = scheduleStart; t + e.unit <= window.end; t += e.unit)
-        if (t >= window.start) possible.push(t);
-      if (!possible.length) return;
-      const from = possible[(hash + part * 3) % possible.length];
-      const duration = e.unit * (e.unit <= 60 && (hash + part) % 4 === 0 ? 2 : 1);
-      const to = Math.min(from + duration, window.end);
-      if (to - from < e.unit || planned.some((b) => b.from < to && b.to > from)) return;
-      const own = (hash + part) % 5 === 0;
+    const blocked = scheduleBlocked.filter((b) => b.date === date && b.equipment === e.name);
+    denseDemoSlots(date, e, scheduleStart, reservationClosingMinute(date), [
+      ...planned,
+      ...blocked,
+    ]).forEach(({ from, to }, part) => {
+      const score = demoMixScore(date + e.name + from);
+      const own = score % 5 === 0;
       const titles = demoTitles[category];
       const b = {
         category,
@@ -298,16 +367,16 @@ seedSchedule = function (category, date) {
         equipment: e.name,
         from,
         to,
-        title: titles[(hash + part + index) % titles.length],
+        title: titles[(score + part + index) % titles.length],
         own,
-        person: own ? "自分" : demoPeople[(hash + part) % demoPeople.length],
-        department: own ? "企画部" : ["営業部", "開発部", "人事部", "総務部"][hash % 4],
+        person: own ? "自分" : demoPeople[(score >>> 4) % demoPeople.length],
+        department: own ? "企画部" : ["営業部", "開発部", "人事部", "総務部"][score % 4],
         notes: [
           "資料は共有フォルダーにあります。",
           "開始10分前に準備します。",
           "オンライン参加者あり。",
           "",
-        ][hash % 4],
+        ][score % 4],
       };
       addDemoBooking(b);
       planned.push(b);
@@ -330,6 +399,11 @@ seedSchedule = function (category, date) {
   const categories = [...new Set(candidates.map((b) => b.category))].sort(
     (a, b) => demoMixScore(date + "|" + a) - demoMixScore(date + "|" + b),
   );
+  // Occasional personal management bookings stay within the existing daily limit.
+  if (categories.includes("管理職予定")) {
+    categories.splice(categories.indexOf("管理職予定"), 1);
+    categories.unshift("管理職予定");
+  }
   const ranked = candidates.sort(
     (a, b) =>
       demoMixScore(date + "|" + a.equipment + "|" + a.from) -
@@ -337,9 +411,14 @@ seedSchedule = function (category, date) {
   );
   const selected = [];
   const limit = demoOwnBookingLimit(date);
+  for (const booking of ranked.filter((b) => b.category === "管理職予定")) {
+    if (selected.length >= managerOwnBookingLimit(date)) break;
+    selected.push(booking);
+  }
   // First distribute across categories, then fill any remaining places from the shuffled candidates.
   for (const name of categories) {
     if (selected.length >= limit) break;
+    if (selected.some((b) => b.category === name)) continue;
     selected.push(ranked.find((b) => b.category === name));
   }
   for (const booking of ranked) {
@@ -347,6 +426,9 @@ seedSchedule = function (category, date) {
     if (!selected.includes(booking)) selected.push(booking);
   }
   selected.forEach(appendDemoBooking);
+  for (const booking of ranked) {
+    if (!selected.includes(booking)) appendDemoBooking(otherDemoBooking(booking));
+  }
   demoOwnBookingCandidates.delete(date);
   seededDemoDates.add(date);
 };

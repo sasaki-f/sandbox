@@ -55,7 +55,7 @@ renderCategories = function () {
     };
     const count = document.createElement("span");
     count.className = "category-equipment-count";
-    count.textContent = equipment.length + "件";
+    count.textContent = "設備数：" + equipment.length;
     const toggle = document.createElement("button");
     toggle.type = "button";
     toggle.className = "category-fold";
